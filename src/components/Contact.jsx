@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer, buttonVariants } from '../motion'
+import { Github, Linkedin, Twitter, Mail, Send, Terminal } from 'lucide-react'
+import Magnetic from './ui/Magnetic'
 
 const links = [
-  { label: 'GitHub', href: 'https://github.com/prajwalkcxcode', external: true },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/kcprajwal/', external: true },
-  { label: 'Twitter', href: 'https://x.com/prajwalkc_19', external: true },
+  { label: 'GitHub', href: 'https://github.com/prajwalkcxcode', icon: <Github size={18} /> },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/kcprajwal/', icon: <Linkedin size={18} /> },
+  { label: 'Twitter', href: 'https://x.com/prajwalkc_19', icon: <Twitter size={18} /> },
 ]
 
 export default function Contact() {
@@ -15,11 +17,12 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setStatus('sending')
-    // For a static portfolio, you'd typically wire this to an API or form service
+    // Static demo behavior
     setTimeout(() => {
       setFormState({ name: '', email: '', message: '' })
       setStatus('sent')
-    }, 800)
+      setTimeout(() => setStatus('idle'), 3000)
+    }, 1000)
   }
 
   const handleChange = (e) => {
@@ -27,79 +30,81 @@ export default function Contact() {
   }
 
   return (
-    <section
-      id="contact"
-      className="py-24 px-6 max-w-4xl mx-auto"
-    >
-      <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
+    <section id="contact" className="py-24 px-6 max-w-5xl mx-auto">
+      <div className="grid md:grid-cols-2 gap-16 items-start">
         <motion.div
-          className="lg:col-span-5"
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
         >
-          <motion.h2
-            className="font-serif text-2xl font-semibold text-ink"
-            variants={fadeUp}
-          >
-            Get in touch
+          <motion.h2 className="text-3xl font-bold text-foreground mb-4" variants={fadeUp}>
+            Let's build something.
           </motion.h2>
-          <motion.p
-            className="mt-4 text-ink-muted leading-relaxed"
-            variants={fadeUp}
-          >
-            Open to freelance and full-time opportunities. If you have a project in mind, say hello.
+          <motion.p className="text-muted-foreground leading-relaxed mb-8" variants={fadeUp}>
+            I'm currently open to new opportunities, freelance projects, or just a good conversation about software engineering.
           </motion.p>
-          <motion.div
-            className="mt-8 space-y-4"
-            variants={fadeUp}
-          >
-            <p>
-              <a
-                href="mailto:prajwalkc2063@gmail.com"
-                className="link-underline text-ink-muted hover:text-ink font-medium"
-              >
-                prajwalkc2063@gmail.com
-              </a>
-            </p>
-            <p className="text-sm text-ink-faint">Kathmandu, Nepal</p>
-          </motion.div>
-          <motion.div
-            className="mt-8 flex gap-6"
-            variants={fadeUp}
-          >
-            {links.map(({ label, href, external }) => (
-              <motion.a
-                key={label}
-                href={href}
-                target={external ? '_blank' : undefined}
-                rel={external ? 'noopener noreferrer' : undefined}
-                whileHover={{ x: 2 }}
-                transition={{ duration: 0.2, ease: 'easeOut' }}
-                className="text-sm font-medium text-ink-muted hover:text-ink link-underline"
-              >
-                {label}
-              </motion.a>
-            ))}
+          
+          <motion.div className="space-y-6" variants={fadeUp}>
+            <a
+              href="mailto:prajwalkc2063@gmail.com"
+              className="flex items-center gap-3 text-foreground font-medium hover:text-muted-foreground transition-colors group"
+            >
+              <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground group-hover:text-foreground transition-colors">
+                <Mail size={18} />
+              </div>
+              prajwalkc2063@gmail.com
+            </a>
+            
+            <div className="flex gap-4 pt-4">
+              {links.map(({ label, href, icon }) => (
+                <Magnetic key={label}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-foreground hover:text-background transition-colors"
+                  >
+                    {icon}
+                  </a>
+                </Magnetic>
+              ))}
+            </div>
           </motion.div>
         </motion.div>
+
         <motion.div
-          className="lg:col-span-7"
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
+          className="w-full rounded-xl bg-[#09090b] border border-zinc-800/50 shadow-2xl overflow-hidden font-mono text-sm"
         >
+          {/* Terminal Header */}
+          <div className="flex items-center px-4 py-3 bg-[#18181b] border-b border-zinc-800/80 relative">
+            <div className="flex gap-2 absolute left-4 top-1/2 -translate-y-1/2">
+              <div className="w-3 h-3 rounded-full bg-red-500/80" />
+              <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+              <div className="w-3 h-3 rounded-full bg-green-500/80" />
+            </div>
+            <div className="mx-auto text-xs text-zinc-400 flex items-center font-medium opacity-80">
+              guest@prajwal: ~
+            </div>
+          </div>
+
           <motion.form
             onSubmit={handleSubmit}
-            className="space-y-6"
+            className="p-6 space-y-6"
             variants={fadeUp}
+            id="terminal-form"
           >
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-ink mb-2">
-                Name
-              </label>
+              <div className="flex gap-2 text-zinc-300 mb-2">
+                <span className="text-green-400">➜</span>
+                <span className="text-blue-400">~</span>
+                <label htmlFor="name">name="<span className="text-yellow-300">name</span>"</label>
+              </div>
               <input
                 id="name"
                 name="name"
@@ -107,14 +112,18 @@ export default function Contact() {
                 required
                 value={formState.name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg bg-surface-muted border border-[var(--border)] text-ink placeholder-ink-faint focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent transition-shadow"
-                placeholder="Your name"
+                className="w-full bg-transparent border-0 border-b border-zinc-800 text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-green-400 transition-colors font-mono py-1"
+                placeholder="John_Doe"
+                autoComplete="off"
               />
             </div>
+            
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-ink mb-2">
-                Email
-              </label>
+              <div className="flex gap-2 text-zinc-300 mb-2">
+                <span className="text-green-400">➜</span>
+                <span className="text-blue-400">~</span>
+                <label htmlFor="email">name="<span className="text-yellow-300">email</span>"</label>
+              </div>
               <input
                 id="email"
                 name="email"
@@ -122,36 +131,54 @@ export default function Contact() {
                 required
                 value={formState.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg bg-surface-muted border border-[var(--border)] text-ink placeholder-ink-faint focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent transition-shadow"
-                placeholder="you@example.com"
+                className="w-full bg-transparent border-0 border-b border-zinc-800 text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-green-400 transition-colors font-mono py-1"
+                placeholder="john@example.com"
+                autoComplete="off"
               />
             </div>
+            
             <div>
-              <label htmlFor="message" className="block text-sm font-medium text-ink mb-2">
-                Message
-              </label>
+              <div className="flex gap-2 text-zinc-300 mb-2">
+                <span className="text-green-400">➜</span>
+                <span className="text-blue-400">~</span>
+                <label htmlFor="message">name="<span className="text-yellow-300">message</span>"</label>
+              </div>
               <textarea
                 id="message"
                 name="message"
                 required
-                rows={4}
+                rows={3}
                 value={formState.message}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg bg-surface-muted border border-[var(--border)] text-ink placeholder-ink-faint focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent transition-shadow resize-none"
-                placeholder="Tell me about your project..."
+                className="w-full bg-transparent border-0 border-b border-zinc-800 text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-green-400 transition-colors font-mono py-1 resize-none"
+                placeholder="Hello..."
               />
             </div>
-            <motion.button
-              type="submit"
-              disabled={status === 'sending'}
-              variants={buttonVariants}
-              initial="initial"
-              whileHover="hover"
-              whileTap="tap"
-              className="px-6 py-3 rounded-lg bg-[var(--accent)] text-white font-medium text-sm transition-colors disabled:opacity-50"
-            >
-              {status === 'sending' ? 'Sending…' : status === 'sent' ? 'Sent' : 'Send message'}
-            </motion.button>
+            
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={status === 'sending' || status === 'sent'}
+                className="group relative flex items-center gap-2 text-zinc-300 font-mono transition-colors hover:text-green-400 disabled:opacity-50 disabled:pointer-events-none"
+              >
+                {status === 'sending' ? (
+                  <>
+                    <span className="text-yellow-400">[EXECUTING]</span>
+                    <span className="animate-pulse">Loading modules...</span>
+                  </>
+                ) : status === 'sent' ? (
+                  <>
+                    <span className="text-green-500">[SUCCESS]</span>
+                    <span>Message delivered to queue.</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-blue-400">./send_message.sh</span>
+                    <span className="w-2 h-4 bg-zinc-400 group-hover:bg-green-400 animate-pulse mt-0.5" />
+                  </>
+                )}
+              </button>
+            </div>
           </motion.form>
         </motion.div>
       </div>

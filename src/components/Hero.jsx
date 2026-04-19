@@ -1,66 +1,85 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer, buttonVariants } from '../motion'
+import { ArrowRight, Mail } from 'lucide-react'
+import Magnetic from './ui/Magnetic'
+import LocalTime from './ui/LocalTime'
+// import Scene from './ui/Scene'
 
 export default function Hero() {
-  const scrollToAbout = () => {
-    document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' })
+  const scrollToProjects = () => {
+    document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
     <section
       id="home"
-      className="min-h-[90vh] flex items-center px-6 pt-24 pb-20 max-w-4xl mx-auto"
+      className="relative min-h-screen flex items-center justify-center px-6 pt-24 pb-20 overflow-hidden"
     >
+      {/* 3D Scene Background Disabled for Debugging */}
+      {/* <Scene /> */}
+
+      {/* Subtle background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-muted/10 rounded-full blur-[120px] -z-10 pointer-events-none" />
+      
       <motion.div
-        className="w-full"
+        className="w-full max-w-3xl mx-auto text-center z-10"
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
       >
-        <motion.p
-          className="text-sm font-mono text-ink-muted uppercase tracking-wider mb-4"
-          variants={fadeUp}
-        >
-          BSc CSIT · React & Full-Stack
-        </motion.p>
+        <motion.div variants={fadeUp} className="mb-8 flex justify-center">
+          <Magnetic>
+            <LocalTime />
+          </Magnetic>
+        </motion.div>
+        
         <motion.h1
-          className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-ink leading-tight tracking-tight"
+          className="text-5xl sm:text-6xl md:text-7xl font-bold text-foreground tracking-tight mb-6"
           variants={fadeUp}
         >
-          Prajwal KC
+          Frontend Developer<br />
+          <span className="text-muted-foreground">Building Modern Web</span>
         </motion.h1>
+        
         <motion.p
-          className="mt-6 text-lg text-ink-muted max-w-xl leading-relaxed"
+          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
           variants={fadeUp}
         >
-          Building modern web applications with React and full-stack tools. Clean code, intentional design, no fluff.
+          Hi, I'm Prajwal KC from Nepal, specializing in React.
+          I build clean, intelligent, and highly performant user interfaces.
         </motion.p>
+        
         <motion.div
-          className="mt-10 flex flex-wrap gap-4"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
           variants={fadeUp}
         >
-          <motion.button
-            type="button"
-            onClick={scrollToAbout}
-            variants={buttonVariants}
-            initial="initial"
-            whileHover="hover"
-            whileTap="tap"
-            className="px-6 py-3 rounded-lg bg-[var(--accent)] text-white font-medium text-sm transition-colors"
-          >
-            About me
-          </motion.button>
-          <motion.a
-            href="#contact"
-            variants={buttonVariants}
-            initial="initial"
-            whileHover="hover"
-            whileTap="tap"
-            className="px-6 py-3 rounded-lg border border-[var(--border)] text-ink-muted hover:text-ink hover:border-ink-faint font-medium text-sm transition-colors"
-          >
-            Get in touch
-          </motion.a>
+          <Magnetic>
+            <motion.button
+              onClick={scrollToProjects}
+              variants={buttonVariants}
+              initial="initial"
+              whileHover="hover"
+              whileTap="tap"
+              className="flex items-center gap-2 px-6 py-3.5 rounded-lg bg-foreground text-background font-medium text-sm transition-colors hover:bg-foreground/90 w-full md:w-auto min-w-[160px] justify-center"
+            >
+              View Projects
+              <ArrowRight size={16} />
+            </motion.button>
+          </Magnetic>
+          <Magnetic>
+            <motion.a
+              href="#contact"
+              variants={buttonVariants}
+              initial="initial"
+              whileHover="hover"
+              whileTap="tap"
+              className="flex items-center gap-2 px-6 py-3.5 rounded-lg border border-border bg-background/50 backdrop-blur-md text-foreground font-medium text-sm transition-colors hover:bg-muted w-full md:w-auto min-w-[160px] justify-center"
+            >
+              <Mail size={16} />
+              Contact Me
+            </motion.a>
+          </Magnetic>
         </motion.div>
       </motion.div>
     </section>

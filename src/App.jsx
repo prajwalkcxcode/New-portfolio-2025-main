@@ -2,12 +2,21 @@ import React, { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
-import Work from './components/Work'
+import Skills from './components/Skills'
+import Projects from './components/Projects'
+import Journey from './components/Journey'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import SmoothScroll from './components/ui/SmoothScroll'
+import CustomCursor from './components/ui/CustomCursor'
+import SpotifyWidget from './components/ui/SpotifyWidget'
+import CommandPalette from './components/ui/CommandPalette'
+import BootSequence from './components/ui/BootSequence'
+
 
 export default function App() {
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState('dark') // Defaulting to dark for the true SaaS/Premium developer aesthetic
+  const [booted, setBooted] = useState(false)
 
   useEffect(() => {
     const stored = window.localStorage.getItem('theme')
@@ -33,15 +42,26 @@ export default function App() {
   }
 
   return (
-    <>
-      <Navbar theme={theme} onToggleTheme={toggleTheme} />
-      <main>
-        <Hero />
-        <About />
-        <Work />
-        <Contact />
-      </main>
-      <Footer />
-    </>
+    <SmoothScroll>
+      {!booted && <BootSequence onComplete={() => setBooted(true)} />}
+
+      {booted && (
+        <>
+          <CustomCursor />
+          <SpotifyWidget />
+          <CommandPalette theme={theme} toggleTheme={toggleTheme} />
+          <Navbar theme={theme} onToggleTheme={toggleTheme} />
+          <main>
+            <Hero />
+            <About />
+            <Skills />
+            <Projects />
+            <Journey />
+            <Contact />
+          </main>
+          <Footer />
+        </>
+      )}
+    </SmoothScroll>
   )
 }

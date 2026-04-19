@@ -1,0 +1,12 @@
+TypeError: Cannot read properties of undefined (reading 'includes')
+http://localhost:5173/src/components/ui/BootSequence.jsx:84:33
+    at <anonymous> (http://localhost:5173/src/components/ui/BootSequence.jsx:84:33)
+    at BootSequence (http://localhost:5173/src/components/ui/BootSequence.jsx:78:14)
+    at renderWithHooks (http://localhost:5173/node_modules/.vite/deps/chunk-MNF4PNE3.js?v=5e8584b5:11596:26)
+    at updateFunctionComponent (http://localhost:5173/node_modules/.vite/deps/chunk-MNF4PNE3.js?v=5e8584b5:14630:28)
+    at beginWork (http://localhost:5173/node_modules/.vite/deps/chunk-MNF4PNE3.js?v=5e8584b5:15972:22)
+    at beginWork$1 (http://localhost:5173/node_modules/.vite/deps/chunk-MNF4PNE3.js?v=5e8584b5:19806:22)
+    at performUnitOfWork (http://localhost:5173/node_modules/.vite/deps/chunk-MNF4PNE3.js?v=5e8584b5:19251:20)
+    at workLoopSync (http://localhost:5173/node_modules/.vite/deps/chunk-MNF4PNE3.js?v=5e8584b5:19190:13)
+    at renderRootSync (http://localhost:5173/node_modules/.vite/deps/chunk-MNF4PNE3.js?v=5e8584b5:19169:15)
+    at recoverFromConcurrentError (http://localhost:5173/node_modules/.vite/deps/chunk-MNF4PNE3.js?v=5e8584b5:18786:28)
