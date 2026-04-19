@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer, buttonVariants } from '../motion'
 import { Github, Linkedin, Twitter, Mail, Send, Terminal } from 'lucide-react'
 import Magnetic from './ui/Magnetic'
+import ScrambledText from './ui/ScrambledText'
 
 const links = [
   { label: 'GitHub', href: 'https://github.com/prajwalkcxcode', icon: <Github size={18} /> },
@@ -39,7 +40,7 @@ export default function Contact() {
           viewport={{ once: true, margin: '-80px' }}
         >
           <motion.h2 className="text-3xl font-bold text-foreground mb-4" variants={fadeUp}>
-            Let's build something.
+            <ScrambledText text="Let's build something." />
           </motion.h2>
           <motion.p className="text-muted-foreground leading-relaxed mb-8" variants={fadeUp}>
             I'm currently open to new opportunities, freelance projects, or just a good conversation about software engineering.
@@ -158,6 +159,7 @@ export default function Contact() {
             <div className="pt-2">
               <button
                 type="submit"
+                data-cursor="execute"
                 disabled={status === 'sending' || status === 'sent'}
                 className="group relative flex items-center gap-2 text-zinc-300 font-mono transition-colors hover:text-green-400 disabled:opacity-50 disabled:pointer-events-none"
               >

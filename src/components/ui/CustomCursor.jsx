@@ -2,32 +2,43 @@ import React, { useEffect, useState } from 'react'
 import { motion, useSpring, useMotionValue } from 'framer-motion'
 
 export default function CustomCursor() {
-  const [isHovered, setIsHovered] = useState(false)
+  const [hoverData, setHoverData] = useState({ active: false, text: '' })
   
   const cursorX = useMotionValue(-100)
   const cursorY = useMotionValue(-100)
   
-  const springConfig = { damping: 25, stiffness: 300, mass: 0.5 }
+  // Outer ring physics: smooth and elegant
+  const springConfig = { damping: 28, stiffness: 400, mass: 0.2 }
   const smoothX = useSpring(cursorX, springConfig)
   const smoothY = useSpring(cursorY, springConfig)
 
+  // Inner dot physics: lightning fast, tracks 1:1
+  const dotSpringConfig = { damping: 40, stiffness: 1000, mass: 0.05 }
+  const dotX = useSpring(cursorX, dotSpringConfig)
+  const dotY = useSpring(cursorY, dotSpringConfig)
+
   useEffect(() => {
     const moveCursor = (e) => {
-      cursorX.set(e.clientX - 16)
-      cursorY.set(e.clientY - 16)
+      cursorX.set(e.clientX)
+      cursorY.set(e.clientY)
     }
     
-    // Add interactive class to links and buttons for cursor hover state
     const handleMouseOver = (e) => {
-      if (
-        e.target.tagName.toLowerCase() === 'a' ||
-        e.target.tagName.toLowerCase() === 'button' ||
-        e.target.closest('a') ||
-        e.target.closest('button')
+      const target = e.target
+      
+      if (target.closest('[data-cursor="view"]')) {
+        setHoverData({ active: true, text: 'VIEW' })
+      } else if (target.closest('[data-cursor="execute"]')) {
+        setHoverData({ active: true, text: 'EXECUTE' })
+      } else if (
+        target.tagName.toLowerCase() === 'a' ||
+        target.tagName.toLowerCase() === 'button' ||
+        target.closest('a') ||
+        target.closest('button')
       ) {
-        setIsHovered(true)
+        setHoverData({ active: true, text: '' })
       } else {
-        setIsHovered(false)
+        setHoverData({ active: false, text: '' })
       }
     }
 
@@ -40,7 +51,6 @@ export default function CustomCursor() {
     }
   }, [cursorX, cursorY])
 
-  // Only render on desktop / non-touch devices
   if (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) {
     return null
   }
@@ -48,30 +58,44 @@ export default function CustomCursor() {
   return (
     <>
       <style>{`
-        body { cursor: none; }
-        a, button { cursor: none; }
+        * { cursor: none !important; }
       `}</style>
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-foreground/30 pointer-events-none z-[100] mix-blend-difference"
+        className="fixed top-0 left-0 flex items-center justify-center rounded-full border border-foreground/30 pointer-events-none z-[99999] mix-blend-difference font-mono font-bold tracking-widest overflow-hidden"
         style={{
           x: smoothX,
           y: smoothY,
+          translateX: "-50%",
+          translateY: "-50%",
         }}
         animate={{
-          scale: isHovered ? 1.5 : 1,
-          backgroundColor: isHovered ? 'var(--foreground)' : 'transparent',
-          opacity: isHovered ? 1 : 0.5
+          width: hoverData.text ? 80 : 32,
+          height: hoverData.text ? 80 : 32,
+          fontSize: "10px",
+          color: "var(--background)",
+          scale: hoverData.active && !hoverData.text ? 1.5 : 1,
+          backgroundColor: hoverData.active || hoverData.text ? 'var(--foreground)' : 'transparent',
+          opacity: hoverData.active ? 1 : 0.5
         }}
-        transition={{ duration: 0.2 }}
-      />
+        transition={{ type: "spring", stiffness: 400, damping: 28 }}
+      >
+        <motion.span
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: hoverData.text ? 1 : 0, y: hoverData.text ? 0 : 10 }}
+        >
+           {hoverData.text}
+        </motion.span>
+      </motion.div>
       <motion.div
-        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-foreground pointer-events-none z-[100] mix-blend-difference"
+        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-foreground pointer-events-none z-[99999] mix-blend-difference"
         style={{
-          x: useSpring(useMotionValue(cursorX.get() + 13), { damping: 40, stiffness: 400 }),
-          y: useSpring(useMotionValue(cursorY.get() + 13), { damping: 40, stiffness: 400 }),
+          x: dotX,
+          y: dotY,
+          translateX: "-50%",
+          translateY: "-50%",
         }}
         animate={{
-          opacity: isHovered ? 0 : 1
+          opacity: hoverData.active ? 0 : 1
         }}
       />
     </>

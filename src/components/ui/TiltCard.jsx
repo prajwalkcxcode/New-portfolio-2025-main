@@ -6,6 +6,8 @@ export default function TiltCard({ children, className = '' }) {
 
   const x = useMotionValue(0)
   const y = useMotionValue(0)
+  const mx = useMotionValue(-1000)
+  const my = useMotionValue(-1000)
 
   // Spring configuration for smooth buttery return
   const springConfig = { damping: 20, stiffness: 200, mass: 0.5 }
@@ -23,6 +25,8 @@ export default function TiltCard({ children, className = '' }) {
     
     const mouseX = e.clientX - rect.left
     const mouseY = e.clientY - rect.top
+    mx.set(mouseX)
+    my.set(mouseY)
     
     const xPct = (mouseX / width - 0.5) * 2
     const yPct = (mouseY / height - 0.5) * 2
@@ -47,8 +51,16 @@ export default function TiltCard({ children, className = '' }) {
         rotateY: mouseXSpring,
         transformStyle: 'preserve-3d',
       }}
-      className={`relative ${className}`}
+      className={`relative group ${className}`}
     >
+      <motion.div
+        className="pointer-events-none absolute -inset-px opacity-0 transition duration-500 group-hover:opacity-100 z-10"
+        style={{ 
+          background: useMotionTemplate`radial-gradient(400px circle at ${mx}px ${my}px, rgba(16, 185, 129, 0.12), transparent 80%)`, 
+          transform: 'translateZ(1px)', 
+          borderRadius: 'inherit' 
+        }}
+      />
       {/* 
         TranslateZ is applied to children wrapper to create parallax depth
         when the card rotates

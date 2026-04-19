@@ -12,7 +12,8 @@ import CustomCursor from './components/ui/CustomCursor'
 import SpotifyWidget from './components/ui/SpotifyWidget'
 import CommandPalette from './components/ui/CommandPalette'
 import BootSequence from './components/ui/BootSequence'
-
+import AnimLayout from './components/ui/AnimLayout'
+import ScrollProgress from './components/ui/ScrollProgress'
 
 export default function App() {
   const [theme, setTheme] = useState('dark') // Defaulting to dark for the true SaaS/Premium developer aesthetic
@@ -47,18 +48,21 @@ export default function App() {
 
       {booted && (
         <>
+          <ScrollProgress />
           <CustomCursor />
           <SpotifyWidget />
           <CommandPalette theme={theme} toggleTheme={toggleTheme} />
           <Navbar theme={theme} onToggleTheme={toggleTheme} />
-          <main>
-            <Hero />
-            <About />
-            <Skills />
-            <Projects />
-            <Journey />
-            <Contact />
-          </main>
+          <AnimLayout>
+            <main>
+              <Hero />
+              <About />
+              <Skills />
+              <Projects />
+              <Journey />
+              <Contact />
+            </main>
+          </AnimLayout>
           <Footer />
         </>
       )}

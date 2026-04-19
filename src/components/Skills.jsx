@@ -1,6 +1,8 @@
 import React from 'react'
 import { motion, useAnimationControls } from 'framer-motion'
 import { fadeUp, staggerContainer } from '../motion'
+import CodePlayground from './ui/CodePlayground'
+import ScrambledText from './ui/ScrambledText'
 
 const allSkills = [
   "HTML5", "CSS3", "JavaScript (ES6+)", "React", "Next.js", "Tailwind CSS",
@@ -45,7 +47,7 @@ export default function Skills() {
         className="mb-16 md:text-center"
       >
         <motion.h2 className="text-3xl font-bold text-foreground mb-4" variants={fadeUp}>
-          Technical Arsenal
+          <ScrambledText text="Technical Arsenal" />
         </motion.h2>
         <motion.p className="text-muted-foreground max-w-2xl mx-auto" variants={fadeUp}>
           The robust tools and modern frameworks I leverage to engineer performant, scalable digital experiences.
@@ -62,6 +64,8 @@ export default function Skills() {
         <Marquee items={row1} />
         <Marquee items={row2} reverse />
       </motion.div>
+
+      <CodePlayground />
     </section>
   )
 }

@@ -4,6 +4,7 @@ import { fadeUp, staggerContainer } from '../motion'
 import { ExternalLink, Github } from 'lucide-react'
 import TiltCard from './ui/TiltCard'
 import Magnetic from './ui/Magnetic'
+import ScrambledText from './ui/ScrambledText'
 
 const projects = [
   {
@@ -48,7 +49,7 @@ export default function Projects() {
         viewport={{ once: true, margin: '-80px' }}
       >
         <motion.h2 className="text-3xl font-bold text-foreground mb-4" variants={fadeUp}>
-          Selected Projects
+          <ScrambledText text="Selected Projects" />
         </motion.h2>
         <motion.p className="text-muted-foreground max-w-2xl mx-auto" variants={fadeUp}>
           A showcase of my recent work focusing on clean UI, robust architecture, and real-world problem solving.

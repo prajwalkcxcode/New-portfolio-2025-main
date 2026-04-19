@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer } from '../motion'
+import ScrambledText from './ui/ScrambledText'
 
 // Utility for word reveal animation
 const wordAnimation = {
@@ -39,7 +40,7 @@ export default function About() {
             className="text-3xl font-bold text-foreground mb-2"
             variants={fadeUp}
           >
-            About Me
+            <ScrambledText text="About Me" />
           </motion.h2>
           <motion.div
             className="w-12 h-1 bg-foreground mb-6"

@@ -49,9 +49,9 @@ export default function BootSequence({ onComplete }) {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, y: -20, filter: "blur(10px)" }}
           transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
-          className="fixed inset-0 z-[99999] bg-[#050505] flex flex-col justify-end p-8 font-mono text-sm pointer-events-none"
+          className="fixed inset-0 z-[99999] bg-[#050505] flex flex-col justify-center items-center p-8 font-mono text-base md:text-xl pointer-events-none"
         >
-          <div className="max-w-2xl w-full mx-auto space-y-1 mb-[5vh]">
+          <div className="max-w-3xl w-full mx-auto space-y-2">
             <div className="flex items-center gap-2 mb-4 text-green-500 opacity-80">
               <Terminal size={18} />
               <span>System Initialization</span>
