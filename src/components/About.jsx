@@ -29,7 +29,7 @@ export default function About() {
     <section id="about" className="py-24 px-6 max-w-5xl mx-auto">
       <div className="grid md:grid-cols-12 gap-12 md:gap-16 items-start">
         <motion.div
-          className="md:col-span-4 sticky top-32"
+          className="md:col-span-4 md:sticky top-32"
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
