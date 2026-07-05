@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer } from '../motion'
 import ScrambledText from './ui/ScrambledText'
+import { Copy, Check, Sparkles } from 'lucide-react'
 
 // Utility for word reveal animation
 const wordAnimation = {
@@ -26,6 +27,14 @@ const splitText = (text) => {
 }
 
 export default function About() {
+  const [copied, setCopied] = useState(false)
+  const copyEmail = (e) => {
+    e.stopPropagation()
+    navigator.clipboard.writeText('kcprajwal.np@gmail.com')
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   return (
     <section id="about" className="py-24 px-6 max-w-5xl mx-auto">
       <div className="grid md:grid-cols-12 gap-12 md:gap-16 items-start">
@@ -55,19 +64,27 @@ export default function About() {
           
           <motion.div variants={fadeUp} className="relative group max-w-[340px] mx-auto md:mx-0">
             {/* Soft ambient glow behind the subject */}
-            <div className="absolute -inset-6 bg-gradient-to-tr from-muted-foreground/10 to-transparent rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-duration-1000" />
+            <div className="absolute -inset-6 bg-gradient-to-tr from-blue-500/10 to-purple-500/5 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-all duration-1000" />
             
             <div 
-              className="relative z-10 w-full aspect-square md:aspect-[4/5] overflow-hidden rounded-2xl"
+              className="relative z-10 w-full aspect-[4/5] overflow-hidden rounded-2xl border border-white/5"
             >
-              <img 
-                 src="/p.jpg" 
-                 alt="Prajwal playing guitar" 
-                 className="w-full h-full object-cover object-[50%_55%] scale-[1.25] grayscale hover:grayscale-0 transition-all duration-[1.5s] ease-out hover:scale-[1.3]"
-              />
+              <motion.div
+                initial={{ clipPath: 'inset(100% 0% 0% 0%)' }}
+                whileInView={{ clipPath: 'inset(0% 0% 0% 0%)' }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                viewport={{ once: true }}
+                className="w-full h-full"
+              >
+                <img 
+                   src="/profile.png" 
+                   alt="Prajwal KC Profile Picture" 
+                   className="w-full h-full object-cover transition-all duration-[1.5s] ease-out hover:scale-[1.08]"
+                />
+              </motion.div>
               
-              {/* Dynamic lighting overlay on hover */}
-              <div className="absolute inset-0 bg-foreground/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 z-20 mix-blend-overlay pointer-events-none" />
+              {/* Soft neon overlay on hover */}
+              <div className="absolute inset-0 bg-gradient-to-t from-blue-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
             </div>
           </motion.div>
         </motion.div>
@@ -122,6 +139,39 @@ export default function About() {
               </h3>
               <p className="font-semibold text-foreground group-hover:translate-x-1 transition-transform">Full-Stack Engineer</p>
               <p className="text-muted-foreground text-sm mt-1">Bridging the gap between beautiful UI and robust APIs</p>
+            </motion.div>
+
+            {/* Email Copy Card */}
+            <motion.div 
+              variants={fadeUp} 
+              onClick={copyEmail}
+              className="sm:col-span-2 p-5 rounded-xl bg-muted/40 border border-border group hover:bg-muted hover:border-blue-500/30 transition-all duration-300 cursor-pointer flex items-center justify-between select-none"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-background border border-border flex items-center justify-center text-muted-foreground group-hover:text-blue-400 transition-colors">
+                  <Sparkles size={14} className="animate-pulse" />
+                </div>
+                <div className="text-left">
+                  <p className="font-semibold text-foreground text-sm group-hover:text-blue-400 transition-colors">Get In Touch</p>
+                  <p className="text-muted-foreground text-xs mt-0.5 font-mono">kcprajwal.np@gmail.com</p>
+                </div>
+              </div>
+              <button 
+                type="button"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-background border border-border text-xs font-mono text-muted-foreground group-hover:text-foreground transition-all duration-300"
+              >
+                {copied ? (
+                  <>
+                    <Check size={12} className="text-green-400" />
+                    <span className="text-green-400 font-semibold">Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy size={12} />
+                    <span>Copy Email</span>
+                  </>
+                )}
+              </button>
             </motion.div>
           </motion.div>
         </div>

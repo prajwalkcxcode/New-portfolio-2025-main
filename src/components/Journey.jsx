@@ -79,6 +79,100 @@ export default function Journey() {
           </motion.div>
         ))}
       </motion.div>
+
+      {/* Mini Learning Timeline */}
+      <div className="mt-28 pt-16 border-t border-border/40">
+        <motion.h3 
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-xl font-semibold text-center text-foreground mb-12 tracking-wider font-mono uppercase"
+        >
+          Learning Pathway
+        </motion.h3>
+
+        <div className="max-w-md mx-auto relative pl-8 sm:pl-0">
+          {/* Vertical line */}
+          <div className="absolute left-4 sm:left-1/2 top-0 bottom-0 w-[1px] bg-border" />
+
+          {/* Timeline Items */}
+          <div className="space-y-16 relative">
+            
+            {/* Item 1 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true, margin: '-50px' }}
+              className="flex flex-col sm:flex-row items-start sm:items-center justify-start sm:justify-between group"
+            >
+              <div className="hidden sm:block w-[42%] text-right pr-6">
+                <span className="text-xs font-mono font-bold text-muted-foreground uppercase tracking-widest">2024</span>
+              </div>
+              
+              {/* Dot */}
+              <div className="absolute left-[11px] sm:left-1/2 w-[11px] h-[11px] rounded-full bg-border border border-background -translate-x-1/2 z-10 group-hover:bg-blue-500 group-hover:scale-125 transition-all duration-300 shadow-[0_0_10px_rgba(59,130,246,0)] group-hover:shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+              
+              <div className="w-full sm:w-[42%] sm:pl-6">
+                <span className="sm:hidden text-xs font-mono font-bold text-muted-foreground uppercase tracking-widest block mb-1">2024</span>
+                <h4 className="font-semibold text-foreground text-sm tracking-wide">Frontend Development</h4>
+                <p className="text-xs text-muted-foreground mt-1">Deepening core React architectures, complex animations, state management, and modern CSS.</p>
+              </div>
+            </motion.div>
+
+            {/* Down Arrow 1 */}
+            <div className="absolute left-[15px] sm:left-1/2 top-[44px] -translate-x-1/2 text-muted-foreground/30 text-sm pointer-events-none select-none font-mono">↓</div>
+
+            {/* Item 2 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true, margin: '-50px' }}
+              className="flex flex-col sm:flex-row items-start sm:items-center justify-start sm:justify-between group pt-4"
+            >
+              <div className="w-full sm:w-[42%] text-left sm:text-right sm:pr-6">
+                <span className="sm:hidden text-xs font-mono font-bold text-muted-foreground uppercase tracking-widest block mb-1">2025</span>
+                <h4 className="font-semibold text-foreground text-sm tracking-wide">Full Stack Development</h4>
+                <p className="text-xs text-muted-foreground mt-1">Expanding into databases (MongoDB), Node.js, and server-side API systems.</p>
+              </div>
+              
+              {/* Dot */}
+              <div className="absolute left-[11px] sm:left-1/2 w-[11px] h-[11px] rounded-full bg-border border border-background -translate-x-1/2 z-10 group-hover:bg-purple-500 group-hover:scale-125 transition-all duration-300 shadow-[0_0_10px_rgba(168,85,247,0)] group-hover:shadow-[0_0_10px_rgba(168,85,247,0.5)]" />
+              
+              <div className="hidden sm:block w-[42%] pl-6">
+                <span className="text-xs font-mono font-bold text-muted-foreground uppercase tracking-widest">2025</span>
+              </div>
+            </motion.div>
+
+            {/* Down Arrow 2 */}
+            <div className="absolute left-[15px] sm:left-1/2 top-[162px] -translate-x-1/2 text-muted-foreground/30 text-sm pointer-events-none select-none font-mono">↓</div>
+
+            {/* Item 3 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true, margin: '-50px' }}
+              className="flex flex-col sm:flex-row items-start sm:items-center justify-start sm:justify-between group pt-4"
+            >
+              <div className="hidden sm:block w-[42%] text-right pr-6">
+                <span className="text-xs font-mono font-bold text-blue-400 uppercase tracking-widest animate-pulse">Currently</span>
+              </div>
+              
+              {/* Dot */}
+              <div className="absolute left-[11px] sm:left-1/2 w-[11px] h-[11px] rounded-full bg-blue-500 border border-background -translate-x-1/2 z-10 scale-125 shadow-[0_0_12px_rgba(59,130,246,0.6)] animate-pulse" />
+              
+              <div className="w-full sm:w-[42%] sm:pl-6">
+                <span className="sm:hidden text-xs font-mono font-bold text-blue-400 uppercase tracking-widest block mb-1 animate-pulse">Currently</span>
+                <h4 className="font-semibold text-foreground text-sm tracking-wide bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Docker & DevOps</h4>
+                <p className="text-xs text-muted-foreground mt-1">Containers, orchestration, virtual machine operations, and cloud architecture fundamentals.</p>
+              </div>
+            </motion.div>
+
+          </div>
+        </div>
+      </div>
     </section>
   )
 }

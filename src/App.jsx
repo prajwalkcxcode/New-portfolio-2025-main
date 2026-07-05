@@ -3,21 +3,30 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
 import Skills from './components/Skills'
+import Learning from './components/Learning'
 import Projects from './components/Projects'
 import Journey from './components/Journey'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import SmoothScroll from './components/ui/SmoothScroll'
 import CustomCursor from './components/ui/CustomCursor'
-import SpotifyWidget from './components/ui/SpotifyWidget'
 import CommandPalette from './components/ui/CommandPalette'
 import BootSequence from './components/ui/BootSequence'
 import AnimLayout from './components/ui/AnimLayout'
 import ScrollProgress from './components/ui/ScrollProgress'
+import ResumeModal from './components/ui/ResumeModal'
+import BackToTop from './components/ui/BackToTop'
 
 export default function App() {
   const [theme, setTheme] = useState('dark') // Defaulting to dark for the true SaaS/Premium developer aesthetic
   const [booted, setBooted] = useState(false)
+  const [isResumeOpen, setIsResumeOpen] = useState(false)
+
+  useEffect(() => {
+    const handleToggle = () => setIsResumeOpen((prev) => !prev)
+    window.addEventListener('toggle-resume', handleToggle)
+    return () => window.removeEventListener('toggle-resume', handleToggle)
+  }, [])
 
   useEffect(() => {
     const stored = window.localStorage.getItem('theme')
@@ -50,14 +59,16 @@ export default function App() {
         <>
           <ScrollProgress />
           <CustomCursor />
-          <SpotifyWidget />
           <CommandPalette theme={theme} toggleTheme={toggleTheme} />
-          <Navbar theme={theme} onToggleTheme={toggleTheme} />
+          <Navbar theme={theme} onToggleTheme={toggleTheme} onOpenResume={() => setIsResumeOpen(true)} />
+          <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
+          <BackToTop />
           <AnimLayout>
             <main>
-              <Hero />
+              <Hero onOpenResume={() => setIsResumeOpen(true)} />
               <About />
               <Skills />
+              <Learning />
               <Projects />
               <Journey />
               <Contact />

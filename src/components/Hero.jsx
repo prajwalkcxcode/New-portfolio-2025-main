@@ -6,7 +6,7 @@ import Magnetic from './ui/Magnetic'
 import LocalTime from './ui/LocalTime'
 // import Scene from './ui/Scene'
 
-export default function Hero() {
+export default function Hero({ onOpenResume }) {
   const scrollToProjects = () => {
     document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -61,12 +61,36 @@ export default function Hero() {
               initial="initial"
               whileHover="hover"
               whileTap="tap"
-              className="flex items-center gap-2 px-6 py-3.5 rounded-lg bg-foreground text-background font-medium text-sm transition-colors hover:bg-foreground/90 w-full md:w-auto min-w-[160px] justify-center"
+              className="flex items-center gap-2 px-6 py-3.5 rounded-lg bg-foreground text-background font-medium text-sm transition-all hover:bg-foreground/90 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] w-full md:w-auto min-w-[160px] justify-center"
             >
               View Projects
               <ArrowRight size={16} />
             </motion.button>
           </Magnetic>
+
+          <Magnetic>
+            <motion.button
+              onClick={onOpenResume}
+              variants={buttonVariants}
+              initial="initial"
+              whileHover="hover"
+              whileTap="tap"
+              className="relative group flex items-center gap-2 px-6 py-3.5 rounded-lg border border-border bg-background/40 backdrop-blur-md text-foreground font-medium text-sm w-full md:w-auto min-w-[160px] justify-center overflow-hidden transition-all duration-300 hover:border-transparent hover:shadow-[0_0_25px_rgba(59,130,246,0.3)]"
+            >
+              {/* Glowing gradient border */}
+              <div className="absolute inset-0 rounded-lg p-[1px] bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 [mask-image:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)] [mask-composite:exclude] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <span className="relative z-10">View CV</span>
+              <motion.span
+                className="relative z-10 inline-block text-xs"
+                animate={{ x: [0, 4, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+              >
+                →
+              </motion.span>
+            </motion.button>
+          </Magnetic>
+
           <Magnetic>
             <motion.a
               href="#contact"
@@ -81,6 +105,14 @@ export default function Hero() {
             </motion.a>
           </Magnetic>
         </motion.div>
+
+        {/* Keyboard shortcut hint under the CTA buttons */}
+        <motion.p 
+          variants={fadeUp} 
+          className="text-xs font-mono text-muted-foreground/60 mt-4 tracking-widest uppercase select-none"
+        >
+          Press <kbd className="px-1.5 py-0.5 rounded bg-muted border border-border text-[10px] text-muted-foreground">R</kbd> to quick-open resume
+        </motion.p>
       </motion.div>
     </section>
   )

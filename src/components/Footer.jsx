@@ -18,8 +18,13 @@ export default function Footer() {
           </p>
         </div>
         
-        <div className="text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} Prajwal KC. All rights reserved.
+        <div className="flex flex-col items-center md:items-end gap-1 text-sm text-muted-foreground">
+          <div>&copy; {new Date().getFullYear()} Prajwal KC. All rights reserved.</div>
+          <div className="flex items-center gap-3 text-[11px] font-mono opacity-70 mt-1 select-none">
+            <span>Last Updated: July 2026</span>
+            <span>•</span>
+            <span>Visitor Count: #1,842</span>
+          </div>
         </div>
       </div>
     </footer>

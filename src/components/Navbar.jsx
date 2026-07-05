@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Sun, Moon, Menu, X } from "lucide-react";
 import Magnetic from "./ui/Magnetic";
+import { motion } from "framer-motion";
 
 const navLinks = [
   { name: "About", href: "#about" },
@@ -10,7 +11,7 @@ const navLinks = [
   { name: "Contact", href: "#contact" },
 ];
 
-export default function Navbar({ theme, onToggleTheme }) {
+export default function Navbar({ theme, onToggleTheme, onOpenResume }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("#home");
@@ -87,6 +88,28 @@ export default function Navbar({ theme, onToggleTheme }) {
                 </li>
               );
             })}
+            <li>
+              <Magnetic>
+                <button
+                  type="button"
+                  onClick={onOpenResume}
+                  className="relative group px-3.5 py-1.5 rounded-lg border border-border text-xs font-semibold tracking-wider uppercase transition-all duration-300 hover:text-foreground hover:border-transparent hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] overflow-hidden"
+                >
+                  {/* Glowing gradient border */}
+                  <div className="absolute inset-0 rounded-lg p-[1px] bg-gradient-to-r from-blue-500 to-purple-500 [mask-image:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)] [mask-composite:exclude] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <span className="flex items-center gap-1.5 relative z-10">
+                    CV
+                    <motion.span 
+                      className="inline-block text-[10px]" 
+                      animate={{ x: [0, 2, 0] }} 
+                      transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                    >
+                      →
+                    </motion.span>
+                  </span>
+                </button>
+              </Magnetic>
+            </li>
           </ul>
 
           <div className="flex items-center gap-4">
@@ -129,6 +152,18 @@ export default function Navbar({ theme, onToggleTheme }) {
                 </button>
               </li>
             ))}
+            <li className="pt-2 border-t border-border">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsOpen(false);
+                  onOpenResume();
+                }}
+                className="block w-full text-left text-sm text-blue-400 font-semibold"
+              >
+                View CV / Resume
+              </button>
+            </li>
           </ul>
         </div>
       )}
