@@ -153,7 +153,7 @@ export default function About() {
                 </div>
                 <div className="text-left">
                   <p className="font-semibold text-foreground text-sm group-hover:text-blue-400 transition-colors">Get In Touch</p>
-                  <p className="text-muted-foreground text-xs mt-0.5 font-mono">kcprajwal.np@gmail.com</p>
+                  <p className="text-muted-foreground text-xs mt-0.5 font-mono">prajwalkc2063@gmail.com</p>
                 </div>
               </div>
               <button 
