@@ -30,7 +30,7 @@ export default function About() {
   const [copied, setCopied] = useState(false)
   const copyEmail = (e) => {
     e.stopPropagation()
-    navigator.clipboard.writeText('kcprajwal.np@gmail.com')
+    navigator.clipboard.writeText('prajwalkc2063@gmail.com')
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }

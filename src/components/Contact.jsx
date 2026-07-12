@@ -48,7 +48,9 @@ export default function Contact() {
           
           <motion.div className="space-y-6" variants={fadeUp}>
             <a
-              href="mailto:prajwalkc2063@gmail.com"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=prajwalkc2063@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-3 text-foreground font-medium hover:text-muted-foreground transition-colors group"
             >
               <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground group-hover:text-foreground transition-colors">

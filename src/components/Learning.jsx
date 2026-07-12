@@ -89,6 +89,15 @@ export default function Learning() {
     return '█'.repeat(filledBars) + '░'.repeat(emptyBars)
   }
 
+  const handleMouseMove = (e) => {
+    const card = e.currentTarget
+    const rect = card.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    card.style.setProperty('--mouse-x', `${x}px`)
+    card.style.setProperty('--mouse-y', `${y}px`)
+  }
+
   return (
     <section id="learning" className="py-24 px-6 max-w-5xl mx-auto">
       <motion.div
@@ -107,7 +116,7 @@ export default function Learning() {
       </motion.div>
 
       <motion.div
-        className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+        className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
@@ -117,10 +126,31 @@ export default function Learning() {
           <motion.div
             key={skill.name}
             variants={fadeUp}
+            onMouseMove={handleMouseMove}
             className="group relative flex flex-col justify-between p-6 bg-card border border-border rounded-2xl overflow-hidden hover:shadow-[0_20px_50px_-12px_rgba(255,255,255,0.03)] transition-all duration-500 hover:-translate-y-1 cursor-default"
           >
+            {/* Spotlight radial background glow */}
+            <div 
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"
+              style={{
+                background: `radial-gradient(300px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(59, 130, 246, 0.08), transparent 80%)`
+              }}
+            />
+
+            {/* Spotlight radial border glow */}
+            <div 
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10"
+              style={{
+                background: `radial-gradient(150px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(168, 85, 247, 0.2), transparent 80%)`,
+                padding: '1px',
+                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                WebkitMaskComposite: 'xor',
+                maskComposite: 'exclude'
+              }}
+            />
+
             {/* Ambient Background Glow on Hover */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${skill.color} opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0`} />
+            <div className={`absolute inset-0 bg-gradient-to-br ${skill.color} opacity-0 group-hover:opacity-50 transition-opacity duration-700 z-0`} />
             
             {/* Glowing borders */}
             <div className={`absolute inset-0 border border-transparent rounded-2xl transition-colors duration-500 z-10 ${skill.borderColor}`} />

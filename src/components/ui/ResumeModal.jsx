@@ -94,18 +94,18 @@ export default function ResumeModal({ isOpen, onClose }) {
               
               {/* Header Profile Section */}
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-white/5">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-3">
+                <div className="space-y-2 w-full md:w-auto">
+                  <div className="flex flex-wrap items-center gap-3">
                     <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-white via-foreground to-muted-foreground bg-clip-text text-transparent">
                       Prajwal KC
                     </h1>
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold font-mono bg-green-500/10 text-green-400 border border-green-500/20 flex items-center gap-1.5 self-center">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold font-mono bg-green-500/10 text-green-400 border border-green-500/20 flex items-center gap-1.5 self-center whitespace-nowrap">
                       <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                       AVAILABLE FOR WORK
                     </span>
                   </div>
                   <p className="text-lg text-blue-400 font-mono">Software Engineer & Full Stack Developer</p>
-                  <p className="text-sm text-muted-foreground flex items-center gap-2">
+                  <p className="text-sm text-muted-foreground flex flex-wrap items-center gap-2">
                     <span>Kathmandu, Nepal</span>
                     <span>•</span>
                     <span>BSc. CSIT Student</span>
@@ -123,9 +123,11 @@ export default function ResumeModal({ isOpen, onClose }) {
                     Download CV
                   </a>
                   <a
-                    href="mailto:kcprajwal.np@gmail.com"
+                    href="https://mail.google.com/mail/?view=cm&fs=1&to=prajwalkc2063@gmail.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center justify-center p-2.5 rounded-lg border border-border bg-background hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
-                    title="Send Email"
+                    title="Send Email via Gmail"
                   >
                     <Mail size={16} />
                   </a>

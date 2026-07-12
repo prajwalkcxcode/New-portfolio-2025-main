@@ -93,7 +93,7 @@ export default function Journey() {
 
         <div className="max-w-md mx-auto relative pl-8 sm:pl-0">
           {/* Vertical line */}
-          <div className="absolute left-4 sm:left-1/2 top-0 bottom-0 w-[1px] bg-border" />
+          <div className="absolute left-4 sm:left-1/2 top-0 bottom-0 w-[1px] bg-border -translate-x-1/2" />
 
           {/* Timeline Items */}
           <div className="space-y-16 relative">
@@ -111,7 +111,7 @@ export default function Journey() {
               </div>
               
               {/* Dot */}
-              <div className="absolute left-[11px] sm:left-1/2 w-[11px] h-[11px] rounded-full bg-border border border-background -translate-x-1/2 z-10 group-hover:bg-blue-500 group-hover:scale-125 transition-all duration-300 shadow-[0_0_10px_rgba(59,130,246,0)] group-hover:shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+              <div className="absolute left-4 sm:left-1/2 w-[11px] h-[11px] rounded-full bg-border border border-background -translate-x-1/2 z-10 group-hover:bg-blue-500 group-hover:scale-125 transition-all duration-300 shadow-[0_0_10px_rgba(59,130,246,0)] group-hover:shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
               
               <div className="w-full sm:w-[42%] sm:pl-6">
                 <span className="sm:hidden text-xs font-mono font-bold text-muted-foreground uppercase tracking-widest block mb-1">2024</span>
@@ -121,7 +121,7 @@ export default function Journey() {
             </motion.div>
 
             {/* Down Arrow 1 */}
-            <div className="absolute left-[15px] sm:left-1/2 top-[44px] -translate-x-1/2 text-muted-foreground/30 text-sm pointer-events-none select-none font-mono">↓</div>
+            <div className="absolute left-4 sm:left-1/2 top-[44px] -translate-x-1/2 text-muted-foreground/30 text-sm pointer-events-none select-none font-mono">↓</div>
 
             {/* Item 2 */}
             <motion.div 
@@ -138,7 +138,7 @@ export default function Journey() {
               </div>
               
               {/* Dot */}
-              <div className="absolute left-[11px] sm:left-1/2 w-[11px] h-[11px] rounded-full bg-border border border-background -translate-x-1/2 z-10 group-hover:bg-purple-500 group-hover:scale-125 transition-all duration-300 shadow-[0_0_10px_rgba(168,85,247,0)] group-hover:shadow-[0_0_10px_rgba(168,85,247,0.5)]" />
+              <div className="absolute left-4 sm:left-1/2 w-[11px] h-[11px] rounded-full bg-border border border-background -translate-x-1/2 z-10 group-hover:bg-purple-500 group-hover:scale-125 transition-all duration-300 shadow-[0_0_10px_rgba(168,85,247,0)] group-hover:shadow-[0_0_10px_rgba(168,85,247,0.5)]" />
               
               <div className="hidden sm:block w-[42%] pl-6">
                 <span className="text-xs font-mono font-bold text-muted-foreground uppercase tracking-widest">2025</span>
@@ -146,7 +146,7 @@ export default function Journey() {
             </motion.div>
 
             {/* Down Arrow 2 */}
-            <div className="absolute left-[15px] sm:left-1/2 top-[162px] -translate-x-1/2 text-muted-foreground/30 text-sm pointer-events-none select-none font-mono">↓</div>
+            <div className="absolute left-4 sm:left-1/2 top-[162px] -translate-x-1/2 text-muted-foreground/30 text-sm pointer-events-none select-none font-mono">↓</div>
 
             {/* Item 3 */}
             <motion.div 
@@ -161,7 +161,7 @@ export default function Journey() {
               </div>
               
               {/* Dot */}
-              <div className="absolute left-[11px] sm:left-1/2 w-[11px] h-[11px] rounded-full bg-blue-500 border border-background -translate-x-1/2 z-10 scale-125 shadow-[0_0_12px_rgba(59,130,246,0.6)] animate-pulse" />
+              <div className="absolute left-4 sm:left-1/2 w-[11px] h-[11px] rounded-full bg-blue-500 border border-background -translate-x-1/2 z-10 scale-125 shadow-[0_0_12px_rgba(59,130,246,0.6)] animate-pulse" />
               
               <div className="w-full sm:w-[42%] sm:pl-6">
                 <span className="sm:hidden text-xs font-mono font-bold text-blue-400 uppercase tracking-widest block mb-1 animate-pulse">Currently</span>
