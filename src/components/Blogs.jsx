@@ -18,9 +18,12 @@ const BLOGS = [
 ### The Myth of Multitasking
 True creative work requires uninterrupted stretches of deep focus. When we constantly switch context between social feeds, messaging apps, and work tabs, our cognitive performance degrades rapidly. Minimalism isn't about giving up technology—it's about intentional alignment.
 
-### 3 Core Principles for Digital Clarity:
+### 3 Core Principles for Digital Clarity
+
 1. **Intentionally Curate Your Inputs**: Unsubscribe ruthlessly. Treat your attention as your most valuable asset.
+
 2. **Design Phone-Free Sanctuary Hours**: Protect your first 60 minutes after waking up and last 60 minutes before sleep from algorithmically generated feed loops.
+
 3. **Embrace Boredom & Solitude**: Great ideas rarely surface while doomscrolling. They emerge in the quiet spaces between thoughts when the brain has room to process and synthesize.
 
 > "Clarity of mind is the quiet foundation upon which meaningful human creation rests."`
@@ -37,9 +40,12 @@ True creative work requires uninterrupted stretches of deep focus. When we const
 ### The Psychology of Visual Rhythm
 Visual hierarchy, balanced whitespace, and harmonious color palettes guide the eye naturally. When typography has proper line height and contrast, reading becomes effortless.
 
-### Elements That Evoke Delight:
+### Elements That Evoke Delight
+
 - **Subtle Micro-Animations**: A smooth button state transition or gently expanding accordion reassures the user that the system is responsive.
+
 - **Glassmorphism & Depth**: Subtle translucent overlays create a sense of real-world layered depth without cluttering the interface.
+
 - **Consistent Design Tokens**: Unified spacing scales and color themes build unspoken trust and familiarity.
 
 > "Details aren't just details. They make the product." — Charles Eames`
@@ -56,9 +62,12 @@ Visual hierarchy, balanced whitespace, and harmonious color palettes guide the e
 ### Synthesis over Automation
 The future doesn't belong to machines replacing humans, nor to humans ignoring modern capabilities. It belongs to thoughtful creators who leverage machine speed to amplify genuine human insight.
 
-### What Remains Uniquely Human:
+### What Remains Uniquely Human
+
 1. **Curated Taste & Aesthetic Judgement**: Deciding *what* is worth making and *why* it matters to people.
+
 2. **Empathy & Storytelling**: Connecting emotionally through shared vulnerability and authentic perspective.
+
 3. **Ethical Vision**: Asking difficult questions about consequences, fairness, and long-term societal impact.
 
 > "Technology is a powerful leverage tool, but human purpose remains the compass."`
@@ -75,9 +84,12 @@ The future doesn't belong to machines replacing humans, nor to humans ignoring m
 ### The Fear of Being a Novice
 Many people delay sharing their creations or starting new journeys because they fear not looking expert enough. But sharing the raw process of learning builds genuine community and accelerates feedback loops.
 
-### Key Mindset Shifts:
+### Key Mindset Shifts
+
 - **Prioritize Consistency Over Perfection**: Small daily efforts compound exponentially over time.
+
 - **View Mistakes as Data**: Every failure contains specific information on what to adjust next.
+
 - **Stay Eternally Curious**: Approach new domains with a beginner's mind, unburdened by ego.`
   }
 ]
@@ -212,7 +224,7 @@ export default function Blogs() {
                   className="relative w-full max-w-3xl bg-[#09090b]/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.8),0_0_40px_rgba(59,130,246,0.15)] overflow-hidden z-10 max-h-[88vh] flex flex-col font-sans"
                 >
                   {/* Top Bar / Header */}
-                  <div className="p-6 bg-[#141417] border-b border-white/10 flex items-start justify-between gap-4">
+                  <div className="p-6 bg-[#141417] border-b border-white/10 flex items-start justify-between gap-4 shrink-0">
                     <div>
                       <div className="flex flex-wrap items-center gap-2 mb-2">
                         <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 text-blue-400 font-semibold flex items-center gap-1">
@@ -241,39 +253,35 @@ export default function Blogs() {
                     </button>
                   </div>
 
-                  {/* Body Content */}
-                  <div className="p-6 sm:p-8 overflow-y-auto text-sm sm:text-base text-gray-200 space-y-5 leading-relaxed font-sans custom-scrollbar flex-1">
-                    <p className="text-base sm:text-lg font-medium text-blue-200/90 leading-relaxed border-l-2 border-blue-500 pl-4 py-1 italic bg-blue-500/5 rounded-r-lg">
+                  {/* Body Content with min-h-0 flex-1 for proper scrolling */}
+                  <div className="p-6 sm:p-8 overflow-y-auto text-sm sm:text-base text-gray-200 space-y-6 leading-relaxed font-sans custom-scrollbar flex-1 min-h-0 pb-12">
+                    <p className="text-base sm:text-lg font-medium text-blue-200/90 leading-relaxed border-l-2 border-blue-500 pl-4 py-1.5 italic bg-blue-500/5 rounded-r-lg mb-6">
                       {selectedBlog.excerpt}
                     </p>
 
                     {selectedBlog.content.split('\n\n').map((paragraph, idx) => (
                       <div key={idx}>
                         {paragraph.startsWith('### ') ? (
-                          <h4 className="text-lg font-bold text-white mt-6 mb-3 tracking-tight">
+                          <h4 className="text-lg font-bold text-white mt-6 mb-2 tracking-tight border-b border-white/5 pb-2">
                             {paragraph.replace('### ', '')}
                           </h4>
                         ) : paragraph.startsWith('> ') ? (
-                          <blockquote className="my-4 p-4 rounded-xl bg-muted/40 border border-border/80 text-foreground font-medium italic">
+                          <blockquote className="my-5 p-4 rounded-xl bg-muted/40 border border-border/80 text-foreground font-medium italic">
                             {paragraph.replace('> ', '')}
                           </blockquote>
-                        ) : paragraph.includes('\n1. ') || paragraph.includes('\n- ') ? (
-                          <div className="space-y-2 my-3 pl-2">
-                            {paragraph.split('\n').map((line, lIdx) => (
-                              <p key={lIdx} className="text-muted-foreground">
-                                {line}
-                              </p>
-                            ))}
-                          </div>
                         ) : (
-                          <p className="text-muted-foreground leading-relaxed">{paragraph}</p>
+                          <p className="text-muted-foreground leading-relaxed font-normal">
+                            {paragraph.split('**').map((part, pIdx) => 
+                              pIdx % 2 === 1 ? <strong key={pIdx} className="text-white font-semibold">{part}</strong> : part
+                            )}
+                          </p>
                         )}
                       </div>
                     ))}
                   </div>
 
                   {/* Footer */}
-                  <div className="px-6 py-4 border-t border-white/10 bg-[#141417]/80 flex items-center justify-between text-xs font-mono text-muted-foreground">
+                  <div className="px-6 py-4 border-t border-white/10 bg-[#141417]/80 flex items-center justify-between text-xs font-mono text-muted-foreground shrink-0">
                     <button
                       onClick={handleShare}
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-muted hover:bg-muted/80 text-foreground font-semibold transition-colors"
@@ -292,4 +300,5 @@ export default function Blogs() {
     </section>
   )
 }
+
 

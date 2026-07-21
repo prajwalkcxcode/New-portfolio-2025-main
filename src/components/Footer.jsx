@@ -1,10 +1,13 @@
 import React from 'react'
+import SpotifyWidget from './ui/SpotifyWidget'
 
 export default function Footer() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
   return (
-    <footer className="border-t border-border bg-background py-10 px-6">
+    <footer className="border-t border-border bg-background py-10 px-6 relative">
+      <SpotifyWidget />
+
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="text-center md:text-left">
           <button
@@ -30,3 +33,5 @@ export default function Footer() {
     </footer>
   )
 }
+
+

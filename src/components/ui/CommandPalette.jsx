@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Command } from 'cmdk'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Moon, Sun, Home, User, Mail, Code2, FileText } from 'lucide-react'
+import { Search, Moon, Sun, Home, User, Mail, Code2, FileText, BookOpen } from 'lucide-react'
 
 // NOTE: It is essential to style [cmdk-dialog] as a fixed overlay
 // However, to keep it clean with tailwind, we pass className to inner wrappers.
@@ -106,6 +106,35 @@ export default function CommandPalette({ theme, toggleTheme, onOpenResume }) {
 
               <div className="h-px bg-border my-1 mx-2" />
 
+              <Command.Group heading="Articles & Thoughts" className="px-2 text-xs font-semibold text-muted-foreground py-2 [&_[cmdk-group-heading]]:px-1 [&_[cmdk-group-heading]]:mb-2">
+                <Command.Item 
+                  onSelect={() => scrollTo('blogs')}
+                  className="flex items-center px-3 py-2.5 text-sm text-foreground rounded-lg cursor-pointer aria-selected:bg-muted aria-selected:text-foreground data-[selected=true]:bg-muted data-[selected=true]:text-foreground transition-colors"
+                >
+                  <BookOpen className="w-4 h-4 mr-3 text-blue-400" /> Digital Minimalism & Focus
+                </Command.Item>
+                <Command.Item 
+                  onSelect={() => scrollTo('blogs')}
+                  className="flex items-center px-3 py-2.5 text-sm text-foreground rounded-lg cursor-pointer aria-selected:bg-muted aria-selected:text-foreground data-[selected=true]:bg-muted data-[selected=true]:text-foreground transition-colors"
+                >
+                  <BookOpen className="w-4 h-4 mr-3 text-blue-400" /> Crafting Product Emotion & Aesthetics
+                </Command.Item>
+                <Command.Item 
+                  onSelect={() => scrollTo('blogs')}
+                  className="flex items-center px-3 py-2.5 text-sm text-foreground rounded-lg cursor-pointer aria-selected:bg-muted aria-selected:text-foreground data-[selected=true]:bg-muted data-[selected=true]:text-foreground transition-colors"
+                >
+                  <BookOpen className="w-4 h-4 mr-3 text-blue-400" /> Human Element in the Age of AI
+                </Command.Item>
+                <Command.Item 
+                  onSelect={() => scrollTo('blogs')}
+                  className="flex items-center px-3 py-2.5 text-sm text-foreground rounded-lg cursor-pointer aria-selected:bg-muted aria-selected:text-foreground data-[selected=true]:bg-muted data-[selected=true]:text-foreground transition-colors"
+                >
+                  <BookOpen className="w-4 h-4 mr-3 text-blue-400" /> Embracing the Uncomfortable
+                </Command.Item>
+              </Command.Group>
+
+              <div className="h-px bg-border my-1 mx-2" />
+
               <Command.Group heading="Actions" className="px-2 text-xs font-semibold text-muted-foreground py-2 [&_[cmdk-group-heading]]:px-1 [&_[cmdk-group-heading]]:mb-2">
                 <Command.Item 
                   onSelect={() => {
@@ -129,7 +158,7 @@ export default function CommandPalette({ theme, toggleTheme, onOpenResume }) {
 
               <div className="h-px bg-border my-1 mx-2" />
 
-              <Command.Group heading="Theme" className="px-2 text-xs font-semibold text-muted-foreground py-2 [&_[cmdk-group-heading]]:px-1 [&_[cmdk-group-heading]]:mb-2">
+              <Command.Group heading="Theme & Focus" className="px-2 text-xs font-semibold text-muted-foreground py-2 [&_[cmdk-group-heading]]:px-1 [&_[cmdk-group-heading]]:mb-2">
                 <Command.Item 
                   onSelect={() => {
                     toggleTheme()

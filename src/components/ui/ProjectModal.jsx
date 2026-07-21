@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, ExternalLink, Github, CheckCircle, Cpu, Settings } from 'lucide-react'
+import { X, ExternalLink, Github, CheckCircle, Cpu, Settings, ChevronLeft, ChevronRight, Image as ImageIcon } from 'lucide-react'
 
 export default function ProjectModal({ project, isOpen, onClose }) {
-  // Lock scroll when open
+  const [activeImageIndex, setActiveImageIndex] = useState(0)
+
+  // Reset image index when modal opens
   useEffect(() => {
     if (isOpen) {
+      setActiveImageIndex(0)
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = ''
@@ -16,6 +19,20 @@ export default function ProjectModal({ project, isOpen, onClose }) {
   }, [isOpen])
 
   if (!project) return null
+
+  const galleryImages = project.gallery || [
+    project.image,
+    'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=800'
+  ]
+
+  const nextImage = () => {
+    setActiveImageIndex((prev) => (prev + 1) % galleryImages.length)
+  }
+
+  const prevImage = () => {
+    setActiveImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length)
+  }
 
   return (
     <AnimatePresence>
@@ -36,10 +53,10 @@ export default function ProjectModal({ project, isOpen, onClose }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-            className="relative w-full max-w-3xl h-[80vh] md:h-auto max-h-[85vh] bg-[#09090b]/90 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-[0_30px_70px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden text-foreground z-10"
+            className="relative w-full max-w-3xl h-[85vh] max-h-[85vh] bg-[#09090b]/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-[0_30px_70px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden text-foreground z-10"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-muted/40">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-muted/40 shrink-0">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#ff5f56] opacity-80 hover:opacity-100 transition-opacity cursor-pointer" onClick={onClose} />
                 <div className="w-3 h-3 rounded-full bg-[#ffbd2e] opacity-80" />
@@ -59,34 +76,78 @@ export default function ProjectModal({ project, isOpen, onClose }) {
 
             {/* Content */}
             <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6 custom-scrollbar">
-              {/* Top info and Image */}
-              <div className="grid md:grid-cols-5 gap-6 items-start">
-                <div className="md:col-span-2 overflow-hidden rounded-xl border border-white/5 aspect-video md:aspect-[4/3] bg-muted relative">
+              
+              {/* Interactive Multi-Image Gallery */}
+              <div className="space-y-3">
+                <div className="relative overflow-hidden rounded-xl border border-white/10 aspect-video bg-muted group">
                   <img 
-                    src={project.image} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover"
+                    src={galleryImages[activeImageIndex]} 
+                    alt={`${project.title} slide ${activeImageIndex + 1}`} 
+                    className="w-full h-full object-cover transition-all duration-300"
                   />
-                </div>
-                <div className="md:col-span-3 space-y-4">
-                  <div className="space-y-1">
-                    <span className="text-xs font-mono text-blue-400 font-semibold tracking-wider uppercase">
-                      {project.category}
-                    </span>
-                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white">
-                      {project.title}
-                    </h2>
+                  
+                  {/* Prev / Next Controls */}
+                  {galleryImages.length > 1 && (
+                    <>
+                      <button
+                        onClick={prevImage}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/90"
+                        aria-label="Previous screenshot"
+                      >
+                        <ChevronLeft size={18} />
+                      </button>
+                      <button
+                        onClick={nextImage}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/90"
+                        aria-label="Next screenshot"
+                      >
+                        <ChevronRight size={18} />
+                      </button>
+                    </>
+                  )}
+
+                  <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/70 border border-white/10 text-[10px] font-mono text-white backdrop-blur-md flex items-center gap-1.5">
+                    <ImageIcon size={12} className="text-blue-400" />
+                    <span>{activeImageIndex + 1} / {galleryImages.length}</span>
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((t) => (
-                      <span key={t} className="text-xs font-mono px-2 py-0.5 rounded bg-muted text-foreground border border-white/5">
-                        {t}
-                      </span>
+                </div>
+
+                {/* Thumbnails strip */}
+                {galleryImages.length > 1 && (
+                  <div className="flex items-center gap-2 overflow-x-auto pb-1">
+                    {galleryImages.map((img, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setActiveImageIndex(idx)}
+                        className={`w-16 h-10 rounded-lg overflow-hidden border transition-all shrink-0 ${
+                          activeImageIndex === idx ? 'border-blue-500 ring-2 ring-blue-500/30' : 'border-white/10 opacity-50 hover:opacity-100'
+                        }`}
+                      >
+                        <img src={img} alt="" className="w-full h-full object-cover" />
+                      </button>
                     ))}
                   </div>
+                )}
+              </div>
+
+              <div className="space-y-4">
+                <div className="space-y-1">
+                  <span className="text-xs font-mono text-blue-400 font-semibold tracking-wider uppercase">
+                    {project.category}
+                  </span>
+                  <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white">
+                    {project.title}
+                  </h2>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {project.description}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {project.tech.map((t) => (
+                    <span key={t} className="text-xs font-mono px-2 py-0.5 rounded bg-muted text-foreground border border-white/5">
+                      {t}
+                    </span>
+                  ))}
                 </div>
               </div>
 
@@ -129,27 +190,16 @@ export default function ProjectModal({ project, isOpen, onClose }) {
             </div>
 
             {/* Footer */}
-            <div className="px-6 py-4 border-t border-white/5 bg-muted/20 flex flex-wrap items-center justify-between gap-4">
-              <div className="flex gap-4">
-                <a
-                  href={project.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-xs font-medium text-black bg-white px-3.5 py-2 rounded-lg hover:bg-white/90 transition-colors"
-                >
-                  <ExternalLink size={14} />
-                  Live Preview
-                </a>
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground border border-border px-3.5 py-2 rounded-lg hover:text-foreground hover:bg-muted transition-colors"
-                >
-                  <Github size={14} />
-                  Code
-                </a>
-              </div>
+            <div className="px-6 py-4 border-t border-white/5 bg-muted/20 flex items-center justify-between gap-4 shrink-0">
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-xs font-mono font-medium text-white bg-white/10 border border-white/10 px-4 py-2 rounded-lg hover:bg-white/20 transition-colors"
+              >
+                <Github size={14} />
+                View Source Code on GitHub
+              </a>
               <span className="text-[10px] font-mono text-muted-foreground">Press ESC to close</span>
             </div>
           </motion.div>
@@ -158,3 +208,4 @@ export default function ProjectModal({ project, isOpen, onClose }) {
     </AnimatePresence>
   )
 }
+

@@ -3,7 +3,6 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
 import Skills from './components/Skills'
-import Learning from './components/Learning'
 import Projects from './components/Projects'
 import Blogs from './components/Blogs'
 import Journey from './components/Journey'
@@ -18,9 +17,31 @@ import ResumeModal from './components/ui/ResumeModal'
 import BackToTop from './components/ui/BackToTop'
 
 export default function App() {
-  const [theme, setTheme] = useState('dark') // Defaulting to dark for the true SaaS/Premium developer aesthetic
+  const [theme, setTheme] = useState('dark')
   const [booted, setBooted] = useState(false)
   const [isResumeOpen, setIsResumeOpen] = useState(false)
+  const [isFocusMode, setIsFocusMode] = useState(false)
+
+  useEffect(() => {
+    document.documentElement.dataset.focusMode = isFocusMode ? 'true' : 'false'
+  }, [isFocusMode])
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const activeElement = document.activeElement
+      const isInput = activeElement && (
+        activeElement.tagName === 'INPUT' || 
+        activeElement.tagName === 'TEXTAREA' || 
+        activeElement.isContentEditable
+      )
+      if (isInput) return
+      if (e.key === 'f' || e.key === 'F') {
+        setIsFocusMode((prev) => !prev)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   useEffect(() => {
     const handleToggle = () => setIsResumeOpen((prev) => !prev)
@@ -51,6 +72,10 @@ export default function App() {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
   }
 
+  const toggleFocusMode = () => {
+    setIsFocusMode((prev) => !prev)
+  }
+
   return (
     <SmoothScroll>
       {!booted && <BootSequence onComplete={() => setBooted(true)} />}
@@ -66,7 +91,9 @@ export default function App() {
           <Navbar 
             theme={theme} 
             onToggleTheme={toggleTheme} 
-            onOpenResume={() => setIsResumeOpen(true)} 
+            onOpenResume={() => setIsResumeOpen(true)}
+            isFocusMode={isFocusMode}
+            onToggleFocusMode={toggleFocusMode}
           />
           <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
           <BackToTop />
@@ -75,7 +102,6 @@ export default function App() {
               <Hero onOpenResume={() => setIsResumeOpen(true)} />
               <About />
               <Skills />
-              <Learning />
               <Projects />
               <Blogs />
               <Journey />
@@ -88,3 +114,4 @@ export default function App() {
     </SmoothScroll>
   )
 }
+

@@ -97,6 +97,18 @@ a {
   outline-offset: 2px;
 }
 
+/* Focus Mode Overrides */
+[data-focus-mode="true"] {
+  --background: #030304;
+  --card: #08080a;
+}
+
+[data-focus-mode="true"] canvas,
+[data-focus-mode="true"] .blur-3xl,
+[data-focus-mode="true"] .blur-2xl {
+  opacity: 0.15 !important;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

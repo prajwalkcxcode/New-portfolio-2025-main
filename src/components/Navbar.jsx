@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Sun, Moon, Menu, X } from "lucide-react";
+import { Sun, Moon, Menu, X, Target } from "lucide-react";
 import Magnetic from "./ui/Magnetic";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -7,12 +7,12 @@ const navLinks = [
   { name: "About", href: "#about" },
   { name: "Skills", href: "#skills" },
   { name: "Projects", href: "#projects" },
-  { name: "Blogs", href: "#blogs" },
+  { name: "Articles", href: "#blogs" },
   { name: "Journey", href: "#journey" },
   { name: "Contact", href: "#contact" },
 ];
 
-export default function Navbar({ theme, onToggleTheme, onOpenResume }) {
+export default function Navbar({ theme, onToggleTheme, onOpenResume, isFocusMode, onToggleFocusMode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("#home");
@@ -34,7 +34,7 @@ export default function Navbar({ theme, onToggleTheme, onOpenResume }) {
       const scrollY = window.scrollY;
       setScrolled(scrollY > 20);
 
-      const sections = ["home", "about", "skills", "projects", "journey", "contact"]
+      const sections = ["home", "about", "skills", "projects", "blogs", "journey", "contact"]
         .map((id) => document.getElementById(id))
         .filter(Boolean);
 
@@ -126,6 +126,21 @@ export default function Navbar({ theme, onToggleTheme, onOpenResume }) {
           </ul>
 
           <div className="flex items-center gap-2 md:gap-3">
+            {/* Focus Mode Toggle */}
+            <Magnetic>
+              <button
+                type="button"
+                onClick={onToggleFocusMode}
+                className={`p-2 rounded-full transition-colors flex items-center justify-center ${
+                  isFocusMode ? "text-blue-400 bg-blue-500/10 border border-blue-500/30" : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                }`}
+                title="Toggle Zen / Focus Mode (Shortcut: F)"
+                aria-label="Toggle Focus Mode"
+              >
+                <Target size={18} />
+              </button>
+            </Magnetic>
+
             <Magnetic>
               <button
                 type="button"

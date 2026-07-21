@@ -197,33 +197,24 @@ export default function Projects() {
                       ))}
                     </div>
                     
-                    <div className="flex items-center gap-4 mt-auto pt-4 border-t border-border" onClick={(e) => e.stopPropagation()}>
-                      <Magnetic>
-                        <a
-                          href={project.href}
-                          onClick={(e) => {
-                            if (project.href === '#') {
-                              e.preventDefault()
-                              openProjectDetails(project)
-                            }
-                          }}
-                          className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors p-1.5 -ml-1 rounded-md hover:bg-muted"
-                        >
-                          <ExternalLink size={14} />
-                          Live Preview
-                        </a>
-                      </Magnetic>
+                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-border" onClick={(e) => e.stopPropagation()}>
                       <Magnetic>
                         <a
                           href={project.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors p-1.5 rounded-md hover:bg-muted"
+                          className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors p-1.5 -ml-1 rounded-md hover:bg-muted font-mono"
                         >
                           <Github size={14} />
-                          Code
+                          Source Code
                         </a>
                       </Magnetic>
+                      <button
+                        onClick={() => openProjectDetails(project)}
+                        className="text-xs font-mono font-semibold text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
+                      >
+                        Details →
+                      </button>
                     </div>
                   </div>
                 </div>
