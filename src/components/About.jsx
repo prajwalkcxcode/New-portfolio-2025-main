@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer } from '../motion'
 import ScrambledText from './ui/ScrambledText'
+import AnimatedMemoji3D from './ui/AnimatedMemoji3D'
 import { Copy, Check, Sparkles } from 'lucide-react'
 
 // Utility for word reveal animation
@@ -62,30 +63,8 @@ export default function About() {
             My Background
           </motion.p>
           
-          <motion.div variants={fadeUp} className="relative group max-w-[340px] mx-auto md:mx-0">
-            {/* Soft ambient glow behind the subject */}
-            <div className="absolute -inset-6 bg-gradient-to-tr from-blue-500/10 to-purple-500/5 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-all duration-1000" />
-            
-            <div 
-              className="relative z-10 w-full aspect-[4/5] overflow-hidden rounded-2xl border border-white/5"
-            >
-              <motion.div
-                initial={{ clipPath: 'inset(100% 0% 0% 0%)' }}
-                whileInView={{ clipPath: 'inset(0% 0% 0% 0%)' }}
-                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                viewport={{ once: true }}
-                className="w-full h-full"
-              >
-                <img 
-                   src="/profile.png" 
-                   alt="Prajwal KC Profile Picture" 
-                   className="w-full h-full object-cover transition-all duration-[1.5s] ease-out hover:scale-[1.08]"
-                />
-              </motion.div>
-              
-              {/* Soft neon overlay on hover */}
-              <div className="absolute inset-0 bg-gradient-to-t from-blue-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-            </div>
+          <motion.div variants={fadeUp}>
+            <AnimatedMemoji3D />
           </motion.div>
         </motion.div>
         

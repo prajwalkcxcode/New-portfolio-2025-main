@@ -28,7 +28,15 @@ export default function Hero({ onOpenResume }) {
         initial="hidden"
         animate="visible"
       >
-        <motion.div variants={fadeUp} className="mb-8 flex justify-center">
+        <motion.div variants={fadeUp} className="mb-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+          {/* Memoji Welcoming Pill */}
+          <div className="flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-muted/80 border border-border shadow-sm backdrop-blur-sm select-none">
+            <div className="w-7 h-7 rounded-full overflow-hidden border border-white/20 shrink-0">
+              <img src="/memoji.png" alt="Memoji Avatar" className="w-full h-full object-cover" />
+            </div>
+            <span className="text-xs font-semibold text-foreground">Hi! I'm Prajwal 👋</span>
+          </div>
+
           <Magnetic>
             <LocalTime />
           </Magnetic>

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { fadeUp, staggerContainer, buttonVariants } from '../motion'
-import { Github, Linkedin, Twitter, Mail, Send, Terminal } from 'lucide-react'
+import { fadeUp, staggerContainer } from '../motion'
+import { Github, Linkedin, Twitter, Mail } from 'lucide-react'
 import Magnetic from './ui/Magnetic'
 import ScrambledText from './ui/ScrambledText'
+import DeveloperCLI from './ui/DeveloperCLI'
 
 const links = [
   { label: 'GitHub', href: 'https://github.com/prajwalkcxcode', icon: <Github size={18} /> },
@@ -197,6 +198,17 @@ export default function Contact() {
           </motion.form>
         </motion.div>
       </div>
+
+      {/* Developer CLI Terminal Widget */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true, margin: '-50px' }}
+        className="mt-16"
+      >
+        <DeveloperCLI />
+      </motion.div>
 
       {/* GitHub Enhancement Block */}
       <motion.div

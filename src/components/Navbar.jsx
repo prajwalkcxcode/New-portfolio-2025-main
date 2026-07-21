@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Sun, Moon, Menu, X, Waves } from "lucide-react";
+import { Sun, Moon, Menu, X } from "lucide-react";
 import Magnetic from "./ui/Magnetic";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -11,7 +11,7 @@ const navLinks = [
   { name: "Contact", href: "#contact" },
 ];
 
-export default function Navbar({ theme, onToggleTheme, onOpenResume, fluidEnabled, onToggleFluid }) {
+export default function Navbar({ theme, onToggleTheme, onOpenResume }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("#home");
@@ -125,22 +125,6 @@ export default function Navbar({ theme, onToggleTheme, onOpenResume, fluidEnable
           </ul>
 
           <div className="flex items-center gap-2 md:gap-3">
-            <Magnetic>
-              <button
-                type="button"
-                onClick={onToggleFluid}
-                className={`p-2 rounded-full transition-colors flex items-center justify-center ${
-                  fluidEnabled 
-                    ? "text-blue-400 bg-blue-500/10 border border-blue-500/20" 
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                }`}
-                aria-label="Toggle interactive fluid background"
-                title="Toggle interactive fluid background"
-              >
-                <Waves size={18} />
-              </button>
-            </Magnetic>
-
             <Magnetic>
               <button
                 type="button"

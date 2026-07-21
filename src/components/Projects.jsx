@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { motion, useScroll, useVelocity, useSpring, useTransform, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { fadeUp, staggerContainer } from '../motion'
-import { ExternalLink, Github, Eye } from 'lucide-react'
+import { ExternalLink, Github, Eye, Filter } from 'lucide-react'
 import TiltCard from './ui/TiltCard'
 import Magnetic from './ui/Magnetic'
 import ScrambledText from './ui/ScrambledText'
@@ -67,19 +67,18 @@ const projects = [
   }
 ]
 
+const ALL_FILTER_TAGS = ['All', 'Frontend', 'Full Stack', 'React', 'TypeScript', 'Next.js', 'Node.js']
+
 export default function Projects() {
-  const [activeCategory, setActiveCategory] = useState('All')
+  const [selectedTag, setSelectedTag] = useState('All')
   const [selectedProject, setSelectedProject] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const { scrollY } = useScroll()
-  const scrollVelocity = useVelocity(scrollY)
-  const skewVelocity = useSpring(scrollVelocity, { damping: 50, stiffness: 400 })
-  const skewY = useTransform(skewVelocity, [-1000, 1000], [3, -3])
-
-  const filteredProjects = activeCategory === 'All'
+  const filteredProjects = selectedTag === 'All'
     ? projects
-    : projects.filter((p) => p.category === activeCategory)
+    : projects.filter((p) => 
+        p.category === selectedTag || p.tech.includes(selectedTag)
+      )
 
   const openProjectDetails = (project) => {
     setSelectedProject(project)
@@ -103,19 +102,23 @@ export default function Projects() {
         </motion.p>
       </motion.div>
 
-      {/* Dynamic Tab Filtering */}
-      <div className="flex justify-center gap-2 mb-12 flex-wrap">
-        {['All', 'Frontend', 'Full Stack'].map((cat) => (
+      {/* Dynamic Tag & Stack Matrix Filtering */}
+      <div className="flex justify-center items-center gap-2 mb-12 flex-wrap">
+        <div className="flex items-center gap-1 text-xs font-mono text-muted-foreground mr-2 hidden sm:flex">
+          <Filter size={13} />
+          <span>Filter:</span>
+        </div>
+        {ALL_FILTER_TAGS.map((tag) => (
           <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            className={`px-4 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all duration-300 ${
-              activeCategory === cat
-                ? 'bg-foreground text-background font-semibold shadow-lg shadow-white/5'
+            key={tag}
+            onClick={() => setSelectedTag(tag)}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all duration-200 ${
+              selectedTag === tag
+                ? 'bg-foreground text-background font-semibold shadow-md'
                 : 'bg-muted/40 border border-border text-muted-foreground hover:text-foreground hover:bg-muted'
             }`}
           >
-            {cat}
+            {tag}
           </button>
         ))}
       </div>
@@ -126,7 +129,6 @@ export default function Projects() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-80px' }}
-        style={{ skewY }}
         layout
       >
         <AnimatePresence mode="popLayout">

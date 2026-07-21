@@ -1,7 +1,7 @@
 import React from 'react'
-import { motion, useAnimationControls } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer } from '../motion'
-import CodePlayground from './ui/CodePlayground'
+import CodeSnippets from './ui/CodeSnippets'
 import ScrambledText from './ui/ScrambledText'
 
 const allSkills = [
@@ -26,7 +26,7 @@ function Marquee({ items, reverse = false }) {
         {[...items, ...items].map((skill, index) => (
           <div
             key={index}
-            className="flex items-center justify-center px-8 py-5 bg-card/60 backdrop-blur-sm border border-border rounded-xl text-muted-foreground font-semibold hover:bg-card hover:text-foreground hover:border-muted-foreground/30 hover:scale-105 hover:shadow-lg hover:shadow-[0_20px_50px_-12px_rgba(255,255,255,0.05)] transition-all cursor-crosshair text-lg shadow-sm"
+            className="flex items-center justify-center px-8 py-5 bg-card/60 backdrop-blur-sm border border-border rounded-xl text-muted-foreground font-semibold hover:bg-card hover:text-foreground hover:border-muted-foreground/30 hover:scale-105 hover:shadow-lg transition-all cursor-default text-lg shadow-sm"
           >
             {skill}
           </div>
@@ -65,7 +65,8 @@ export default function Skills() {
         <Marquee items={row2} reverse />
       </motion.div>
 
-      <CodePlayground />
+      <CodeSnippets />
     </section>
   )
 }
+

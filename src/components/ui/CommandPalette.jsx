@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Command } from 'cmdk'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Moon, Sun, Home, User, Mail, Code2, FileText, Waves } from 'lucide-react'
+import { Search, Moon, Sun, Home, User, Mail, Code2, FileText } from 'lucide-react'
 
 // NOTE: It is essential to style [cmdk-dialog] as a fixed overlay
 // However, to keep it clean with tailwind, we pass className to inner wrappers.
 
-export default function CommandPalette({ theme, toggleTheme, onOpenResume, fluidEnabled, onToggleFluid }) {
+export default function CommandPalette({ theme, toggleTheme, onOpenResume }) {
   const [open, setOpen] = useState(false)
 
   // Toggle the menu when ⌘K is pressed
@@ -124,16 +124,6 @@ export default function CommandPalette({ theme, toggleTheme, onOpenResume, fluid
                   className="flex items-center px-3 py-2.5 text-sm text-foreground rounded-lg cursor-pointer aria-selected:bg-muted aria-selected:text-foreground data-[selected=true]:bg-muted data-[selected=true]:text-foreground transition-colors"
                 >
                   <Mail className="w-4 h-4 mr-3 text-muted-foreground" /> Email via Gmail
-                </Command.Item>
-                <Command.Item 
-                  onSelect={() => {
-                    setOpen(false)
-                    onToggleFluid()
-                  }}
-                  className="flex items-center px-3 py-2.5 text-sm text-foreground rounded-lg cursor-pointer aria-selected:bg-muted aria-selected:text-foreground data-[selected=true]:bg-muted data-[selected=true]:text-foreground transition-colors"
-                >
-                  <Waves className="w-4 h-4 mr-3 text-muted-foreground" /> 
-                  {fluidEnabled ? 'Disable' : 'Enable'} Fluid Background
                 </Command.Item>
               </Command.Group>
 
