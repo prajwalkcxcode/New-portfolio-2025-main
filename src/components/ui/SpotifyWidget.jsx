@@ -43,6 +43,13 @@ export default function SpotifyWidget() {
 
   const currentTrack = PLAYLIST[currentTrackIndex]
 
+  // Listen for global toggle-spotify custom event
+  useEffect(() => {
+    const handleToggleSpotify = () => setIsExpanded((prev) => !prev)
+    window.addEventListener('toggle-spotify', handleToggleSpotify)
+    return () => window.removeEventListener('toggle-spotify', handleToggleSpotify)
+  }, [])
+
   const togglePlay = (e) => {
     e?.stopPropagation()
     if (!audioRef.current) return
@@ -109,8 +116,8 @@ export default function SpotifyWidget() {
         onEnded={nextTrack}
       />
 
-      {/* Floating Audio Dock Widget */}
-      <div className="fixed bottom-6 left-6 z-40">
+      {/* Floating Audio Dock Widget on the Right */}
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40">
         {!isExpanded ? (
           /* Mini Floating Pill */
           <div 
@@ -133,7 +140,7 @@ export default function SpotifyWidget() {
             </div>
 
             <div className="flex items-center gap-2 pr-1">
-              <span className="text-xs font-semibold text-foreground group-hover:text-emerald-400 transition-colors max-w-[110px] truncate">
+              <span className="text-xs font-semibold text-foreground group-hover:text-emerald-400 transition-colors max-w-[90px] sm:max-w-[110px] truncate">
                 {currentTrack.title}
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
@@ -148,16 +155,16 @@ export default function SpotifyWidget() {
           </div>
         ) : (
           /* Full Expanded Spotify Widget Card */
-          <div className="w-80 bg-[#121214]/95 border border-white/10 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl relative overflow-hidden animate-fade-in">
+          <div className="w-[calc(100vw-2rem)] max-w-xs sm:w-80 bg-[#121214]/95 border border-white/10 rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl relative overflow-hidden animate-fade-in">
             {/* Ambient Spotify Glow */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
 
             <div className="flex items-center justify-between mb-3 text-[10px] font-mono text-muted-foreground uppercase">
-              <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
-                <Radio size={12} className={isPlaying ? "animate-pulse" : ""} />
-                SPOTIFY VIBE RADAR ({currentTrackIndex + 1}/{PLAYLIST.length})
+              <span className="flex items-center gap-1.5 text-emerald-400 font-semibold truncate pr-2">
+                <Radio size={12} className={isPlaying ? "animate-pulse shrink-0" : "shrink-0"} />
+                SPOTIFY VIBE ({currentTrackIndex + 1}/{PLAYLIST.length})
               </span>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 shrink-0">
                 <button
                   onClick={(e) => { e.stopPropagation(); setShowPlaylist(!showPlaylist); }}
                   className={`p-1 rounded transition-colors ${showPlaylist ? 'text-emerald-400 bg-emerald-500/10' : 'text-muted-foreground hover:text-white'}`}

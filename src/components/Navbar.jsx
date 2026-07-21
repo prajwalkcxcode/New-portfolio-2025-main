@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Sun, Moon, Menu, X, Target } from "lucide-react";
+import { Sun, Moon, Menu, X, Target, Radio } from "lucide-react";
 import Magnetic from "./ui/Magnetic";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -60,11 +60,15 @@ export default function Navbar({ theme, onToggleTheme, onOpenResume, isFocusMode
     setIsOpen(false);
   };
 
+  const toggleSpotify = () => {
+    window.dispatchEvent(new CustomEvent("toggle-spotify"));
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-background/80 backdrop-blur-md border-b border-border py-4"
+        scrolled || isOpen
+          ? "bg-background border-b border-border py-4 shadow-xl"
           : "bg-transparent py-6"
       }`}
     >
@@ -126,6 +130,19 @@ export default function Navbar({ theme, onToggleTheme, onOpenResume, isFocusMode
           </ul>
 
           <div className="flex items-center gap-2 md:gap-3">
+            {/* Spotify Player Toggle */}
+            <Magnetic>
+              <button
+                type="button"
+                onClick={toggleSpotify}
+                className="p-2 rounded-full text-emerald-400 hover:bg-emerald-500/10 transition-colors flex items-center justify-center"
+                title="Toggle Music Vibe Player"
+                aria-label="Toggle Music Player"
+              >
+                <Radio size={18} className="animate-pulse" />
+              </button>
+            </Magnetic>
+
             {/* Focus Mode Toggle */}
             <Magnetic>
               <button
@@ -168,41 +185,74 @@ export default function Navbar({ theme, onToggleTheme, onOpenResume, isFocusMode
       {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: [0.25, 1, 0.5, 1] }}
-            className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border shadow-lg overflow-hidden"
-          >
-            <ul className="px-6 py-5 space-y-4">
-              {navLinks.map(({ name, href }) => (
-                <li key={name}>
+          <>
+            {/* Dark Backdrop Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="md:hidden fixed inset-0 top-[65px] bg-black/60 backdrop-blur-sm z-40"
+            />
+
+            {/* Mobile Drawer */}
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25, ease: [0.25, 1, 0.5, 1] }}
+              className="md:hidden absolute top-full left-0 right-0 bg-background border-b border-border shadow-2xl overflow-hidden z-50"
+            >
+              <ul className="px-6 py-6 space-y-4">
+                {navLinks.map(({ name, href }) => {
+                  const isActive = active === href;
+                  return (
+                    <li key={name}>
+                      <button
+                        type="button"
+                        onClick={() => scrollTo(href)}
+                        className={`block w-full text-left text-base font-semibold transition-colors py-1 ${
+                          isActive ? "text-blue-400 font-bold" : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        {name}
+                      </button>
+                    </li>
+                  );
+                })}
+
+                <li className="pt-3 border-t border-border flex items-center justify-between">
                   <button
                     type="button"
-                    onClick={() => scrollTo(href)}
-                    className="block w-full text-left text-sm text-muted-foreground hover:text-foreground font-medium transition-colors"
+                    onClick={() => {
+                      setIsOpen(false);
+                      toggleSpotify();
+                    }}
+                    className="flex items-center gap-2 text-sm text-emerald-400 font-semibold transition-colors py-1"
                   >
-                    {name}
+                    <Radio size={16} className="animate-pulse" />
+                    <span>🎵 Ambient Audio Vibe</span>
                   </button>
                 </li>
-              ))}
-              <li className="pt-3 border-t border-border">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsOpen(false);
-                    onOpenResume();
-                  }}
-                  className="block w-full text-left text-sm text-blue-400 hover:text-blue-300 font-semibold transition-colors"
-                >
-                  View CV / Resume
-                </button>
-              </li>
-            </ul>
-          </motion.div>
+
+                <li className="pt-2 border-t border-border">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsOpen(false);
+                      onOpenResume();
+                    }}
+                    className="block w-full text-left text-sm text-blue-400 hover:text-blue-300 font-bold transition-colors"
+                  >
+                    View CV / Resume →
+                  </button>
+                </li>
+              </ul>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>
   );
 }
+
