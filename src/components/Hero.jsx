@@ -34,7 +34,7 @@ export default function Hero({ onOpenResume }) {
             <div className="w-7 h-7 rounded-full overflow-hidden border border-white/20 shrink-0">
               <img src="/memoji.png" alt="Memoji Avatar" className="w-full h-full object-cover" />
             </div>
-            <span className="text-xs font-semibold text-foreground">Hi! I'm Prajwal 👋</span>
+            <span className="text-xs font-semibold text-foreground">Hi, I'm Prajwal</span>
           </div>
 
           <Magnetic>

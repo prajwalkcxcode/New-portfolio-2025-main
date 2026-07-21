@@ -3,10 +3,10 @@ import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
 import { Volume2, Sparkles, MessageSquare } from 'lucide-react'
 
 const GREETINGS = [
-  "Hi! I'm Prajwal 👋",
-  "Welcome to my portfolio! 🚀",
-  "Building performant web apps 💻",
-  "Let's build something awesome!"
+  "Hi, I'm Prajwal",
+  "Frontend & Full-Stack Engineer",
+  "Building scalable web applications",
+  "Crafting performant user interfaces"
 ]
 
 export default function AnimatedMemoji3D() {
@@ -130,8 +130,8 @@ export default function AnimatedMemoji3D() {
           {/* Interactive Badge at bottom */}
           <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between z-20 pointer-events-none">
             <span className="flex items-center gap-1.5 text-[11px] font-mono text-white/90 bg-black/60 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/15 shadow-lg">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-ping" />
-              🟢 Online & Ready
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              Available for Hire
             </span>
 
             <span className="p-2 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white/80 group-hover:text-blue-400 transition-colors">

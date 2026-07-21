@@ -49,10 +49,12 @@ Email me directly at prajwalkc2063@gmail.com!`,
 export default function DeveloperCLI() {
   const [input, setInput] = useState('')
   const [history, setHistory] = useState(INITIAL_HISTORY)
-  const bottomRef = useRef(null)
+  const containerRef = useRef(null)
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight
+    }
   }, [history])
 
   const handleCommand = (e) => {
@@ -103,7 +105,7 @@ export default function DeveloperCLI() {
       </div>
 
       {/* Terminal Body */}
-      <div className="p-5 h-64 overflow-y-auto space-y-3 bg-[#09090b] text-gray-300">
+      <div ref={containerRef} className="p-5 h-64 overflow-y-auto space-y-3 bg-[#09090b] text-gray-300">
         {history.map((item, index) => (
           <div key={index} className="leading-relaxed">
             {item.type === 'system' && (
@@ -123,7 +125,6 @@ export default function DeveloperCLI() {
             )}
           </div>
         ))}
-        <div ref={bottomRef} />
       </div>
 
       {/* Input Row */}

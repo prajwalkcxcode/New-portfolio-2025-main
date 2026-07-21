@@ -5,6 +5,7 @@ import About from './components/About'
 import Skills from './components/Skills'
 import Learning from './components/Learning'
 import Projects from './components/Projects'
+import Blogs from './components/Blogs'
 import Journey from './components/Journey'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
@@ -76,6 +77,7 @@ export default function App() {
               <Skills />
               <Learning />
               <Projects />
+              <Blogs />
               <Journey />
               <Contact />
             </main>
