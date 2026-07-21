@@ -16,11 +16,19 @@ import AnimLayout from './components/ui/AnimLayout'
 import ScrollProgress from './components/ui/ScrollProgress'
 import ResumeModal from './components/ui/ResumeModal'
 import BackToTop from './components/ui/BackToTop'
+import FluidBackground from './components/ui/FluidBackground'
 
 export default function App() {
   const [theme, setTheme] = useState('dark') // Defaulting to dark for the true SaaS/Premium developer aesthetic
   const [booted, setBooted] = useState(false)
   const [isResumeOpen, setIsResumeOpen] = useState(false)
+  const [fluidEnabled, setFluidEnabled] = useState(() => {
+    return window.localStorage.getItem('fluid-bg') === 'true'
+  })
+
+  useEffect(() => {
+    window.localStorage.setItem('fluid-bg', fluidEnabled)
+  }, [fluidEnabled])
 
   useEffect(() => {
     const handleToggle = () => setIsResumeOpen((prev) => !prev)
@@ -59,8 +67,21 @@ export default function App() {
         <>
           <ScrollProgress />
           <CustomCursor />
-          <CommandPalette theme={theme} toggleTheme={toggleTheme} />
-          <Navbar theme={theme} onToggleTheme={toggleTheme} onOpenResume={() => setIsResumeOpen(true)} />
+          {fluidEnabled && <FluidBackground />}
+          <CommandPalette 
+            theme={theme} 
+            toggleTheme={toggleTheme} 
+            onOpenResume={() => setIsResumeOpen(true)}
+            fluidEnabled={fluidEnabled}
+            onToggleFluid={() => setFluidEnabled(prev => !prev)}
+          />
+          <Navbar 
+            theme={theme} 
+            onToggleTheme={toggleTheme} 
+            onOpenResume={() => setIsResumeOpen(true)} 
+            fluidEnabled={fluidEnabled}
+            onToggleFluid={() => setFluidEnabled(prev => !prev)}
+          />
           <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
           <BackToTop />
           <AnimLayout>

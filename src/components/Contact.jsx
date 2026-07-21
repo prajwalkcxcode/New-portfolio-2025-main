@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer, buttonVariants } from '../motion'
 import { Github, Linkedin, Twitter, Mail, Send, Terminal } from 'lucide-react'
@@ -13,6 +13,17 @@ const links = [
 
 export default function Contact() {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' })
+  const [terminalGreeting, setTerminalGreeting] = useState("guest@prajwal: ~")
+
+  useEffect(() => {
+    const hours = new Date().getHours()
+    let statusMsg = "guest"
+    if (hours >= 21 || hours < 5) statusMsg = "Working Late"
+    else if (hours >= 5 && hours < 12) statusMsg = "Morning Brew"
+    else if (hours >= 12 && hours < 17) statusMsg = "Productive Afternoon"
+    else statusMsg = "Evening Coding"
+    setTerminalGreeting(`guest@prajwal (${statusMsg}): ~`)
+  }, [])
   const [status, setStatus] = useState('idle')
 
   const handleSubmit = async (e) => {
@@ -92,7 +103,7 @@ export default function Contact() {
               <div className="w-3 h-3 rounded-full bg-green-500/80" />
             </div>
             <div className="mx-auto text-xs text-zinc-400 flex items-center font-medium opacity-80">
-              guest@prajwal: ~
+              {terminalGreeting}
             </div>
           </div>
 

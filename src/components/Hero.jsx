@@ -109,9 +109,16 @@ export default function Hero({ onOpenResume }) {
         {/* Keyboard shortcut hint under the CTA buttons */}
         <motion.p 
           variants={fadeUp} 
-          className="text-xs font-mono text-muted-foreground/60 mt-4 tracking-widest uppercase select-none"
+          className="text-[10px] font-mono text-muted-foreground/60 mt-6 tracking-wider uppercase select-none flex items-center justify-center gap-1.5 flex-wrap"
         >
-          Press <kbd className="px-1.5 py-0.5 rounded bg-muted border border-border text-[10px] text-muted-foreground">R</kbd> to quick-open resume
+          <span>Press</span>
+          <kbd className="px-1.5 py-0.5 rounded bg-muted border border-border text-[9px] text-muted-foreground font-semibold">Ctrl + K</kbd>
+          <span>or</span>
+          <kbd className="px-1.5 py-0.5 rounded bg-muted border border-border text-[9px] text-muted-foreground font-semibold">⌘K</kbd>
+          <span>for commands</span>
+          <span className="opacity-40">•</span>
+          <kbd className="px-1.5 py-0.5 rounded bg-muted border border-border text-[9px] text-muted-foreground font-semibold">R</kbd>
+          <span>for CV</span>
         </motion.p>
       </motion.div>
     </section>
