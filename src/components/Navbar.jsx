@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Sun, Moon, Menu, X, Target, Radio } from "lucide-react";
+import { Sun, Moon, Menu, X, Target, Radio, Gamepad2, Monitor } from "lucide-react";
 import Magnetic from "./ui/Magnetic";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -9,10 +9,19 @@ const navLinks = [
   { name: "Projects", href: "#projects" },
   { name: "Articles", href: "#blogs" },
   { name: "Journey", href: "#journey" },
+  { name: "Guestbook", href: "#guestbook" },
   { name: "Contact", href: "#contact" },
 ];
 
-export default function Navbar({ theme, onToggleTheme, onOpenResume, isFocusMode, onToggleFocusMode }) {
+export default function Navbar({
+  theme,
+  onToggleTheme,
+  onOpenResume,
+  isFocusMode,
+  onToggleFocusMode,
+  onOpenBugSmasher,
+  onOpenOSMode,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("#home");
@@ -34,7 +43,7 @@ export default function Navbar({ theme, onToggleTheme, onOpenResume, isFocusMode
       const scrollY = window.scrollY;
       setScrolled(scrollY > 20);
 
-      const sections = ["home", "about", "skills", "projects", "blogs", "journey", "contact"]
+      const sections = ["home", "about", "skills", "projects", "blogs", "journey", "guestbook", "contact"]
         .map((id) => document.getElementById(id))
         .filter(Boolean);
 
@@ -130,6 +139,32 @@ export default function Navbar({ theme, onToggleTheme, onOpenResume, isFocusMode
           </ul>
 
           <div className="flex items-center gap-2 md:gap-3">
+            {/* OS Desktop Mode Toggle */}
+            <Magnetic>
+              <button
+                type="button"
+                onClick={onOpenOSMode}
+                className="p-2 rounded-full text-indigo-400 hover:bg-indigo-500/10 transition-colors flex items-center justify-center"
+                title="Launch Desktop OS Environment"
+                aria-label="Launch Desktop OS Environment"
+              >
+                <Monitor size={18} />
+              </button>
+            </Magnetic>
+
+            {/* Bug Smasher Game Toggle */}
+            <Magnetic>
+              <button
+                type="button"
+                onClick={onOpenBugSmasher}
+                className="p-2 rounded-full text-rose-400 hover:bg-rose-500/10 transition-colors flex items-center justify-center"
+                title="Play Bug Smasher Mini-Game"
+                aria-label="Play Bug Smasher Mini-Game"
+              >
+                <Gamepad2 size={18} />
+              </button>
+            </Magnetic>
+
             {/* Spotify Player Toggle */}
             <Magnetic>
               <button
@@ -221,7 +256,29 @@ export default function Navbar({ theme, onToggleTheme, onOpenResume, isFocusMode
                   );
                 })}
 
-                <li className="pt-3 border-t border-border flex items-center justify-between">
+                <li className="pt-3 border-t border-border space-y-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsOpen(false);
+                      onOpenOSMode();
+                    }}
+                    className="flex items-center gap-2 text-sm text-indigo-400 font-semibold transition-colors py-1"
+                  >
+                    <Monitor size={16} />
+                    <span>🖥️ Launch Desktop OS Mode</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsOpen(false);
+                      onOpenBugSmasher();
+                    }}
+                    className="flex items-center gap-2 text-sm text-rose-400 font-semibold transition-colors py-1"
+                  >
+                    <Gamepad2 size={16} />
+                    <span>🕹️ Play Bug Smasher Arcade</span>
+                  </button>
                   <button
                     type="button"
                     onClick={() => {

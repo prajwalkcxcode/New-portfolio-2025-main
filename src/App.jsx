@@ -6,6 +6,7 @@ import Skills from './components/Skills'
 import Projects from './components/Projects'
 import Blogs from './components/Blogs'
 import Journey from './components/Journey'
+import Guestbook from './components/Guestbook'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import SmoothScroll from './components/ui/SmoothScroll'
@@ -15,12 +16,17 @@ import AnimLayout from './components/ui/AnimLayout'
 import ScrollProgress from './components/ui/ScrollProgress'
 import ResumeModal from './components/ui/ResumeModal'
 import BackToTop from './components/ui/BackToTop'
+import BugSmasherModal from './components/ui/BugSmasherModal'
+import DesktopOS from './components/ui/DesktopOS'
+import PrajwalAIWidget from './components/ui/PrajwalAIWidget'
 
 export default function App() {
   const [theme, setTheme] = useState('dark')
   const [booted, setBooted] = useState(false)
   const [isResumeOpen, setIsResumeOpen] = useState(false)
   const [isFocusMode, setIsFocusMode] = useState(false)
+  const [isBugSmasherOpen, setIsBugSmasherOpen] = useState(false)
+  const [isOSModeOpen, setIsOSModeOpen] = useState(false)
 
   useEffect(() => {
     document.documentElement.dataset.focusMode = isFocusMode ? 'true' : 'false'
@@ -87,6 +93,8 @@ export default function App() {
             theme={theme} 
             toggleTheme={toggleTheme} 
             onOpenResume={() => setIsResumeOpen(true)}
+            onOpenBugSmasher={() => setIsBugSmasherOpen(true)}
+            onOpenOSMode={() => setIsOSModeOpen(true)}
           />
           <Navbar 
             theme={theme} 
@@ -94,8 +102,21 @@ export default function App() {
             onOpenResume={() => setIsResumeOpen(true)}
             isFocusMode={isFocusMode}
             onToggleFocusMode={toggleFocusMode}
+            onOpenBugSmasher={() => setIsBugSmasherOpen(true)}
+            onOpenOSMode={() => setIsOSModeOpen(true)}
           />
           <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
+          <BugSmasherModal isOpen={isBugSmasherOpen} onClose={() => setIsBugSmasherOpen(false)} />
+          <DesktopOS
+            isOpen={isOSModeOpen}
+            onClose={() => setIsOSModeOpen(false)}
+            onOpenBugSmasher={() => setIsBugSmasherOpen(true)}
+          />
+          <PrajwalAIWidget
+            onOpenResume={() => setIsResumeOpen(true)}
+            onOpenBugSmasher={() => setIsBugSmasherOpen(true)}
+            onOpenOSMode={() => setIsOSModeOpen(true)}
+          />
           <BackToTop />
           <AnimLayout>
             <main>
@@ -105,6 +126,7 @@ export default function App() {
               <Projects />
               <Blogs />
               <Journey />
+              <Guestbook />
               <Contact />
             </main>
           </AnimLayout>
@@ -114,4 +136,5 @@ export default function App() {
     </SmoothScroll>
   )
 }
+
 

@@ -6,7 +6,7 @@ import { Search, Moon, Sun, Home, User, Mail, Code2, FileText, BookOpen } from '
 // NOTE: It is essential to style [cmdk-dialog] as a fixed overlay
 // However, to keep it clean with tailwind, we pass className to inner wrappers.
 
-export default function CommandPalette({ theme, toggleTheme, onOpenResume }) {
+export default function CommandPalette({ theme, toggleTheme, onOpenResume, onOpenBugSmasher, onOpenOSMode }) {
   const [open, setOpen] = useState(false)
 
   // Toggle the menu when ⌘K is pressed
@@ -97,6 +97,12 @@ export default function CommandPalette({ theme, toggleTheme, onOpenResume }) {
                   <Code2 className="w-4 h-4 mr-3 text-muted-foreground" /> Projects
                 </Command.Item>
                 <Command.Item 
+                  onSelect={() => scrollTo('guestbook')}
+                  className="flex items-center px-3 py-2.5 text-sm text-foreground rounded-lg cursor-pointer aria-selected:bg-muted aria-selected:text-foreground data-[selected=true]:bg-muted data-[selected=true]:text-foreground transition-colors"
+                >
+                  <BookOpen className="w-4 h-4 mr-3 text-amber-400" /> Visitor Guestbook
+                </Command.Item>
+                <Command.Item 
                   onSelect={() => scrollTo('contact')}
                   className="flex items-center px-3 py-2.5 text-sm text-foreground rounded-lg cursor-pointer aria-selected:bg-muted aria-selected:text-foreground data-[selected=true]:bg-muted data-[selected=true]:text-foreground transition-colors"
                 >
@@ -106,30 +112,24 @@ export default function CommandPalette({ theme, toggleTheme, onOpenResume }) {
 
               <div className="h-px bg-border my-1 mx-2" />
 
-              <Command.Group heading="Articles & Thoughts" className="px-2 text-xs font-semibold text-muted-foreground py-2 [&_[cmdk-group-heading]]:px-1 [&_[cmdk-group-heading]]:mb-2">
+              <Command.Group heading="Interactive Features" className="px-2 text-xs font-semibold text-muted-foreground py-2 [&_[cmdk-group-heading]]:px-1 [&_[cmdk-group-heading]]:mb-2">
                 <Command.Item 
-                  onSelect={() => scrollTo('blogs')}
+                  onSelect={() => {
+                    setOpen(false)
+                    if (onOpenOSMode) onOpenOSMode()
+                  }}
                   className="flex items-center px-3 py-2.5 text-sm text-foreground rounded-lg cursor-pointer aria-selected:bg-muted aria-selected:text-foreground data-[selected=true]:bg-muted data-[selected=true]:text-foreground transition-colors"
                 >
-                  <BookOpen className="w-4 h-4 mr-3 text-blue-400" /> Digital Minimalism & Focus
+                  <Home className="w-4 h-4 mr-3 text-indigo-400" /> Launch Desktop OS Mode
                 </Command.Item>
                 <Command.Item 
-                  onSelect={() => scrollTo('blogs')}
+                  onSelect={() => {
+                    setOpen(false)
+                    if (onOpenBugSmasher) onOpenBugSmasher()
+                  }}
                   className="flex items-center px-3 py-2.5 text-sm text-foreground rounded-lg cursor-pointer aria-selected:bg-muted aria-selected:text-foreground data-[selected=true]:bg-muted data-[selected=true]:text-foreground transition-colors"
                 >
-                  <BookOpen className="w-4 h-4 mr-3 text-blue-400" /> Crafting Product Emotion & Aesthetics
-                </Command.Item>
-                <Command.Item 
-                  onSelect={() => scrollTo('blogs')}
-                  className="flex items-center px-3 py-2.5 text-sm text-foreground rounded-lg cursor-pointer aria-selected:bg-muted aria-selected:text-foreground data-[selected=true]:bg-muted data-[selected=true]:text-foreground transition-colors"
-                >
-                  <BookOpen className="w-4 h-4 mr-3 text-blue-400" /> Human Element in the Age of AI
-                </Command.Item>
-                <Command.Item 
-                  onSelect={() => scrollTo('blogs')}
-                  className="flex items-center px-3 py-2.5 text-sm text-foreground rounded-lg cursor-pointer aria-selected:bg-muted aria-selected:text-foreground data-[selected=true]:bg-muted data-[selected=true]:text-foreground transition-colors"
-                >
-                  <BookOpen className="w-4 h-4 mr-3 text-blue-400" /> Embracing the Uncomfortable
+                  <Code2 className="w-4 h-4 mr-3 text-rose-400" /> Play Bug Smasher Game
                 </Command.Item>
               </Command.Group>
 
