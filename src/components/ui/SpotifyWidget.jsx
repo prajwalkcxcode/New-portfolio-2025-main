@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useLanyard, useLanyardWS } from 'use-lanyard'
-import { ChevronDown, ExternalLink, Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, ListMusic, Music, Sparkles } from 'lucide-react'
+import { ChevronDown, ExternalLink, Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, ListMusic, Radio, Music } from 'lucide-react'
 
 // Discord User ID for live Spotify tracking via Lanyard
 const DISCORD_ID = '1059444587648798751'
@@ -171,7 +171,7 @@ export default function SpotifyWidget() {
         />
       )}
 
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 select-none">
+      <div className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 select-none">
         {!isExpanded ? (
           /* Mini Floating Pill */
           <div 
@@ -196,53 +196,68 @@ export default function SpotifyWidget() {
 
             <div className="flex flex-col min-w-0 pr-1">
               <div className="flex items-center gap-1.5">
-                <SpotifyLogo className="w-3.5 h-3.5 shrink-0" />
-                <span className="text-[10px] font-bold text-[#1DB954] uppercase tracking-wider">
-                  {isListeningLive ? 'Prajwal is Listening' : 'Lofi Player'}
+                {isListeningLive ? (
+                  <SpotifyLogo className="w-3.5 h-3.5 shrink-0 animate-pulse" />
+                ) : (
+                  <Radio className="w-3.5 h-3.5 shrink-0 text-[#1DB954]" />
+                )}
+                <span className={`text-[10px] font-bold uppercase tracking-wider ${isListeningLive ? 'text-[#1DB954]' : 'text-gray-400'}`}>
+                  {isListeningLive ? 'Prajwal is Listening Live' : 'Prajwal is offline'}
                 </span>
                 <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${(isListeningLive || isPlaying) ? 'bg-[#1DB954] animate-pulse' : 'bg-muted-foreground'}`} />
               </div>
-              <span className="text-xs font-semibold text-white group-hover:text-[#1DB954] transition-colors max-w-[130px] sm:max-w-[150px] truncate">
-                {isListeningLive ? `${spotify.song} • ${spotify.artist}` : (isPlaying ? currentTrack.title : 'Play Spotify Vibe')}
+              <span className="text-xs font-semibold text-white group-hover:text-[#1DB954] transition-colors max-w-[140px] sm:max-w-[170px] truncate">
+                {isListeningLive 
+                  ? `${spotify.song} • ${spotify.artist}` 
+                  : (isPlaying ? currentTrack.title : 'Enjoy offline lofi music')}
               </span>
             </div>
 
             {!isListeningLive && (
               <button
                 onClick={togglePlay}
-                className="w-7 h-7 rounded-full bg-[#1DB954] hover:bg-[#1ed760] text-black flex items-center justify-center transition-transform hover:scale-105 shrink-0 ml-1"
+                className="w-7 h-7 rounded-full bg-[#1DB954] hover:bg-[#1ed760] text-black flex items-center justify-center transition-transform hover:scale-105 shrink-0 ml-1 shadow-md"
                 aria-label={isPlaying ? 'Pause' : 'Play'}
+                title={isPlaying ? 'Pause Lofi' : 'Play Lofi'}
               >
                 {isPlaying ? <Pause size={12} fill="currentColor" /> : <Play size={12} fill="currentColor" className="ml-0.5" />}
               </button>
             )}
           </div>
         ) : (
-          /* Expanded Authentic Mini Spotify Player Window */
-          <div className="w-[calc(100vw-2rem)] max-w-xs sm:w-84 bg-[#121212]/98 border border-[#1DB954]/30 rounded-2xl p-4 shadow-[0_25px_60px_rgba(0,0,0,0.9)] backdrop-blur-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            {/* Ambient Spotify Glow */}
+          /* Expanded Player Window */
+          <div className="w-[calc(100vw-2rem)] max-w-xs sm:w-84 bg-[#121212]/98 border border-[#1DB954]/30 rounded-2xl p-4 shadow-[0_25px_60px_rgba(0,0,0,0.95)] backdrop-blur-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            {/* Background Ambient Glow */}
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#1DB954]/15 rounded-full blur-3xl pointer-events-none" />
 
-            {/* Spotify Brand Header */}
-            <div className="flex items-center justify-between mb-3.5 pb-2.5 border-b border-white/10">
-              <div className="flex items-center gap-2">
-                <SpotifyLogo className="w-5 h-5 shrink-0 animate-pulse" />
-                <div className="flex flex-col">
-                  <span className="text-xs font-bold text-white tracking-wide flex items-center gap-1.5">
-                    Spotify Live
-                    {isListeningLive && (
+            {/* Header */}
+            <div className="flex items-center justify-between mb-3 pb-2 border-b border-white/10">
+              <div className="flex items-center gap-2 min-w-0">
+                {isListeningLive ? (
+                  <SpotifyLogo className="w-5 h-5 shrink-0 animate-pulse" />
+                ) : (
+                  <Radio className="w-5 h-5 shrink-0 text-[#1DB954]" />
+                )}
+                <div className="flex flex-col min-w-0">
+                  <span className="text-xs font-bold text-white tracking-wide flex items-center gap-1.5 truncate">
+                    {isListeningLive ? "PRAJWAL IS LISTENING LIVE" : "PRAJWAL IS OFFLINE"}
+                    {isListeningLive ? (
                       <span className="px-1.5 py-0.5 text-[9px] font-mono uppercase bg-[#1DB954]/20 text-[#1DB954] rounded-full border border-[#1DB954]/30">
                         LIVE
+                      </span>
+                    ) : (
+                      <span className="px-1.5 py-0.5 text-[9px] font-mono uppercase bg-white/10 text-gray-300 rounded-full border border-white/10">
+                        OFFLINE
                       </span>
                     )}
                   </span>
                   <span className="text-[10px] text-muted-foreground truncate">
-                    {isListeningLive ? "Prajwal's Current Track" : "Background Lofi Ambient"}
+                    {isListeningLive ? "Live Spotify Track" : "Enjoy offline lofi music"}
                   </span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-1 shrink-0">
+              <div className="flex items-center gap-1 shrink-0 ml-1">
                 {!isListeningLive && (
                   <button
                     onClick={(e) => { e.stopPropagation(); setShowPlaylist(!showPlaylist); }}
@@ -301,7 +316,7 @@ export default function SpotifyWidget() {
                     <span>{formatTime(liveElapsedMs)}</span>
                     <span className="text-[#1DB954] font-semibold flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#1DB954] animate-pulse" />
-                      Streaming Live
+                      Live on Spotify
                     </span>
                     <span>{formatTime(liveTotalMs)}</span>
                   </div>
@@ -321,9 +336,9 @@ export default function SpotifyWidget() {
               </div>
             ) : (
               /* OFFLINE FALLBACK MODE */
-              <div className="space-y-3.5">
+              <div className="space-y-3">
                 <div className="flex items-center gap-3.5 bg-[#181818]/90 p-3 rounded-xl border border-white/5 shadow-inner">
-                  <div className="relative w-16 h-16 rounded-lg overflow-hidden border border-white/10 bg-black shrink-0 shadow-lg">
+                  <div className="relative w-14 h-14 rounded-lg overflow-hidden border border-white/10 bg-black shrink-0 shadow-lg">
                     <img
                       src={currentTrack.cover}
                       alt={currentTrack.title}
@@ -339,12 +354,12 @@ export default function SpotifyWidget() {
                   </div>
 
                   <div className="flex-1 min-w-0 space-y-0.5">
-                    <h4 className="text-sm font-bold text-white truncate leading-snug">
+                    <h4 className="text-xs font-bold text-white truncate leading-snug">
                       {currentTrack.title}
                     </h4>
-                    <p className="text-xs text-muted-foreground truncate">{currentTrack.artist}</p>
-                    <span className="inline-block text-[10px] text-[#1DB954] font-mono mt-1">
-                      Prajwal is offline • Lofi Radio
+                    <p className="text-[11px] text-muted-foreground truncate">{currentTrack.artist}</p>
+                    <span className="inline-block text-[10px] text-[#1DB954] font-mono mt-0.5">
+                      Prajwal is offline • Enjoy offline lofi music
                     </span>
                   </div>
                 </div>
@@ -396,14 +411,14 @@ export default function SpotifyWidget() {
                     className="p-1.5 rounded-lg text-muted-foreground hover:text-white hover:bg-white/5 transition-colors"
                     title={isMuted ? 'Unmute' : 'Mute'}
                   >
-                    {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                    {isMuted ? <VolumeX size={16} strokeWidth={2} /> : <Volume2 size={16} strokeWidth={2} />}
                   </button>
                 </div>
 
                 {/* Playlist Selection */}
                 {showPlaylist && (
-                  <div className="mt-3 pt-3 border-t border-white/10 space-y-1 max-h-36 overflow-y-auto custom-scrollbar">
-                    <p className="text-[10px] font-mono text-muted-foreground uppercase mb-2">Select Lofi Track:</p>
+                  <div className="mt-2 pt-2 border-t border-white/10 space-y-1 max-h-36 overflow-y-auto custom-scrollbar">
+                    <p className="text-[10px] font-mono text-muted-foreground uppercase mb-1.5">Select Lofi Track:</p>
                     {FALLBACK_PLAYLIST.map((track, idx) => (
                       <button
                         key={track.id}
