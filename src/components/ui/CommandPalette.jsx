@@ -6,7 +6,7 @@ import { Search, Moon, Sun, Home, User, Mail, Code2, FileText, BookOpen } from '
 // NOTE: It is essential to style [cmdk-dialog] as a fixed overlay
 // However, to keep it clean with tailwind, we pass className to inner wrappers.
 
-export default function CommandPalette({ theme, toggleTheme, onOpenResume }) {
+export default function CommandPalette({ theme, toggleTheme, onOpenResume, onOpenBugSmasher, onOpenOSMode }) {
   const [open, setOpen] = useState(false)
 
   // Toggle the menu when ⌘K is pressed
@@ -110,7 +110,30 @@ export default function CommandPalette({ theme, toggleTheme, onOpenResume }) {
                 </Command.Item>
               </Command.Group>
 
+              <div className="h-px bg-border my-1 mx-2" />
 
+              <Command.Group heading="Interactive Features" className="px-2 text-xs font-semibold text-muted-foreground py-2 [&_[cmdk-group-heading]]:px-1 [&_[cmdk-group-heading]]:mb-2">
+                <Command.Item 
+                  onSelect={() => {
+                    setOpen(false)
+                    if (onOpenOSMode) onOpenOSMode()
+                  }}
+                  className="flex items-center px-3 py-2.5 text-sm text-foreground rounded-lg cursor-pointer aria-selected:bg-muted aria-selected:text-foreground data-[selected=true]:bg-muted data-[selected=true]:text-foreground transition-colors"
+                >
+                  <Home className="w-4 h-4 mr-3 text-indigo-400" /> Launch Desktop OS Mode
+                </Command.Item>
+                <Command.Item 
+                  onSelect={() => {
+                    setOpen(false)
+                    if (onOpenBugSmasher) onOpenBugSmasher()
+                  }}
+                  className="flex items-center px-3 py-2.5 text-sm text-foreground rounded-lg cursor-pointer aria-selected:bg-muted aria-selected:text-foreground data-[selected=true]:bg-muted data-[selected=true]:text-foreground transition-colors"
+                >
+                  <Code2 className="w-4 h-4 mr-3 text-rose-400" /> Play Bug Smasher Game
+                </Command.Item>
+              </Command.Group>
+
+              <div className="h-px bg-border my-1 mx-2" />
 
               <Command.Group heading="Actions" className="px-2 text-xs font-semibold text-muted-foreground py-2 [&_[cmdk-group-heading]]:px-1 [&_[cmdk-group-heading]]:mb-2">
                 <Command.Item 

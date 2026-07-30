@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Sun, Moon, Menu, X, ChevronDown } from "lucide-react";
+import { Sun, Moon, Menu, X, ChevronDown, Monitor, Gamepad2, Radio } from "lucide-react";
 import Magnetic from "./ui/Magnetic";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -20,6 +20,8 @@ export default function Navbar({
   theme,
   onToggleTheme,
   onOpenResume,
+  onOpenBugSmasher,
+  onOpenOSMode,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -189,6 +191,45 @@ export default function Navbar({
           </ul>
 
           <div className="flex items-center gap-2 md:gap-3">
+            {/* OS Desktop Mode Toggle */}
+            <Magnetic>
+              <button
+                type="button"
+                onClick={onOpenOSMode}
+                className="hidden sm:flex p-2 rounded-full text-indigo-400 hover:bg-indigo-500/10 transition-colors items-center justify-center"
+                title="Launch Desktop OS Environment"
+                aria-label="Launch Desktop OS Environment"
+              >
+                <Monitor size={18} />
+              </button>
+            </Magnetic>
+
+            {/* Bug Smasher Game Toggle */}
+            <Magnetic>
+              <button
+                type="button"
+                onClick={onOpenBugSmasher}
+                className="hidden sm:flex p-2 rounded-full text-rose-400 hover:bg-rose-500/10 transition-colors items-center justify-center"
+                title="Play Bug Smasher Mini-Game"
+                aria-label="Play Bug Smasher Mini-Game"
+              >
+                <Gamepad2 size={18} />
+              </button>
+            </Magnetic>
+
+            {/* Spotify Player Toggle */}
+            <Magnetic>
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent("toggle-spotify"))}
+                className="p-2 rounded-full text-emerald-400 hover:bg-emerald-500/10 transition-colors flex items-center justify-center"
+                title="Toggle Music Vibe Player"
+                aria-label="Toggle Music Player"
+              >
+                <Radio size={18} className="animate-pulse" />
+              </button>
+            </Magnetic>
+
             <Magnetic>
               <button
                 type="button"
@@ -271,6 +312,45 @@ export default function Navbar({
                       </button>
                     );
                   })}
+                </li>
+
+                <li className="pt-3 border-t border-border space-y-2">
+                  <div className="text-[10px] font-mono tracking-wider uppercase text-muted-foreground mb-1 select-none">
+                    Interactive
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsOpen(false);
+                      onOpenOSMode();
+                    }}
+                    className="flex items-center gap-2 w-full text-left text-sm text-indigo-400 font-semibold transition-colors py-1"
+                  >
+                    <Monitor size={16} />
+                    <span>🖥️ Launch Desktop OS Mode</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsOpen(false);
+                      onOpenBugSmasher();
+                    }}
+                    className="flex items-center gap-2 w-full text-left text-sm text-rose-400 font-semibold transition-colors py-1"
+                  >
+                    <Gamepad2 size={16} />
+                    <span>🕹️ Play Bug Smasher Arcade</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsOpen(false);
+                      window.dispatchEvent(new CustomEvent("toggle-spotify"));
+                    }}
+                    className="flex items-center gap-2 w-full text-left text-sm text-emerald-400 font-semibold transition-colors py-1"
+                  >
+                    <Radio size={16} className="animate-pulse" />
+                    <span>🎵 Ambient Audio Vibe</span>
+                  </button>
                 </li>
 
                 <li className="pt-2 border-t border-border">

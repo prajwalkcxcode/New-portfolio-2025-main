@@ -53,21 +53,21 @@ export default function ProjectModal({ project, isOpen, onClose }) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="relative w-full max-w-3xl h-[85vh] max-h-[85vh] bg-[#09090b]/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-[0_30px_70px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden text-foreground z-10"
+            className="relative w-full max-w-3xl h-[85vh] max-h-[85vh] bg-card/98 backdrop-blur-2xl border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden text-foreground z-10"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-muted/40 shrink-0">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#ff5f56] opacity-80 hover:opacity-100 transition-opacity cursor-pointer" onClick={onClose} />
-                <div className="w-3 h-3 rounded-full bg-[#ffbd2e] opacity-80" />
-                <div className="w-3 h-3 rounded-full bg-[#27c93f] opacity-80" />
-                <span className="ml-3 text-xs font-mono text-muted-foreground tracking-wider select-none uppercase">
-                  {project.category} / {project.title.toLowerCase().replace(/\s+/g, '_')}.json
+            <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-card shrink-0">
+              <div className="flex items-center gap-3">
+                <h3 className="text-lg font-bold text-foreground tracking-tight">
+                  {project.title}
+                </h3>
+                <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20 uppercase tracking-wider">
+                  {project.category}
                 </span>
               </div>
               <button 
                 onClick={onClose}
-                className="p-1 rounded-md text-muted-foreground hover:text-white hover:bg-muted transition-colors"
+                className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                 aria-label="Close project modal"
               >
                 <X size={18} />
@@ -131,20 +131,12 @@ export default function ProjectModal({ project, isOpen, onClose }) {
               </div>
 
               <div className="space-y-4">
-                <div className="space-y-1">
-                  <span className="text-xs font-mono text-blue-400 font-semibold tracking-wider uppercase">
-                    {project.category}
-                  </span>
-                  <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white">
-                    {project.title}
-                  </h2>
-                </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   {project.description}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {project.tech.map((t) => (
-                    <span key={t} className="text-xs font-mono px-2 py-0.5 rounded bg-muted text-foreground border border-white/5">
+                    <span key={t} className="text-xs font-mono px-2 py-0.5 rounded bg-muted text-foreground border border-border">
                       {t}
                     </span>
                   ))}
@@ -190,12 +182,12 @@ export default function ProjectModal({ project, isOpen, onClose }) {
             </div>
 
             {/* Footer */}
-            <div className="px-6 py-4 border-t border-white/5 bg-muted/20 flex items-center justify-between gap-4 shrink-0">
+            <div className="px-6 py-4 border-t border-border bg-card flex items-center justify-between gap-4 shrink-0">
               <a
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-xs font-mono font-medium text-white bg-white/10 border border-white/10 px-4 py-2 rounded-lg hover:bg-white/20 transition-colors"
+                className="flex items-center gap-2 text-xs font-mono font-medium text-foreground bg-muted border border-border px-4 py-2 rounded-lg hover:bg-muted/80 transition-colors"
               >
                 <Github size={14} />
                 View Source Code on GitHub
