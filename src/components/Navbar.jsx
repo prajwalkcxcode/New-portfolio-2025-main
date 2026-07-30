@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Sun, Moon, Menu, X, Target, Radio, Gamepad2, Monitor } from "lucide-react";
+import { Sun, Moon, Menu, X, ChevronDown } from "lucide-react";
 import Magnetic from "./ui/Magnetic";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -7,23 +7,23 @@ const navLinks = [
   { name: "About", href: "#about" },
   { name: "Skills", href: "#skills" },
   { name: "Projects", href: "#projects" },
-  { name: "Articles", href: "#blogs" },
   { name: "Journey", href: "#journey" },
-  { name: "Guestbook", href: "#guestbook" },
   { name: "Contact", href: "#contact" },
+];
+
+const secondaryLinks = [
+  { name: "Articles", href: "#blogs" },
+  { name: "Guestbook", href: "#guestbook" },
 ];
 
 export default function Navbar({
   theme,
   onToggleTheme,
   onOpenResume,
-  isFocusMode,
-  onToggleFocusMode,
-  onOpenBugSmasher,
-  onOpenOSMode,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [active, setActive] = useState("#home");
 
   // Lock scroll when mobile menu is open
@@ -69,10 +69,6 @@ export default function Navbar({
     setIsOpen(false);
   };
 
-  const toggleSpotify = () => {
-    window.dispatchEvent(new CustomEvent("toggle-spotify"));
-  };
-
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -93,7 +89,7 @@ export default function Navbar({
         </button>
 
         <div className="flex items-center gap-6">
-          <ul className="hidden md:flex items-center gap-8">
+          <ul className="hidden md:flex items-center gap-6">
             {navLinks.map(({ name, href }) => {
               const isActive = active === href;
               return (
@@ -114,6 +110,60 @@ export default function Navbar({
                 </li>
               );
             })}
+
+            {/* "More" dropdown for less important items */}
+            <li className="relative">
+              <Magnetic>
+                <button
+                  type="button"
+                  onClick={() => setIsMoreOpen(!isMoreOpen)}
+                  onMouseEnter={() => setIsMoreOpen(true)}
+                  className={`text-sm font-medium transition-colors px-2 py-1 flex items-center gap-1 ${
+                    secondaryLinks.some(l => active === l.href)
+                      ? "text-foreground font-bold"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  More
+                  <ChevronDown size={14} className={`transition-transform duration-200 ${isMoreOpen ? 'rotate-180' : ''}`} />
+                </button>
+              </Magnetic>
+              
+              <AnimatePresence>
+                {isMoreOpen && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setIsMoreOpen(false)} />
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 5, scale: 0.95 }}
+                      transition={{ duration: 0.15 }}
+                      onMouseLeave={() => setIsMoreOpen(false)}
+                      className="absolute right-0 mt-2 w-40 rounded-xl border border-border bg-card p-1.5 shadow-xl z-50"
+                    >
+                      {secondaryLinks.map(({ name, href }) => (
+                        <button
+                          key={name}
+                          type="button"
+                          onClick={() => {
+                            scrollTo(href);
+                            setIsMoreOpen(false);
+                          }}
+                          className={`w-full text-left px-3 py-2 text-xs rounded-lg transition-colors font-medium block ${
+                            active === href
+                              ? "bg-muted text-foreground"
+                              : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                          }`}
+                        >
+                          {name}
+                        </button>
+                      ))}
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+            </li>
+
             <li>
               <Magnetic>
                 <button
@@ -139,60 +189,6 @@ export default function Navbar({
           </ul>
 
           <div className="flex items-center gap-2 md:gap-3">
-            {/* OS Desktop Mode Toggle */}
-            <Magnetic>
-              <button
-                type="button"
-                onClick={onOpenOSMode}
-                className="p-2 rounded-full text-indigo-400 hover:bg-indigo-500/10 transition-colors flex items-center justify-center"
-                title="Launch Desktop OS Environment"
-                aria-label="Launch Desktop OS Environment"
-              >
-                <Monitor size={18} />
-              </button>
-            </Magnetic>
-
-            {/* Bug Smasher Game Toggle */}
-            <Magnetic>
-              <button
-                type="button"
-                onClick={onOpenBugSmasher}
-                className="p-2 rounded-full text-rose-400 hover:bg-rose-500/10 transition-colors flex items-center justify-center"
-                title="Play Bug Smasher Mini-Game"
-                aria-label="Play Bug Smasher Mini-Game"
-              >
-                <Gamepad2 size={18} />
-              </button>
-            </Magnetic>
-
-            {/* Spotify Player Toggle */}
-            <Magnetic>
-              <button
-                type="button"
-                onClick={toggleSpotify}
-                className="p-2 rounded-full text-emerald-400 hover:bg-emerald-500/10 transition-colors flex items-center justify-center"
-                title="Toggle Music Vibe Player"
-                aria-label="Toggle Music Player"
-              >
-                <Radio size={18} className="animate-pulse" />
-              </button>
-            </Magnetic>
-
-            {/* Focus Mode Toggle */}
-            <Magnetic>
-              <button
-                type="button"
-                onClick={onToggleFocusMode}
-                className={`p-2 rounded-full transition-colors flex items-center justify-center ${
-                  isFocusMode ? "text-blue-400 bg-blue-500/10 border border-blue-500/30" : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                }`}
-                title="Toggle Zen / Focus Mode (Shortcut: F)"
-                aria-label="Toggle Focus Mode"
-              >
-                <Target size={18} />
-              </button>
-            </Magnetic>
-
             <Magnetic>
               <button
                 type="button"
@@ -256,40 +252,25 @@ export default function Navbar({
                   );
                 })}
 
-                <li className="pt-3 border-t border-border space-y-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsOpen(false);
-                      onOpenOSMode();
-                    }}
-                    className="flex items-center gap-2 text-sm text-indigo-400 font-semibold transition-colors py-1"
-                  >
-                    <Monitor size={16} />
-                    <span>🖥️ Launch Desktop OS Mode</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsOpen(false);
-                      onOpenBugSmasher();
-                    }}
-                    className="flex items-center gap-2 text-sm text-rose-400 font-semibold transition-colors py-1"
-                  >
-                    <Gamepad2 size={16} />
-                    <span>🕹️ Play Bug Smasher Arcade</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsOpen(false);
-                      toggleSpotify();
-                    }}
-                    className="flex items-center gap-2 text-sm text-emerald-400 font-semibold transition-colors py-1"
-                  >
-                    <Radio size={16} className="animate-pulse" />
-                    <span>🎵 Ambient Audio Vibe</span>
-                  </button>
+                <li className="pt-3 border-t border-border space-y-3">
+                  <div className="text-[10px] font-mono tracking-wider uppercase text-muted-foreground mb-1 select-none">
+                    More
+                  </div>
+                  {secondaryLinks.map(({ name, href }) => {
+                    const isActive = active === href;
+                    return (
+                      <button
+                        key={name}
+                        type="button"
+                        onClick={() => scrollTo(href)}
+                        className={`block w-full text-left text-sm font-semibold transition-colors py-0.5 ${
+                          isActive ? "text-blue-400 font-bold" : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        {name}
+                      </button>
+                    );
+                  })}
                 </li>
 
                 <li className="pt-2 border-t border-border">
@@ -312,4 +293,5 @@ export default function Navbar({
     </header>
   );
 }
+
 

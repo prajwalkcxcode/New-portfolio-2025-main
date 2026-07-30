@@ -137,10 +137,10 @@ export default function Projects() {
               key={project.title} 
               variants={fadeUp} 
               layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               className="perspective-1000 h-full"
             >
               <TiltCard className="h-full">
@@ -154,12 +154,12 @@ export default function Projects() {
                       <img 
                         src={project.image} 
                         alt={`${project.title} preview`} 
-                        className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
+                        className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
                       />
                     ) : (
                       <>
                         <div className="absolute inset-0 bg-gradient-to-br from-muted to-muted-foreground/10 opacity-50 z-0" />
-                        <span className="text-muted-foreground/50 font-medium tracking-widest text-sm uppercase relative z-10 transition-transform group-hover:scale-110 duration-500">
+                        <span className="text-muted-foreground/50 font-medium tracking-widest text-sm uppercase relative z-10">
                           Project Preview
                         </span>
                       </>

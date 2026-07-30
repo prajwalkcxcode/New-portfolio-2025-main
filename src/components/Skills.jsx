@@ -1,7 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer } from '../motion'
-import CodeSnippets from './ui/CodeSnippets'
 import ScrambledText from './ui/ScrambledText'
 import { Cpu, Layout, Cloud, Network } from 'lucide-react'
 import { 
@@ -192,9 +191,6 @@ export default function Skills() {
           </motion.div>
         ))}
       </motion.div>
-
-      {/* Live Interactive Code Playground */}
-      <CodeSnippets />
     </section>
   )
 }

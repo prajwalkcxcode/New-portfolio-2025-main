@@ -11,43 +11,14 @@ import Contact from './components/Contact'
 import Footer from './components/Footer'
 import SmoothScroll from './components/ui/SmoothScroll'
 import CommandPalette from './components/ui/CommandPalette'
-import BootSequence from './components/ui/BootSequence'
 import AnimLayout from './components/ui/AnimLayout'
 import ScrollProgress from './components/ui/ScrollProgress'
 import ResumeModal from './components/ui/ResumeModal'
 import BackToTop from './components/ui/BackToTop'
-import BugSmasherModal from './components/ui/BugSmasherModal'
-import DesktopOS from './components/ui/DesktopOS'
-import PrajwalAIWidget from './components/ui/PrajwalAIWidget'
 
 export default function App() {
   const [theme, setTheme] = useState('dark')
-  const [booted, setBooted] = useState(false)
   const [isResumeOpen, setIsResumeOpen] = useState(false)
-  const [isFocusMode, setIsFocusMode] = useState(false)
-  const [isBugSmasherOpen, setIsBugSmasherOpen] = useState(false)
-  const [isOSModeOpen, setIsOSModeOpen] = useState(false)
-
-  useEffect(() => {
-    document.documentElement.dataset.focusMode = isFocusMode ? 'true' : 'false'
-  }, [isFocusMode])
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      const activeElement = document.activeElement
-      const isInput = activeElement && (
-        activeElement.tagName === 'INPUT' || 
-        activeElement.tagName === 'TEXTAREA' || 
-        activeElement.isContentEditable
-      )
-      if (isInput) return
-      if (e.key === 'f' || e.key === 'F') {
-        setIsFocusMode((prev) => !prev)
-      }
-    }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
 
   useEffect(() => {
     const handleToggle = () => setIsResumeOpen((prev) => !prev)
@@ -78,63 +49,37 @@ export default function App() {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
   }
 
-  const toggleFocusMode = () => {
-    setIsFocusMode((prev) => !prev)
-  }
-
   return (
     <SmoothScroll>
-      {!booted && <BootSequence onComplete={() => setBooted(true)} />}
-
-      {booted && (
-        <>
-          <ScrollProgress />
-          <CommandPalette 
-            theme={theme} 
-            toggleTheme={toggleTheme} 
-            onOpenResume={() => setIsResumeOpen(true)}
-            onOpenBugSmasher={() => setIsBugSmasherOpen(true)}
-            onOpenOSMode={() => setIsOSModeOpen(true)}
-          />
-          <Navbar 
-            theme={theme} 
-            onToggleTheme={toggleTheme} 
-            onOpenResume={() => setIsResumeOpen(true)}
-            isFocusMode={isFocusMode}
-            onToggleFocusMode={toggleFocusMode}
-            onOpenBugSmasher={() => setIsBugSmasherOpen(true)}
-            onOpenOSMode={() => setIsOSModeOpen(true)}
-          />
-          <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
-          <BugSmasherModal isOpen={isBugSmasherOpen} onClose={() => setIsBugSmasherOpen(false)} />
-          <DesktopOS
-            isOpen={isOSModeOpen}
-            onClose={() => setIsOSModeOpen(false)}
-            onOpenBugSmasher={() => setIsBugSmasherOpen(true)}
-          />
-          <PrajwalAIWidget
-            onOpenResume={() => setIsResumeOpen(true)}
-            onOpenBugSmasher={() => setIsBugSmasherOpen(true)}
-            onOpenOSMode={() => setIsOSModeOpen(true)}
-          />
-          <BackToTop />
-          <AnimLayout>
-            <main>
-              <Hero onOpenResume={() => setIsResumeOpen(true)} />
-              <About />
-              <Skills />
-              <Projects />
-              <Blogs />
-              <Journey />
-              <Guestbook />
-              <Contact />
-            </main>
-          </AnimLayout>
-          <Footer />
-        </>
-      )}
+      <ScrollProgress />
+      <CommandPalette 
+        theme={theme} 
+        toggleTheme={toggleTheme} 
+        onOpenResume={() => setIsResumeOpen(true)}
+      />
+      <Navbar 
+        theme={theme} 
+        onToggleTheme={toggleTheme} 
+        onOpenResume={() => setIsResumeOpen(true)}
+      />
+      <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
+      <BackToTop />
+      <AnimLayout>
+        <main>
+          <Hero onOpenResume={() => setIsResumeOpen(true)} />
+          <About />
+          <Skills />
+          <Projects />
+          <Blogs />
+          <Journey />
+          <Guestbook />
+          <Contact />
+        </main>
+      </AnimLayout>
+      <Footer />
     </SmoothScroll>
   )
 }
+
 
 

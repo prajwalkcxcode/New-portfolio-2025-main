@@ -114,6 +114,26 @@ export default function Hero({ onOpenResume }) {
           </Magnetic>
         </motion.div>
 
+        {/* Currently Building minimal card */}
+        <motion.div 
+          variants={fadeUp}
+          className="mt-12 p-4 rounded-xl border border-border bg-card/40 backdrop-blur-sm max-w-md mx-auto text-left flex gap-3.5 items-start hover:border-muted-foreground/20 transition-all duration-300 shadow-sm"
+        >
+          <div className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500/10 text-blue-500 shrink-0 mt-0.5">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+            </span>
+          </div>
+          <div className="space-y-1">
+            <div className="text-[10px] font-mono font-bold tracking-wider text-muted-foreground uppercase">Currently Building</div>
+            <h4 className="text-sm font-semibold text-foreground">AI Portfolio Builder</h4>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Building a modern SaaS platform that helps users generate and customize professional portfolios using AI and reusable templates.
+            </p>
+          </div>
+        </motion.div>
+
         {/* Keyboard shortcut hint under the CTA buttons */}
         <motion.p 
           variants={fadeUp} 
