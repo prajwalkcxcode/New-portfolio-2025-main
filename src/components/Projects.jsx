@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { fadeUp, staggerContainer } from '../motion'
-import { ExternalLink, Github, Eye, Filter } from 'lucide-react'
+import { ExternalLink, Github, Eye, Filter, ChevronUp, ChevronDown, CheckCircle, Cpu, Settings } from 'lucide-react'
 import TiltCard from './ui/TiltCard'
 import Magnetic from './ui/Magnetic'
 import ScrambledText from './ui/ScrambledText'
-import ProjectModal from './ui/ProjectModal'
 
 const projects = [
   {
@@ -71,8 +70,7 @@ const ALL_FILTER_TAGS = ['All', 'Frontend', 'Full Stack', 'React', 'TypeScript',
 
 export default function Projects() {
   const [selectedTag, setSelectedTag] = useState('All')
-  const [selectedProject, setSelectedProject] = useState(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [expandedProject, setExpandedProject] = useState(null)
 
   const filteredProjects = selectedTag === 'All'
     ? projects
@@ -80,9 +78,8 @@ export default function Projects() {
         p.category === selectedTag || p.tech.includes(selectedTag)
       )
 
-  const openProjectDetails = (project) => {
-    setSelectedProject(project)
-    setIsModalOpen(true)
+  const toggleProjectDetails = (projectTitle) => {
+    setExpandedProject(expandedProject === projectTitle ? null : projectTitle)
   }
 
   return (
@@ -141,13 +138,10 @@ export default function Projects() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="perspective-1000 h-full"
+              className="perspective-1000"
             >
-              <TiltCard className="h-full">
-                <div
-                  onClick={() => openProjectDetails(project)}
-                  className="group flex flex-col bg-card border border-border rounded-2xl overflow-hidden hover:shadow-[0_20px_50px_-12px_rgba(255,255,255,0.05)] transition-shadow duration-300 h-full cursor-pointer"
-                >
+              <TiltCard>
+                <div className="flex flex-col bg-card border border-border rounded-2xl overflow-hidden hover:shadow-[0_20px_50px_-12px_rgba(255,255,255,0.05)] transition-shadow duration-300">
                   {/* Image wrapper */}
                   <div className="h-48 bg-muted border-b border-border relative overflow-hidden flex items-center justify-center">
                     {project.image ? (
@@ -164,29 +158,22 @@ export default function Projects() {
                         </span>
                       </>
                     )}
-                    {/* View Details Overlay */}
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-background/80 border border-white/10 text-xs font-mono font-medium text-foreground backdrop-blur-sm">
-                        <Eye size={12} />
-                        View Details
-                      </span>
-                    </div>
                   </div>
                   
-                  <div className="p-6 flex flex-col flex-grow bg-background relative z-10">
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="text-lg font-semibold text-foreground group-hover:text-muted-foreground transition-colors">
+                  <div className="p-6 flex flex-col bg-background relative z-10">
+                    <div className="flex items-start justify-between mb-3">
+                      <h3 className="text-lg font-semibold text-foreground">
                         {project.title}
                       </h3>
                       <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-muted text-muted-foreground uppercase border border-border">
                         {project.category}
                       </span>
                     </div>
-                    <p className="text-muted-foreground text-xs leading-relaxed mb-6 flex-grow">
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                       {project.description}
                     </p>
                     
-                    <div className="flex flex-wrap gap-1.5 mb-6">
+                    <div className="flex flex-wrap gap-1.5 mb-4">
                       {project.tech.map((t) => (
                         <span
                           key={t}
@@ -197,7 +184,7 @@ export default function Projects() {
                       ))}
                     </div>
                     
-                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-border" onClick={(e) => e.stopPropagation()}>
+                    <div className="flex items-center justify-between pt-4 border-t border-border">
                       <Magnetic>
                         <a
                           href={project.github}
@@ -210,25 +197,103 @@ export default function Projects() {
                         </a>
                       </Magnetic>
                       <button
-                        onClick={() => openProjectDetails(project)}
+                        onClick={() => toggleProjectDetails(project.title)}
                         className="text-xs font-mono font-semibold text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
                       >
-                        Details →
+                        {expandedProject === project.title ? (
+                          <>
+                            <ChevronUp size={14} />
+                            Hide Details
+                          </>
+                        ) : (
+                          <>
+                            <ChevronDown size={14} />
+                            View Details
+                          </>
+                        )}
                       </button>
                     </div>
                   </div>
+
+                  {/* Expandable Details Section */}
+                  <AnimatePresence>
+                    {expandedProject === project.title && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        className="overflow-hidden border-t border-border bg-muted/30"
+                      >
+                        <div className="p-6 space-y-5">
+                          {/* Key Features */}
+                          <div className="space-y-3">
+                            <h4 className="text-[10px] font-mono tracking-widest text-blue-500 uppercase flex items-center gap-2 font-bold">
+                              <CheckCircle size={14} /> Key Features
+                            </h4>
+                            <ul className="space-y-2">
+                              {project.details?.features.map((f, i) => (
+                                <li key={i} className="text-xs text-muted-foreground flex items-start gap-2 leading-relaxed">
+                                  <span className="text-blue-500 font-semibold mt-0.5">✔</span>
+                                  <span>{f}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+
+                          {/* Core Problem Solved */}
+                          <div className="space-y-2">
+                            <h4 className="text-[10px] font-mono tracking-widest text-blue-500 uppercase flex items-center gap-2 font-bold">
+                              <Cpu size={14} /> Core Problem Solved
+                            </h4>
+                            <p className="text-xs text-muted-foreground leading-relaxed">
+                              {project.details?.problem}
+                            </p>
+                          </div>
+
+                          {/* Architecture Summary */}
+                          <div className="space-y-2">
+                            <h4 className="text-[10px] font-mono tracking-widest text-blue-500 uppercase flex items-center gap-2 font-bold">
+                              <Settings size={14} /> Architecture Summary
+                            </h4>
+                            <p className="text-xs text-muted-foreground leading-relaxed">
+                              {project.details?.architecture}
+                            </p>
+                          </div>
+
+                          {/* Action Buttons */}
+                          <div className="flex gap-3 pt-2">
+                            <a
+                              href={project.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex-1 flex items-center justify-center gap-2 text-xs font-mono font-medium text-foreground bg-muted border border-border px-4 py-2.5 rounded-lg hover:bg-muted/80 transition-colors"
+                            >
+                              <Github size={14} />
+                              View Source Code
+                            </a>
+                            {project.href && project.href !== '#' && (
+                              <a
+                                href={project.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex-1 flex items-center justify-center gap-2 text-xs font-mono font-medium text-background bg-foreground px-4 py-2.5 rounded-lg hover:bg-foreground/90 transition-colors"
+                              >
+                                <ExternalLink size={14} />
+                                Live Demo
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </TiltCard>
             </motion.div>
           ))}
         </AnimatePresence>
       </motion.div>
-
-      <ProjectModal
-        project={selectedProject}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
     </section>
   )
 }
