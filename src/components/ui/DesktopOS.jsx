@@ -30,10 +30,13 @@ const APPS = [
   { id: "skills", title: "Skills.app", icon: Cpu, color: "from-cyan-500 to-teal-600" },
   { id: "terminal", title: "Terminal.app", icon: Terminal, color: "from-zinc-700 to-zinc-900" },
   { id: "guestbook", title: "Guestbook.app", icon: MessageSquareHeart, color: "from-amber-500 to-orange-600" },
-  { id: "bugsmasher", title: "BugSmasher.app", icon: Gamepad2, color: "from-rose-500 to-red-600" },
+  { id: "memorymatch",  title: "MemoryMatch.app",  icon: Gamepad2,          color: "from-rose-500 to-pink-600"    },
+  { id: "calculator",   title: "Calculator.app",   icon: Cpu,              color: "from-violet-500 to-purple-700" },
+  { id: "weather",      title: "Weather.app",      icon: Wifi,             color: "from-sky-500 to-cyan-600"     },
+  { id: "browser",      title: "Browser.app",      icon: ExternalLink,     color: "from-teal-500 to-emerald-600" },
 ];
 
-export default function DesktopOS({ isOpen, onClose, onOpenBugSmasher }) {
+export default function DesktopOS({ isOpen, onClose, onOpenBugSmasher: onOpenMemoryMatch }) {
   const desktopRef = useRef(null);
   const [openWindows, setOpenWindows] = useState(["projects", "terminal"]);
   const [activeWindow, setActiveWindow] = useState("projects");
@@ -45,6 +48,24 @@ export default function DesktopOS({ isOpen, onClose, onOpenBugSmasher }) {
     { type: "sys", text: "Type 'help' to list available system commands." },
   ]);
   const [terminalInput, setTerminalInput] = useState("");
+
+  // Calculator state
+  const [calcDisplay, setCalcDisplay]   = useState("0");
+  const [calcPrev,    setCalcPrev]      = useState(null);
+  const [calcOp,      setCalcOp]        = useState(null);
+  const [calcWaiting, setCalcWaiting]   = useState(false);
+
+  // Weather state
+  const [weather,        setWeather]        = useState(null);
+  const [weatherLoading, setWeatherLoading] = useState(false);
+  const [weatherError,   setWeatherError]   = useState(false);
+
+  // Browser state
+  const BROWSER_PRESETS = [
+    { label: 'Portfolio Template',    url: 'https://buildfolio-prajwal.vercel.app/' },
+    { label: 'AI Portfolio Builder',  url: 'https://portfolio-ai-gamma-beige.vercel.app/' },
+  ];
+  const [browserIdx, setBrowserIdx] = useState(0);
 
   // Embedded Guestbook State inside OS Mode
   const [guestbookNotes, setGuestbookNotes] = useState(() => {
@@ -104,8 +125,8 @@ export default function DesktopOS({ isOpen, onClose, onOpenBugSmasher }) {
   };
 
   const launchApp = (id) => {
-    if (id === "bugsmasher") {
-      onOpenBugSmasher();
+    if (id === "memorymatch") {
+      onOpenMemoryMatch();
       return;
     }
     if (minimizedWindows.includes(id)) {
@@ -167,6 +188,9 @@ export default function DesktopOS({ isOpen, onClose, onOpenBugSmasher }) {
       closeWindow("terminal");
       setTerminalInput("");
       return;
+    } else if (cmd === "game" || cmd === "play") {
+      onOpenMemoryMatch();
+      response = "Launching Memory Match...";
     } else {
       response = `Command not recognized: '${cmd}'. Type 'help' for options.`;
     }
@@ -212,6 +236,106 @@ export default function DesktopOS({ isOpen, onClose, onOpenBugSmasher }) {
     );
     saveGuestbookNotes(updatedNotes);
   };
+
+  // Weather fetch — runs once when weather window opens
+  const fetchWeather = () => {
+    setWeatherLoading(true);
+    setWeatherError(false);
+    fetch(
+      "https://api.open-meteo.com/v1/forecast?latitude=27.7172&longitude=85.3240&current_weather=true&hourly=relativehumidity_2m,windspeed_10m&forecast_days=1"
+    )
+      .then((r) => r.json())
+      .then((data) => {
+        const cw = data.current_weather;
+        const hour = new Date().getHours();
+        setWeather({
+          temp: Math.round(cw.temperature),
+          wind: Math.round(cw.windspeed),
+          code: cw.weathercode,
+          humidity: data.hourly?.relativehumidity_2m?.[hour] ?? "—",
+        });
+        setWeatherLoading(false);
+      })
+      .catch(() => { setWeatherError(true); setWeatherLoading(false); });
+  };
+
+  const getWeatherInfo = (code) => {
+    if (code === 0)               return { label: "Clear Sky",     emoji: "☀️" };
+    if (code <= 3)                return { label: "Partly Cloudy", emoji: "⛅" };
+    if (code <= 48)               return { label: "Foggy",         emoji: "🌫️" };
+    if (code <= 67)               return { label: "Rainy",         emoji: "🌧️" };
+    if (code <= 77)               return { label: "Snowy",         emoji: "❄️" };
+    if (code <= 82)               return { label: "Showers",       emoji: "🌦️" };
+    if (code <= 86)               return { label: "Snow Showers",  emoji: "🌨️" };
+    return { label: "Thunderstorm", emoji: "⛈️" };
+  };
+
+  // Calculator logic
+  const calcInput = (val) => {
+    if (calcWaiting) {
+      setCalcDisplay(String(val));
+      setCalcWaiting(false);
+    } else {
+      setCalcDisplay(calcDisplay === "0" ? String(val) : calcDisplay + val);
+    }
+  };
+  const calcDecimal = () => {
+    if (calcWaiting) { setCalcDisplay("0."); setCalcWaiting(false); return; }
+    if (!calcDisplay.includes(".")) setCalcDisplay(calcDisplay + ".");
+  };
+  const calcClear = () => { setCalcDisplay("0"); setCalcPrev(null); setCalcOp(null); setCalcWaiting(false); };
+  const calcToggleSign = () => setCalcDisplay(String(parseFloat(calcDisplay) * -1));
+  const calcPercent = () => setCalcDisplay(String(parseFloat(calcDisplay) / 100));
+  const calcOperator = (op) => {
+    const cur = parseFloat(calcDisplay);
+    if (calcPrev !== null && calcOp && !calcWaiting) {
+      const result = calcEval(calcPrev, cur, calcOp);
+      setCalcDisplay(String(result));
+      setCalcPrev(result);
+    } else {
+      setCalcPrev(cur);
+    }
+    setCalcOp(op);
+    setCalcWaiting(true);
+  };
+  const calcEquals = () => {
+    if (calcPrev === null || !calcOp) return;
+    const cur = parseFloat(calcDisplay);
+    const result = calcEval(calcPrev, cur, calcOp);
+    setCalcDisplay(String(result));
+    setCalcPrev(null);
+    setCalcOp(null);
+    setCalcWaiting(false);
+  };
+  const calcEval = (a, b, op) => {
+    if (op === "+") return Math.round((a + b) * 1e10) / 1e10;
+    if (op === "-") return Math.round((a - b) * 1e10) / 1e10;
+    if (op === "×") return Math.round((a * b) * 1e10) / 1e10;
+    if (op === "÷") return b !== 0 ? Math.round((a / b) * 1e10) / 1e10 : "Error";
+    return b;
+  };
+
+  const CALC_BUTTONS = [
+    { label: "C",  action: calcClear,             cls: "bg-slate-600 hover:bg-slate-500 text-white" },
+    { label: "±",  action: calcToggleSign,        cls: "bg-slate-600 hover:bg-slate-500 text-white" },
+    { label: "%",  action: calcPercent,           cls: "bg-slate-600 hover:bg-slate-500 text-white" },
+    { label: "÷",  action: () => calcOperator("÷"), cls: "bg-amber-500 hover:bg-amber-400 text-white" },
+    { label: "7",  action: () => calcInput(7),    cls: "bg-slate-700 hover:bg-slate-600 text-white" },
+    { label: "8",  action: () => calcInput(8),    cls: "bg-slate-700 hover:bg-slate-600 text-white" },
+    { label: "9",  action: () => calcInput(9),    cls: "bg-slate-700 hover:bg-slate-600 text-white" },
+    { label: "×",  action: () => calcOperator("×"), cls: "bg-amber-500 hover:bg-amber-400 text-white" },
+    { label: "4",  action: () => calcInput(4),    cls: "bg-slate-700 hover:bg-slate-600 text-white" },
+    { label: "5",  action: () => calcInput(5),    cls: "bg-slate-700 hover:bg-slate-600 text-white" },
+    { label: "6",  action: () => calcInput(6),    cls: "bg-slate-700 hover:bg-slate-600 text-white" },
+    { label: "-",  action: () => calcOperator("-"), cls: "bg-amber-500 hover:bg-amber-400 text-white" },
+    { label: "1",  action: () => calcInput(1),    cls: "bg-slate-700 hover:bg-slate-600 text-white" },
+    { label: "2",  action: () => calcInput(2),    cls: "bg-slate-700 hover:bg-slate-600 text-white" },
+    { label: "3",  action: () => calcInput(3),    cls: "bg-slate-700 hover:bg-slate-600 text-white" },
+    { label: "+",  action: () => calcOperator("+"), cls: "bg-amber-500 hover:bg-amber-400 text-white" },
+    { label: "0",  action: () => calcInput(0),    cls: "bg-slate-700 hover:bg-slate-600 text-white col-span-2" },
+    { label: ".",  action: calcDecimal,           cls: "bg-slate-700 hover:bg-slate-600 text-white" },
+    { label: "=",  action: calcEquals,            cls: "bg-amber-500 hover:bg-amber-400 text-white" },
+  ];
 
   return (
     <motion.div
@@ -503,6 +627,138 @@ export default function DesktopOS({ isOpen, onClose, onOpenBugSmasher }) {
                         </div>
                       ))}
                     </div>
+                  </div>
+                )}
+
+                {/* ── Calculator ── */}
+                {appId === "calculator" && (
+                  <div className="flex flex-col items-center gap-3">
+                    {/* Display */}
+                    <div className="w-full bg-slate-950 rounded-xl border border-slate-800 px-4 py-3 text-right">
+                      <div className="text-[10px] font-mono text-slate-500 h-4">
+                        {calcPrev !== null ? `${calcPrev} ${calcOp}` : ""}
+                      </div>
+                      <div className="text-3xl font-mono font-light text-white truncate">
+                        {calcDisplay.length > 12 ? parseFloat(calcDisplay).toExponential(4) : calcDisplay}
+                      </div>
+                    </div>
+                    {/* Buttons */}
+                    <div className="grid grid-cols-4 gap-2 w-full">
+                      {CALC_BUTTONS.map((btn) => (
+                        <button
+                          key={btn.label}
+                          onClick={btn.action}
+                          className={`${btn.cls} rounded-xl py-3 text-sm font-semibold font-mono transition-all active:scale-95`}
+                        >
+                          {btn.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* ── Weather ── */}
+                {appId === "weather" && (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-base font-bold text-white flex items-center gap-2">
+                        <Wifi className="text-sky-400" size={16} /> Kathmandu Weather
+                      </h3>
+                      <button
+                        onClick={fetchWeather}
+                        className="px-3 py-1 rounded-lg bg-sky-500/20 text-sky-300 text-xs font-mono hover:bg-sky-500/30 transition"
+                      >
+                        {weatherLoading ? "Loading..." : weather ? "Refresh" : "Fetch"}
+                      </button>
+                    </div>
+
+                    {!weather && !weatherLoading && !weatherError && (
+                      <div className="flex flex-col items-center justify-center gap-3 py-8 text-slate-500">
+                        <span className="text-4xl">🌍</span>
+                        <p className="text-xs font-mono">Click "Fetch" to load live weather data</p>
+                      </div>
+                    )}
+                    {weatherLoading && (
+                      <div className="flex items-center justify-center py-8">
+                        <div className="w-6 h-6 border-2 border-sky-400 border-t-transparent rounded-full animate-spin" />
+                      </div>
+                    )}
+                    {weatherError && (
+                      <p className="text-xs text-rose-400 font-mono text-center py-4">Failed to fetch. Check connection and retry.</p>
+                    )}
+                    {weather && !weatherLoading && (() => {
+                      const { label, emoji } = getWeatherInfo(weather.code);
+                      return (
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-4 p-4 bg-slate-950/60 rounded-xl border border-slate-800">
+                            <span className="text-5xl">{emoji}</span>
+                            <div>
+                              <div className="text-4xl font-bold text-white font-mono">{weather.temp}°C</div>
+                              <div className="text-sm text-slate-400 mt-0.5">{label}</div>
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-2 gap-2">
+                            <div className="p-3 rounded-xl bg-slate-950/50 border border-slate-800 text-center">
+                              <div className="text-xs text-slate-500 font-mono">Humidity</div>
+                              <div className="text-lg font-bold text-sky-300 mt-1">{weather.humidity}%</div>
+                            </div>
+                            <div className="p-3 rounded-xl bg-slate-950/50 border border-slate-800 text-center">
+                              <div className="text-xs text-slate-500 font-mono">Wind</div>
+                              <div className="text-lg font-bold text-sky-300 mt-1">{weather.wind} km/h</div>
+                            </div>
+                          </div>
+                          <p className="text-[10px] text-slate-600 font-mono text-center">Source: Open-Meteo · Kathmandu, Nepal</p>
+                        </div>
+                      );
+                    })()}
+                  </div>
+                )}
+
+                {/* ── Browser ── */}
+                {appId === "browser" && (
+                  <div className="space-y-3">
+                    {/* Tab selector */}
+                    <div className="flex gap-2">
+                      {BROWSER_PRESETS.map((preset, i) => (
+                        <button
+                          key={preset.label}
+                          onClick={() => setBrowserIdx(i)}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition ${
+                            browserIdx === i
+                              ? "bg-teal-500/20 text-teal-300 border border-teal-500/40"
+                              : "bg-slate-800 text-slate-400 hover:text-white"
+                          }`}
+                        >
+                          {preset.label}
+                        </button>
+                      ))}
+                      <a
+                        href={BROWSER_PRESETS[browserIdx].url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ml-auto px-3 py-1.5 rounded-lg text-xs font-mono text-teal-400 hover:text-teal-300 flex items-center gap-1 bg-slate-800 hover:bg-slate-700 transition"
+                      >
+                        <ExternalLink size={11} /> Open
+                      </a>
+                    </div>
+                    {/* URL bar */}
+                    <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-950 rounded-lg border border-slate-800 text-[10px] font-mono text-slate-500 truncate">
+                      <span className="text-emerald-400">🔒</span>
+                      {BROWSER_PRESETS[browserIdx].url}
+                    </div>
+                    {/* iframe */}
+                    <div className="rounded-xl overflow-hidden border border-slate-800" style={{ height: "280px" }}>
+                      <iframe
+                        key={browserIdx}
+                        src={BROWSER_PRESETS[browserIdx].url}
+                        title={BROWSER_PRESETS[browserIdx].label}
+                        className="w-full h-full bg-white"
+                        sandbox="allow-scripts allow-same-origin"
+                      />
+                    </div>
+                    <p className="text-[9px] text-slate-600 font-mono text-center">
+                      Some sites block iframe embedding — use "Open" to view in a new tab.
+                    </p>
                   </div>
                 )}
               </div>

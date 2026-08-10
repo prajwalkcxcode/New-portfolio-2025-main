@@ -341,7 +341,7 @@ export default function Navbar({
                     className="flex items-center gap-2 w-full text-left text-sm text-rose-400 font-semibold transition-colors py-1"
                   >
                     <Gamepad2 size={16} />
-                    <span>🕹️ Play Bug Smasher Arcade</span>
+                    <span>🃏 Memory Match Game</span>
                   </button>
                   <button
                     type="button"

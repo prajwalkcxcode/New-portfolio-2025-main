@@ -94,11 +94,11 @@ export default function PrajwalAIWidget({ onOpenResume, onOpenBugSmasher, onOpen
       };
     }
 
-    if (query.includes("game") || query.includes("bug")) {
+    if (query.includes("game") || query.includes("bug") || query.includes("match")) {
       return {
         sender: "ai",
-        text: "Wanna play a mini-game? 🕹️ Try smashing code bugs in the Bug Smasher arcade!",
-        actions: [{ label: "Launch Bug Smasher", handler: onOpenBugSmasher }],
+        text: "Wanna play a mini-game? 🃏 Try the Memory Match game — flip cards and match all 8 tech stack pairs!",
+        actions: [{ label: "Play Memory Match", handler: onOpenBugSmasher }],
       };
     }
 

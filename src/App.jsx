@@ -15,7 +15,7 @@ import AnimLayout from './components/ui/AnimLayout'
 import ScrollProgress from './components/ui/ScrollProgress'
 import ResumeModal from './components/ui/ResumeModal'
 import BackToTop from './components/ui/BackToTop'
-import BugSmasherModal from './components/ui/BugSmasherModal'
+import MemoryMatchModal from './components/ui/MemoryMatchModal'
 import DesktopOS from './components/ui/DesktopOS'
 import PrajwalAIWidget from './components/ui/PrajwalAIWidget'
 import BootSequence from './components/ui/BootSequence'
@@ -23,7 +23,7 @@ import BootSequence from './components/ui/BootSequence'
 export default function App() {
   const [theme, setTheme] = useState('dark')
   const [isResumeOpen, setIsResumeOpen] = useState(false)
-  const [isBugSmasherOpen, setIsBugSmasherOpen] = useState(false)
+  const [isMemoryMatchOpen, setIsMemoryMatchOpen] = useState(false)
   const [isOSModeOpen, setIsOSModeOpen] = useState(false)
   const [bootComplete, setBootComplete] = useState(false)
 
@@ -66,26 +66,26 @@ export default function App() {
             theme={theme}
             toggleTheme={toggleTheme}
             onOpenResume={() => setIsResumeOpen(true)}
-            onOpenBugSmasher={() => setIsBugSmasherOpen(true)}
+            onOpenBugSmasher={() => setIsMemoryMatchOpen(true)}
             onOpenOSMode={() => setIsOSModeOpen(true)}
           />
           <Navbar
             theme={theme}
             onToggleTheme={toggleTheme}
             onOpenResume={() => setIsResumeOpen(true)}
-            onOpenBugSmasher={() => setIsBugSmasherOpen(true)}
+            onOpenBugSmasher={() => setIsMemoryMatchOpen(true)}
             onOpenOSMode={() => setIsOSModeOpen(true)}
           />
           <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
-          <BugSmasherModal isOpen={isBugSmasherOpen} onClose={() => setIsBugSmasherOpen(false)} />
+          <MemoryMatchModal isOpen={isMemoryMatchOpen} onClose={() => setIsMemoryMatchOpen(false)} />
           <DesktopOS
             isOpen={isOSModeOpen}
             onClose={() => setIsOSModeOpen(false)}
-            onOpenBugSmasher={() => setIsBugSmasherOpen(true)}
+            onOpenBugSmasher={() => setIsMemoryMatchOpen(true)}
           />
           <PrajwalAIWidget
             onOpenResume={() => setIsResumeOpen(true)}
-            onOpenBugSmasher={() => setIsBugSmasherOpen(true)}
+            onOpenBugSmasher={() => setIsMemoryMatchOpen(true)}
             onOpenOSMode={() => setIsOSModeOpen(true)}
           />
           <BackToTop />
