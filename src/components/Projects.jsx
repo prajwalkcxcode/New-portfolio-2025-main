@@ -474,30 +474,33 @@ export default function Projects() {
 // Support Section + QR Modal (self-contained)
 // ---------------------------------------------------------------------------
 
-const PAYMENT_METHODS = [
-  {
-    id: 'esewa',
-    label: 'eSewa',
-    description: 'Pay via eSewa',
-    qr: '/esewa-qr.jpg',
-    accent: '#60bb46',
-    accentMuted: 'rgba(96,187,70,0.12)',
-    badge: 'eSewa',
-    icon: '🟢',
-    cropPosition: '50% 22%',  // frames the white QR box in the eSewa screenshot
-  },
-  {
-    id: 'khalti',
-    label: 'Khalti',
-    description: 'Pay via Khalti',
-    qr: '/khalti-qr.jpg',
-    accent: '#5c2d91',
-    accentMuted: 'rgba(92,45,145,0.12)',
-    badge: 'Khalti',
-    icon: '🟣',
-    cropPosition: '50% 42%',  // frames the white QR box in the Khalti screenshot
-  },
-]
+// ---------------------------------------------------------------------------
+// PAYMENT_METHODS — commented out, restore to re-enable eSewa & Khalti buttons
+// ---------------------------------------------------------------------------
+// const PAYMENT_METHODS = [
+//   {
+//     id: 'esewa',
+//     label: 'eSewa',
+//     description: 'Pay via eSewa',
+//     qr: '/esewa-qr.jpg',
+//     accent: '#60bb46',
+//     accentMuted: 'rgba(96,187,70,0.12)',
+//     badge: 'eSewa',
+//     icon: '🟢',
+//     cropPosition: '50% 22%',  // frames the white QR box in the eSewa screenshot
+//   },
+//   {
+//     id: 'khalti',
+//     label: 'Khalti',
+//     description: 'Pay via Khalti',
+//     qr: '/khalti-qr.jpg',
+//     accent: '#5c2d91',
+//     accentMuted: 'rgba(92,45,145,0.12)',
+//     badge: 'Khalti',
+//     icon: '🟣',
+//     cropPosition: '50% 42%',  // frames the white QR box in the Khalti screenshot
+//   },
+// ]
 
 function QRModal({ method, onClose }) {
   const overlayRef = useRef(null)
@@ -612,11 +615,11 @@ function QRModal({ method, onClose }) {
 }
 
 function SupportSection() {
-  const [activeMethod, setActiveMethod] = useState(null)
+  // const [activeMethod, setActiveMethod] = useState(null) // restore with eSewa/Khalti
 
   return (
     <>
-      <QRModal method={activeMethod} onClose={() => setActiveMethod(null)} />
+      {/* <QRModal method={activeMethod} onClose={() => setActiveMethod(null)} /> */}
 
       <motion.div
         className="mt-16 flex justify-center"
@@ -643,7 +646,7 @@ function SupportSection() {
           {/* Divider */}
           <div className="w-full border-t border-border" />
 
-          {/* Buttons — QR methods */}
+          {/* ── eSewa & Khalti buttons — commented out, restore when ready ──
           <div className="flex flex-col sm:flex-row gap-2.5 w-full">
             {PAYMENT_METHODS.map((method) => (
               <button
@@ -657,12 +660,12 @@ function SupportSection() {
             ))}
           </div>
 
-          {/* Divider with label */}
           <div className="flex items-center gap-3 w-full">
             <div className="flex-1 border-t border-border" />
             <span className="text-[9px] font-mono text-muted-foreground/40 uppercase tracking-widest">or</span>
             <div className="flex-1 border-t border-border" />
           </div>
+          ── end eSewa & Khalti ── */}
 
           {/* Buy Me a Coffee */}
           <a
@@ -677,7 +680,7 @@ function SupportSection() {
 
           {/* Sub-note */}
           <p className="text-[10px] font-mono text-muted-foreground/50">
-            Scan QR · No account needed · Any amount appreciated
+            Any amount appreciated · Thank you ♥
           </p>
         </div>
       </motion.div>
