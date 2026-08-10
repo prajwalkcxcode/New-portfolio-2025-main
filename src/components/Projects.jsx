@@ -502,7 +502,7 @@ const PAYMENT_METHODS = [
 function QRModal({ method, onClose }) {
   const overlayRef = useRef(null)
 
-  // Close on Escape key + lock body scroll (only when modal is actually open)
+  // Close on Escape + lock body scroll — only fires when modal is open
   useEffect(() => {
     if (!method) return
     const handler = (e) => { if (e.key === 'Escape') onClose() }
@@ -515,18 +515,18 @@ function QRModal({ method, onClose }) {
     }
   }, [method, onClose])
 
-  // Close on backdrop click
   const handleBackdrop = (e) => {
     if (e.target === overlayRef.current) onClose()
   }
 
-  return (
+  // Portal to document.body — escapes AnimLayout's filter stacking context
+  return createPortal(
     <AnimatePresence>
       {method && (
         <motion.div
           ref={overlayRef}
-          className="fixed inset-0 z-[10000] flex items-end sm:items-center justify-center p-4"
-          style={{ backgroundColor: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)' }}
+          className="fixed inset-0 flex items-center justify-center p-6"
+          style={{ zIndex: 99999, backgroundColor: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(8px)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -537,46 +537,50 @@ function QRModal({ method, onClose }) {
           aria-label={`${method.label} QR Code`}
         >
           <motion.div
-            className="relative w-full max-w-xs bg-card border border-border rounded-2xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col"
-            initial={{ opacity: 0, y: 32, scale: 0.96 }}
+            className="relative w-full bg-card border border-border rounded-2xl overflow-hidden shadow-2xl flex flex-col"
+            style={{ maxWidth: '300px' }}
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 16, scale: 0.97 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, y: 10, scale: 0.97 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Accent top bar */}
             <div
-              className="h-0.5 w-full"
+              className="h-0.5 w-full shrink-0"
               style={{ background: `linear-gradient(90deg, transparent, ${method.accent}, transparent)` }}
             />
 
             {/* Header */}
-            <div className="flex items-center justify-between px-5 pt-4 pb-3">
+            <div className="flex items-center justify-between px-4 pt-3 pb-2 shrink-0">
               <div className="flex items-center gap-2">
                 <div
-                  className="w-6 h-6 rounded-full flex items-center justify-center"
+                  className="w-5 h-5 rounded-full flex items-center justify-center text-[9px]"
                   style={{ background: method.accentMuted }}
                 >
-                  <span className="text-[10px]">{method.icon}</span>
+                  {method.icon}
                 </div>
-                <span className="text-xs font-mono font-semibold tracking-wider uppercase" style={{ color: method.accent }}>
+                <span
+                  className="text-[11px] font-mono font-bold tracking-widest uppercase"
+                  style={{ color: method.accent }}
+                >
                   {method.label}
                 </span>
               </div>
               <button
                 onClick={onClose}
                 aria-label="Close"
-                className="w-7 h-7 flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                className="w-6 h-6 flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
               >
-                <X size={14} />
+                <X size={13} />
               </button>
             </div>
 
-            {/* QR Code — cropped to show only the QR box */}
-            <div className="px-5 pb-2 flex-shrink-0">
+            {/* QR Code — white bg ensures scannable and visible on any theme */}
+            <div className="px-4 pb-2 shrink-0">
               <div
-                className="relative rounded-xl overflow-hidden border border-border"
-                style={{ background: method.accentMuted, height: '220px' }}
+                className="rounded-xl overflow-hidden"
+                style={{ height: '210px', background: '#ffffff' }}
               >
                 <img
                   src={method.qr}
@@ -587,22 +591,23 @@ function QRModal({ method, onClose }) {
               </div>
             </div>
 
-            {/* Footer hint */}
-            <div className="px-5 pb-5 pt-3 flex flex-col items-center gap-1.5">
+            {/* Footer */}
+            <div className="px-4 pb-4 pt-2 flex flex-col items-center gap-1 shrink-0">
               <div className="flex items-center gap-1.5 text-muted-foreground">
-                <ScanLine size={12} />
-                <span className="text-[11px] font-mono">
-                  Scan with your {method.label} mobile app
+                <ScanLine size={11} />
+                <span className="text-[10px] font-mono">
+                  Scan with your {method.label} app
                 </span>
               </div>
-              <p className="text-[10px] text-muted-foreground/60 font-mono text-center">
+              <p className="text-[9px] text-muted-foreground/50 font-mono">
                 Prajwal K.C. · 9844995564
               </p>
             </div>
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   )
 }
 
@@ -638,7 +643,7 @@ function SupportSection() {
           {/* Divider */}
           <div className="w-full border-t border-border" />
 
-          {/* Buttons */}
+          {/* Buttons — QR methods */}
           <div className="flex flex-col sm:flex-row gap-2.5 w-full">
             {PAYMENT_METHODS.map((method) => (
               <button
@@ -651,6 +656,24 @@ function SupportSection() {
               </button>
             ))}
           </div>
+
+          {/* Divider with label */}
+          <div className="flex items-center gap-3 w-full">
+            <div className="flex-1 border-t border-border" />
+            <span className="text-[9px] font-mono text-muted-foreground/40 uppercase tracking-widest">or</span>
+            <div className="flex-1 border-t border-border" />
+          </div>
+
+          {/* Buy Me a Coffee */}
+          <a
+            href="https://buymeacoffee.com/prajwalkcxcodes"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full flex items-center justify-center gap-2 text-xs font-mono font-semibold text-foreground bg-muted border border-border px-4 py-2.5 rounded-xl hover:bg-muted/80 hover:border-border/60 transition-all duration-200"
+          >
+            <Coffee size={13} className="text-amber-400" />
+            Buy Me a Coffee
+          </a>
 
           {/* Sub-note */}
           <p className="text-[10px] font-mono text-muted-foreground/50">

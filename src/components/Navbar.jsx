@@ -66,10 +66,13 @@ export default function Navbar({
   }, []);
 
   const scrollTo = (href) => {
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-    setIsOpen(false);
-  };
+    setIsOpen(false)
+    // Wait for menu-close animation + body overflow restore before scrolling
+    setTimeout(() => {
+      const el = document.querySelector(href)
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    }, 320)
+  }
 
   return (
     <header
