@@ -20,16 +20,16 @@ export const HERO_VARIANTS = [
     headline: 'Building products from Nepal,',
     headlineAccent: 'one project at a time.',
     subtext:
-      'A CSIT student creating modern web experiences, learning full-stack development, and building real products through continuous learning.',
+      "I'm a BSc CSIT student currently building an AI Portfolio Builder while learning modern full-stack development through real-world projects.",
   },
   {
     id: 'kathmandu',
     locationBadge: '📍 Kathmandu, Nepal',
-    greeting: 'Hi, I\'m Prajwal KC 👋',
+    greeting: "Hi, I'm Prajwal KC 👋",
     headline: 'Frontend developer turning',
     headlineAccent: 'ideas into real products.',
     subtext:
-      'BSc CSIT student from Nepal. I build clean, performant web experiences and ship real projects while studying.',
+      "BSc CSIT student from Nepal. Currently building an AI Portfolio Builder while going deep on full-stack development.",
   },
 ]
 
@@ -129,4 +129,37 @@ export const FOOTER_CONTENT = {
   attribution: 'Designed & Built by Prajwal KC',
   techStack: 'React • Tailwind • Vercel',
   builtIn: '🇳🇵 Built in Nepal',
+}
+
+// ---------------------------------------------------------------------------
+// SKILLS section
+// ---------------------------------------------------------------------------
+export const SKILLS_CONTENT = {
+  badgeLabel: 'Skills & Stack',
+  heading: 'What I Work With',
+  subtext:
+    "The tools I reach for when building. Some I know well, some I'm still figuring out — honest about both.",
+  exploringLabel: 'Currently Exploring',
+}
+
+// ---------------------------------------------------------------------------
+// PROJECTS — rewritten descriptions
+// ---------------------------------------------------------------------------
+export const PROJECT_DESCRIPTIONS = {
+  'Modern Ecommerce':
+    'Built to understand how real money moves on the web. Integrated Stripe end-to-end — from cart to checkout to webhook confirmation. Learned how fragile state management gets when real transactions are involved.',
+  'Weather Dashboard':
+    'Wanted to learn API integration without a tutorial. Built a live weather dashboard with OpenWeather, added local caching to avoid blowing through the rate limit, and made the UI shift visually based on conditions.',
+  'Task Management SaaS':
+    'An attempt at building something people might actually use. Implemented drag-and-drop task boards, real user auth, and persistent data — all the things that sound simple until you build them.',
+  'Portfolio Template':
+    'Most developer portfolios look the same. Built a clean, production-ready template with Framer Motion animations and a modular structure — so any developer can deploy their own in under an hour.',
+  'AI Portfolio Builder':
+    'My current main project. Developers spend too long building portfolios from scratch. This platform lets you describe yourself and generates the whole thing. Currently in active development.',
+}
+
+export const PROJECT_SECTION_CONTENT = {
+  heading: 'Things I\'ve Built',
+  subtext:
+    "Projects I shipped while learning. Each one taught me something I couldn't get from a tutorial.",
 }
