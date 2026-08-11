@@ -9,6 +9,7 @@ import {
 import TiltCard from './ui/TiltCard'
 import Magnetic from './ui/Magnetic'
 import ScrambledText from './ui/ScrambledText'
+import { ENABLE_PERSONALIZATION, PROJECT_DESCRIPTIONS, PROJECT_SECTION_CONTENT } from '../personalityConfig'
 
 // ---------------------------------------------------------------------------
 // Project Data
@@ -219,10 +220,12 @@ export default function Projects() {
           viewport={{ once: true, margin: '-80px' }}
         >
           <motion.h2 className="text-3xl font-bold text-foreground mb-4" variants={fadeUp}>
-            <ScrambledText text="Selected Projects" />
+            <ScrambledText text={ENABLE_PERSONALIZATION ? PROJECT_SECTION_CONTENT.heading : 'Selected Projects'} />
           </motion.h2>
           <motion.p className="text-muted-foreground max-w-2xl mx-auto" variants={fadeUp}>
-            A showcase of my recent work focusing on clean UI, robust architecture, and real-world problem solving.
+            {ENABLE_PERSONALIZATION
+              ? PROJECT_SECTION_CONTENT.subtext
+              : 'A showcase of my recent work focusing on clean UI, robust architecture, and real-world problem solving.'}
           </motion.p>
         </motion.div>
 
@@ -305,7 +308,9 @@ export default function Projects() {
                         </span>
                       </div>
                       <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                        {project.description}
+                        {ENABLE_PERSONALIZATION && PROJECT_DESCRIPTIONS[project.title]
+                          ? PROJECT_DESCRIPTIONS[project.title]
+                          : project.description}
                       </p>
 
                       <div className="flex flex-wrap gap-1.5 mb-4">

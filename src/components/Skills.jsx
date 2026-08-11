@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer } from '../motion'
 import ScrambledText from './ui/ScrambledText'
 import { Cpu, Layout, Cloud, Network } from 'lucide-react'
+import { ENABLE_PERSONALIZATION, SKILLS_CONTENT } from '../personalityConfig'
 import { 
   SiHtml5, SiCss3, SiJavascript, SiReact, SiNextdotjs, SiTailwindcss, 
   SiGit, SiGithub, SiNodedotjs, SiExpress, SiMongodb, SiTypescript, 
@@ -114,14 +115,16 @@ export default function Skills() {
       >
         <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono mb-4">
           <Cpu size={14} />
-          <span>Capabilities & Tech Stack</span>
+          <span>{ENABLE_PERSONALIZATION ? SKILLS_CONTENT.badgeLabel : 'Capabilities & Tech Stack'}</span>
         </motion.div>
 
         <motion.h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4" variants={fadeUp}>
-          <ScrambledText text="Technical Arsenal & Mastery" />
+          <ScrambledText text={ENABLE_PERSONALIZATION ? SKILLS_CONTENT.heading : 'Technical Arsenal & Mastery'} />
         </motion.h2>
         <motion.p className="text-muted-foreground max-w-2xl mx-auto" variants={fadeUp}>
-          The tools, frameworks, and core engineering concepts I leverage to build scalable, high-performance web applications.
+          {ENABLE_PERSONALIZATION
+            ? SKILLS_CONTENT.subtext
+            : 'The tools, frameworks, and core engineering concepts I leverage to build scalable, high-performance web applications.'}
         </motion.p>
       </motion.div>
 
@@ -158,9 +161,16 @@ export default function Skills() {
                     {item.icon}
                   </div>
                 </div>
-                <span className="text-blue-400 font-semibold px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20">
-                  {item.status}
-                </span>
+                {/* Personalized: show 'Currently Exploring' label for lower-progress items */}
+                {ENABLE_PERSONALIZATION && (item.status === 'Exploring' || item.status === 'In Progress') ? (
+                  <span className="text-amber-400 font-semibold px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-[10px] tracking-wide">
+                    {SKILLS_CONTENT.exploringLabel}
+                  </span>
+                ) : (
+                  <span className="text-blue-400 font-semibold px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20">
+                    {item.status}
+                  </span>
+                )}
               </div>
 
               <h3 className="text-lg font-bold text-foreground group-hover:text-blue-400 transition-colors mb-2">
