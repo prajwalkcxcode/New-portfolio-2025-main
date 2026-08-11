@@ -46,75 +46,23 @@ export default function Hero({ onOpenResume }) {
         animate="visible"
       >
         {/* ── Badge Row ── */}
-        <motion.div variants={fadeUp} className="mb-8 flex flex-col sm:flex-row items-center justify-center gap-3 flex-wrap">
-          {ENABLE_PERSONALIZATION ? (
-            <>
-              {/* Location badge */}
-              <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted/80 border border-border shadow-sm backdrop-blur-sm select-none">
-                <span className="text-sm">{variant.locationBadge}</span>
-              </div>
-
-              {/* Building badge */}
-              <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted/80 border border-border shadow-sm backdrop-blur-sm select-none">
-                <span className="relative flex h-2 w-2 shrink-0">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
-                </span>
-                <span className="text-xs font-semibold text-foreground">🚀 Building AI Portfolio Builder</span>
-              </div>
-
-              {/* Lofi badge */}
-              <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted/80 border border-border shadow-sm backdrop-blur-sm select-none">
-                <span className="text-xs font-semibold text-foreground">☕ Lofi + Code</span>
-              </div>
-
-              <Magnetic>
-                <LocalTime />
-              </Magnetic>
-            </>
-          ) : (
-            <>
-              {/* Original badge */}
-              <div className="flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-muted/80 border border-border shadow-sm backdrop-blur-sm select-none">
-                <div className="w-7 h-7 rounded-full overflow-hidden border border-white/20 shrink-0">
-                  <img src="/memoji.png" alt="Memoji Avatar" className="w-full h-full object-cover" />
-                </div>
-                <span className="text-xs font-semibold text-foreground">Hi, I'm Prajwal</span>
-              </div>
-              <Magnetic>
-                <LocalTime />
-              </Magnetic>
-            </>
-          )}
+        {/* LocalTime widget — clean single pill, no repeated badges */}
+        <motion.div variants={fadeUp} className="mb-8 flex items-center justify-center">
+          <Magnetic>
+            <LocalTime />
+          </Magnetic>
         </motion.div>
 
         {/* ── Headline ── */}
-        {ENABLE_PERSONALIZATION ? (
-          <>
-            {/* Nepali greeting */}
-            <motion.p
-              className="text-base font-medium text-muted-foreground mb-3 tracking-wide"
-              variants={fadeUp}
-            >
-              {variant.greeting}
-            </motion.p>
-            <motion.h1
-              className="text-5xl sm:text-6xl md:text-7xl font-bold text-foreground tracking-tight mb-6"
-              variants={fadeUp}
-            >
-              {variant.headline}<br />
-              <span className="text-muted-foreground">{variant.headlineAccent}</span>
-            </motion.h1>
-          </>
-        ) : (
-          <motion.h1
-            className="text-5xl sm:text-6xl md:text-7xl font-bold text-foreground tracking-tight mb-6"
-            variants={fadeUp}
-          >
-            {ORIGINAL.headline}<br />
-            <span className="text-muted-foreground">{ORIGINAL.headlineAccent}</span>
-          </motion.h1>
-        )}
+        <motion.h1
+          className="text-5xl sm:text-6xl md:text-7xl font-bold text-foreground tracking-tight mb-6"
+          variants={fadeUp}
+        >
+          {ENABLE_PERSONALIZATION ? variant.headline : ORIGINAL.headline}<br />
+          <span className="text-muted-foreground">
+            {ENABLE_PERSONALIZATION ? variant.headlineAccent : ORIGINAL.headlineAccent}
+          </span>
+        </motion.h1>
 
         {/* ── Subtext ── */}
         <motion.p

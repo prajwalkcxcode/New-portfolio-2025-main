@@ -95,17 +95,8 @@ export default function About() {
         <div className="md:col-span-8 space-y-8">
           {ENABLE_PERSONALIZATION ? (
             <>
-              {/* Nepali greeting + intro */}
-              <div className="space-y-4">
-                <motion.p
-                  className="text-2xl font-bold text-foreground"
-                  variants={fadeUp}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: '-50px' }}
-                >
-                  {ABOUT_CONTENT.nepaliGreeting}
-                </motion.p>
+              {/* Intro */}
+              <div className="space-y-2">
                 <motion.p
                   className="text-lg text-muted-foreground leading-relaxed font-medium"
                   variants={fadeUp}

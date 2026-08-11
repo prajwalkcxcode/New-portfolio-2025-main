@@ -11,7 +11,7 @@ const GREETINGS_ORIGINAL = [
 ]
 
 const GREETINGS_PERSONAL = [
-  "नमस्ते! म प्रज्वल हुँ",
+  "Hi, I'm Prajwal KC 👋",
   "Building from Nepal 🇳🇵",
   "AI Portfolio Builder 🚀",
   "React + Full-Stack Dev"
@@ -128,9 +128,9 @@ export default function AnimatedMemoji3D() {
           className="w-full h-full relative"
         >
           <img 
-            src={ENABLE_PERSONALIZATION ? "/p.jpg" : "/memoji.png"} 
+            src={ENABLE_PERSONALIZATION ? "/prajwal-portrait.jpg" : "/memoji.png"} 
             alt="Prajwal KC — Developer from Nepal" 
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
           />
 
           {/* Dynamic Lighting Reflection Glare */}
