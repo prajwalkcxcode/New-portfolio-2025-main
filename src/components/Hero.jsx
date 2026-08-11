@@ -4,60 +4,127 @@ import { fadeUp, staggerContainer, buttonVariants } from '../motion'
 import { ArrowRight, Mail } from 'lucide-react'
 import Magnetic from './ui/Magnetic'
 import LocalTime from './ui/LocalTime'
-// import Scene from './ui/Scene'
+import {
+  ENABLE_PERSONALIZATION,
+  ACTIVE_HERO_VARIANT,
+  HERO_BADGES,
+  CURRENTLY_BUILDING,
+  NOW_ITEMS,
+} from '../personalityConfig'
+
+// ─── Original content (preserved for easy revert) ───────────────────────────
+const ORIGINAL = {
+  greeting: "Hi, I'm Prajwal",
+  headline: 'Frontend Developer',
+  headlineAccent: 'Building Modern Web',
+  subtext:
+    "Hi, I'm Prajwal KC from Nepal, specializing in React. I build clean, intelligent, and highly performant user interfaces.",
+  buildingTitle: 'AI Portfolio Builder',
+  buildingDesc:
+    'Building a modern SaaS platform that helps users generate and customize professional portfolios using AI and reusable templates.',
+}
 
 export default function Hero({ onOpenResume }) {
   const scrollToProjects = () => {
     document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })
   }
 
+  const variant = ENABLE_PERSONALIZATION ? ACTIVE_HERO_VARIANT : null
+
   return (
     <section
       id="home"
       className="relative min-h-screen flex items-center justify-center px-6 pt-24 pb-20 overflow-hidden"
     >
-      {/* 3D Scene Background Disabled for Debugging */}
-      {/* <Scene /> */}
-
       {/* Subtle background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-muted/10 rounded-full blur-[120px] -z-10 pointer-events-none" />
-      
+
       <motion.div
         className="w-full max-w-3xl mx-auto text-center z-10"
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
       >
-        <motion.div variants={fadeUp} className="mb-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-          {/* Memoji Welcoming Pill */}
-          <div className="flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-muted/80 border border-border shadow-sm backdrop-blur-sm select-none">
-            <div className="w-7 h-7 rounded-full overflow-hidden border border-white/20 shrink-0">
-              <img src="/memoji.png" alt="Memoji Avatar" className="w-full h-full object-cover" />
-            </div>
-            <span className="text-xs font-semibold text-foreground">Hi, I'm Prajwal</span>
-          </div>
+        {/* ── Badge Row ── */}
+        <motion.div variants={fadeUp} className="mb-8 flex flex-col sm:flex-row items-center justify-center gap-3 flex-wrap">
+          {ENABLE_PERSONALIZATION ? (
+            <>
+              {/* Location badge */}
+              <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted/80 border border-border shadow-sm backdrop-blur-sm select-none">
+                <span className="text-sm">{variant.locationBadge}</span>
+              </div>
 
-          <Magnetic>
-            <LocalTime />
-          </Magnetic>
+              {/* Building badge */}
+              <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted/80 border border-border shadow-sm backdrop-blur-sm select-none">
+                <span className="relative flex h-2 w-2 shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
+                </span>
+                <span className="text-xs font-semibold text-foreground">🚀 Building AI Portfolio Builder</span>
+              </div>
+
+              {/* Lofi badge */}
+              <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted/80 border border-border shadow-sm backdrop-blur-sm select-none">
+                <span className="text-xs font-semibold text-foreground">☕ Lofi + Code</span>
+              </div>
+
+              <Magnetic>
+                <LocalTime />
+              </Magnetic>
+            </>
+          ) : (
+            <>
+              {/* Original badge */}
+              <div className="flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-muted/80 border border-border shadow-sm backdrop-blur-sm select-none">
+                <div className="w-7 h-7 rounded-full overflow-hidden border border-white/20 shrink-0">
+                  <img src="/memoji.png" alt="Memoji Avatar" className="w-full h-full object-cover" />
+                </div>
+                <span className="text-xs font-semibold text-foreground">Hi, I'm Prajwal</span>
+              </div>
+              <Magnetic>
+                <LocalTime />
+              </Magnetic>
+            </>
+          )}
         </motion.div>
-        
-        <motion.h1
-          className="text-5xl sm:text-6xl md:text-7xl font-bold text-foreground tracking-tight mb-6"
-          variants={fadeUp}
-        >
-          Frontend Developer<br />
-          <span className="text-muted-foreground">Building Modern Web</span>
-        </motion.h1>
-        
+
+        {/* ── Headline ── */}
+        {ENABLE_PERSONALIZATION ? (
+          <>
+            {/* Nepali greeting */}
+            <motion.p
+              className="text-base font-medium text-muted-foreground mb-3 tracking-wide"
+              variants={fadeUp}
+            >
+              {variant.greeting}
+            </motion.p>
+            <motion.h1
+              className="text-5xl sm:text-6xl md:text-7xl font-bold text-foreground tracking-tight mb-6"
+              variants={fadeUp}
+            >
+              {variant.headline}<br />
+              <span className="text-muted-foreground">{variant.headlineAccent}</span>
+            </motion.h1>
+          </>
+        ) : (
+          <motion.h1
+            className="text-5xl sm:text-6xl md:text-7xl font-bold text-foreground tracking-tight mb-6"
+            variants={fadeUp}
+          >
+            {ORIGINAL.headline}<br />
+            <span className="text-muted-foreground">{ORIGINAL.headlineAccent}</span>
+          </motion.h1>
+        )}
+
+        {/* ── Subtext ── */}
         <motion.p
           className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
           variants={fadeUp}
         >
-          Hi, I'm Prajwal KC from Nepal, specializing in React.
-          I build clean, intelligent, and highly performant user interfaces.
+          {ENABLE_PERSONALIZATION ? variant.subtext : ORIGINAL.subtext}
         </motion.p>
-        
+
+        {/* ── CTA Buttons ── */}
         <motion.div
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
           variants={fadeUp}
@@ -87,7 +154,6 @@ export default function Hero({ onOpenResume }) {
             >
               {/* Glowing gradient border */}
               <div className="absolute inset-0 rounded-lg p-[1px] bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 [mask-image:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)] [mask-composite:exclude] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
               <span className="relative z-10">View CV</span>
               <motion.span
                 className="relative z-10 inline-block text-xs"
@@ -114,29 +180,77 @@ export default function Hero({ onOpenResume }) {
           </Magnetic>
         </motion.div>
 
-        {/* Currently Building minimal card */}
-        <motion.div 
-          variants={fadeUp}
-          className="mt-12 p-4 rounded-xl border border-border bg-card/40 backdrop-blur-sm max-w-md mx-auto text-left flex gap-3.5 items-start hover:border-muted-foreground/20 transition-all duration-300 shadow-sm"
-        >
-          <div className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500/10 text-blue-500 shrink-0 mt-0.5">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-            </span>
-          </div>
-          <div className="space-y-1">
-            <div className="text-[10px] font-mono font-bold tracking-wider text-muted-foreground uppercase">Currently Building</div>
-            <h4 className="text-sm font-semibold text-foreground">AI Portfolio Builder</h4>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Building a modern SaaS platform that helps users generate and customize professional portfolios using AI and reusable templates.
-            </p>
-          </div>
-        </motion.div>
+        {/* ── Currently Building card ── */}
+        {ENABLE_PERSONALIZATION ? (
+          <motion.div
+            variants={fadeUp}
+            className="mt-12 p-5 rounded-xl border border-blue-500/20 bg-card/60 backdrop-blur-sm max-w-md mx-auto text-left flex gap-4 items-start hover:border-blue-500/40 transition-all duration-300 shadow-[0_0_30px_-10px_rgba(59,130,246,0.2)] hover:shadow-[0_0_40px_-10px_rgba(59,130,246,0.35)] group"
+          >
+            {/* Animated indicator */}
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-500/10 shrink-0 mt-0.5">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500" />
+              </span>
+            </div>
+            <div className="space-y-2 flex-1">
+              <div className="flex items-center justify-between gap-2">
+                <div className="text-[10px] font-mono font-bold tracking-wider text-muted-foreground uppercase">Currently Building</div>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-semibold tracking-wide">
+                  {CURRENTLY_BUILDING.status}
+                </span>
+              </div>
+              <h4 className="text-base font-bold text-foreground group-hover:text-blue-400 transition-colors">{CURRENTLY_BUILDING.title}</h4>
+              <p className="text-xs text-muted-foreground leading-relaxed">{CURRENTLY_BUILDING.description}</p>
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            variants={fadeUp}
+            className="mt-12 p-4 rounded-xl border border-border bg-card/40 backdrop-blur-sm max-w-md mx-auto text-left flex gap-3.5 items-start hover:border-muted-foreground/20 transition-all duration-300 shadow-sm"
+          >
+            <div className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500/10 text-blue-500 shrink-0 mt-0.5">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
+              </span>
+            </div>
+            <div className="space-y-1">
+              <div className="text-[10px] font-mono font-bold tracking-wider text-muted-foreground uppercase">Currently Building</div>
+              <h4 className="text-sm font-semibold text-foreground">{ORIGINAL.buildingTitle}</h4>
+              <p className="text-xs text-muted-foreground leading-relaxed">{ORIGINAL.buildingDesc}</p>
+            </div>
+          </motion.div>
+        )}
 
-        {/* Keyboard shortcut hint under the CTA buttons */}
-        <motion.p 
-          variants={fadeUp} 
+        {/* ── NOW Strip ── */}
+        {ENABLE_PERSONALIZATION && (
+          <motion.div
+            variants={fadeUp}
+            className="mt-8 max-w-md mx-auto"
+          >
+            <div className="flex items-center gap-3 mb-3">
+              <div className="h-px flex-1 bg-border" />
+              <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground/60 uppercase">Now</span>
+              <div className="h-px flex-1 bg-border" />
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+              {NOW_ITEMS.map((item, i) => (
+                <span
+                  key={i}
+                  className="text-xs text-muted-foreground flex items-center gap-1.5"
+                >
+                  <span>{item.emoji}</span>
+                  <span>{item.text}</span>
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        {/* ── Keyboard shortcut hint ── */}
+        <motion.p
+          variants={fadeUp}
           className="text-[10px] font-mono text-muted-foreground/60 mt-6 tracking-wider uppercase select-none flex items-center justify-center gap-1.5 flex-wrap"
         >
           <span>Press</span>

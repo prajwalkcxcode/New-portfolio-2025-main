@@ -1,9 +1,10 @@
 import React from 'react'
 import SpotifyWidget from './ui/SpotifyWidget'
+import { ENABLE_PERSONALIZATION, FOOTER_CONTENT } from '../personalityConfig'
 
 export default function Footer() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
-  
+
   const scrollTo = (id) => {
     document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -19,9 +20,20 @@ export default function Footer() {
           >
             Prajwal<span className="text-muted-foreground">.</span>
           </button>
-          <p className="text-sm text-muted-foreground mt-1">
-            Building towards full-stack engineering
-          </p>
+          {ENABLE_PERSONALIZATION ? (
+            <>
+              <p className="text-sm text-muted-foreground mt-1">
+                {FOOTER_CONTENT.attribution}
+              </p>
+              <p className="text-xs text-muted-foreground/60 font-mono mt-0.5">
+                {FOOTER_CONTENT.techStack}
+              </p>
+            </>
+          ) : (
+            <p className="text-sm text-muted-foreground mt-1">
+              Building towards full-stack engineering
+            </p>
+          )}
         </div>
 
         {/* Footer Navigation Links */}
@@ -34,7 +46,7 @@ export default function Footer() {
           <button onClick={() => scrollTo('#guestbook')} className="hover:text-foreground transition-colors">Guestbook</button>
           <button onClick={() => scrollTo('#contact')} className="hover:text-foreground transition-colors">Contact</button>
         </div>
-        
+
         <div className="flex flex-col items-center md:items-end gap-1 text-sm text-muted-foreground">
           <div>&copy; {new Date().getFullYear()} Prajwal KC. All rights reserved.</div>
           <div className="flex items-center gap-3 text-[11px] font-mono opacity-70 mt-1 select-none">
@@ -42,11 +54,13 @@ export default function Footer() {
             <span>•</span>
             <span>Visitor Count: #1,842</span>
           </div>
+          {ENABLE_PERSONALIZATION && (
+            <div className="text-[11px] font-mono text-muted-foreground/50 mt-1 select-none">
+              {FOOTER_CONTENT.builtIn}
+            </div>
+          )}
         </div>
       </div>
     </footer>
   )
 }
-
-
-

@@ -21,6 +21,10 @@
     --accent-foreground: #18181b;
 
     --radius: 0.5rem;
+
+    /* Nepal identity accents — used only for tiny details */
+    --nepal-crimson: #DC143C;
+    --nepal-blue: #003893;
   }
 
   [data-theme="dark"] {
@@ -37,6 +41,10 @@
     
     --accent: #27272a;
     --accent-foreground: #fafafa;
+
+    /* Nepal identity accents — used only for tiny details */
+    --nepal-crimson: #DC143C;
+    --nepal-blue: #003893;
   }
 }
 

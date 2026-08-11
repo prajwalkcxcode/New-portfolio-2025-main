@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
 import { Volume2, Sparkles, MessageSquare } from 'lucide-react'
+import { ENABLE_PERSONALIZATION } from '../../personalityConfig'
 
-const GREETINGS = [
+const GREETINGS_ORIGINAL = [
   "Hi, I'm Prajwal",
   "Frontend & Full-Stack Engineer",
   "Building scalable web applications",
   "Crafting performant user interfaces"
 ]
 
+const GREETINGS_PERSONAL = [
+  "नमस्ते! म प्रज्वल हुँ",
+  "Building from Nepal 🇳🇵",
+  "AI Portfolio Builder 🚀",
+  "React + Full-Stack Dev"
+]
+
 export default function AnimatedMemoji3D() {
+  const GREETINGS = ENABLE_PERSONALIZATION ? GREETINGS_PERSONAL : GREETINGS_ORIGINAL
   const [greetingIndex, setGreetingIndex] = useState(0)
   const [typedText, setTypedText] = useState('')
   const [isTyping, setIsTyping] = useState(true)
@@ -119,8 +128,8 @@ export default function AnimatedMemoji3D() {
           className="w-full h-full relative"
         >
           <img 
-            src="/memoji.png" 
-            alt="Prajwal KC 3D Waving Memoji Avatar" 
+            src={ENABLE_PERSONALIZATION ? "/p.jpg" : "/memoji.png"} 
+            alt="Prajwal KC — Developer from Nepal" 
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
 
