@@ -141,62 +141,81 @@ export default function Skills() {
       </motion.div>
 
       {/* Core Domain Proficiency Cards */}
+      {/* Group label: Core */}
       <motion.div
-        className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"
+        initial={{ opacity: 0, y: 8 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="flex items-center gap-3 mb-6"
+      >
+        <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase">Core</span>
+        <div className="h-px flex-1 bg-border" />
+      </motion.div>
+
+      <motion.div
+        className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10"
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-80px' }}
       >
-        {learningSkills.map((item) => (
+        {learningSkills.filter(s => s.status !== 'Exploring' && s.status !== 'In Progress').map((item) => (
           <motion.div
             key={item.name}
             variants={fadeUp}
-            className="group p-6 rounded-2xl bg-card border border-border flex flex-col justify-between hover:border-blue-500/40 hover:shadow-[0_10px_30px_rgba(59,130,246,0.1)] transition-all duration-300"
+            className="group p-5 rounded-xl bg-card border border-border flex items-start gap-4 hover:border-blue-500/30 hover:shadow-[0_8px_24px_rgba(59,130,246,0.08)] transition-all duration-300"
           >
-            <div>
-              <div className="flex items-center justify-between text-xs font-mono mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="p-2 rounded-lg bg-muted border border-border group-hover:border-blue-500/30 transition-colors">
-                    {item.icon}
-                  </div>
-                </div>
-                {/* Personalized: show 'Currently Exploring' label for lower-progress items */}
-                {ENABLE_PERSONALIZATION && (item.status === 'Exploring' || item.status === 'In Progress') ? (
-                  <span className="text-amber-400 font-semibold px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-[10px] tracking-wide">
-                    {SKILLS_CONTENT.exploringLabel}
-                  </span>
-                ) : (
-                  <span className="text-blue-400 font-semibold px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20">
-                    {item.status}
-                  </span>
-                )}
-              </div>
-
-              <h3 className="text-lg font-bold text-foreground group-hover:text-blue-400 transition-colors mb-2">
-                {item.name}
-              </h3>
-
-              <p className="text-xs text-muted-foreground leading-relaxed mb-6">
-                {item.desc}
-              </p>
+            <div className="p-2.5 rounded-lg bg-muted border border-border shrink-0 group-hover:border-blue-500/20 transition-colors">
+              {item.icon}
             </div>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 mb-1 flex-wrap">
+                <h3 className="text-sm font-semibold text-foreground">{item.name}</h3>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 shrink-0">
+                  {item.status}
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+            </div>
+          </motion.div>
+        ))}
+      </motion.div>
 
-            {/* Progress Bar */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-                <span>Proficiency</span>
-                <span className="text-foreground font-semibold">{item.progress}%</span>
+      {/* Group label: Currently Exploring */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="flex items-center gap-3 mb-6"
+      >
+        <span className="text-[10px] font-mono font-bold tracking-widest text-amber-500 uppercase">Currently Exploring</span>
+        <div className="h-px flex-1 bg-border" />
+      </motion.div>
+
+      <motion.div
+        className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-16"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-80px' }}
+      >
+        {learningSkills.filter(s => s.status === 'Exploring' || s.status === 'In Progress').map((item) => (
+          <motion.div
+            key={item.name}
+            variants={fadeUp}
+            className="group p-5 rounded-xl bg-card border border-border flex items-start gap-4 hover:border-amber-500/30 hover:shadow-[0_8px_24px_rgba(245,158,11,0.06)] transition-all duration-300"
+          >
+            <div className="p-2.5 rounded-lg bg-muted border border-border shrink-0 group-hover:border-amber-500/20 transition-colors">
+              {item.icon}
+            </div>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 mb-1 flex-wrap">
+                <h3 className="text-sm font-semibold text-foreground">{item.name}</h3>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 shrink-0">
+                  {SKILLS_CONTENT.exploringLabel}
+                </span>
               </div>
-              <div className="w-full bg-muted h-1.5 rounded-full overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${item.progress}%` }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  viewport={{ once: true }}
-                  className="h-full bg-blue-500 rounded-full"
-                />
-              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
             </div>
           </motion.div>
         ))}

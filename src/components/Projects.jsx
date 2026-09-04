@@ -94,13 +94,14 @@ const projects = [
   },
   {
     title: 'AI Portfolio Builder',
-    description: 'An AI-powered platform that generates and customises a professional portfolio website for you with minimal effort. Describe yourself — the AI does the rest.',
+    description: 'An AI-powered platform that generates and customises a professional portfolio from a simple prompt. Explored the concept and built a working prototype — development currently paused.',
     tech: ['Next.js', 'OpenAI', 'Tailwind CSS', 'Prisma'],
     href: 'https://portfolio-ai-gamma-beige.vercel.app/',
     github: 'https://github.com/prajwalkcxcode',
     image: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?auto=format&fit=crop&q=80&w=800',
     category: 'AI / SaaS',
-    wip: true,
+    wip: false,
+    onHold: true,
     details: {
       problem: 'Non-technical professionals struggle to create polished portfolio websites. This platform removes all friction by using AI to generate, populate, and customise a complete portfolio from a simple prompt.',
       features: [
@@ -289,13 +290,18 @@ export default function Projects() {
                         </>
                       )}
 
-                      {/* WIP Badge */}
-                      {project.wip && (
+                      {/* WIP / On Hold Badge */}
+                      {project.onHold ? (
+                        <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 bg-muted/90 backdrop-blur-sm text-muted-foreground border border-border text-[10px] font-mono font-medium px-2.5 py-0.5 rounded-full tracking-wider shadow-sm">
+                          <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/60" />
+                          ON HOLD
+                        </div>
+                      ) : project.wip ? (
                         <div className="absolute top-3 right-3 z-20 flex items-center gap-1 bg-amber-500/90 text-black text-[10px] font-mono font-bold px-2 py-0.5 rounded-full tracking-wider shadow-md">
                           <Zap size={9} className="shrink-0" />
                           COMING SOON
                         </div>
-                      )}
+                      ) : null}
                     </div>
 
                     <div className="p-6 flex flex-col bg-background relative z-10">
@@ -440,6 +446,13 @@ export default function Projects() {
                                   <ExternalLink size={14} />
                                   Live Demo
                                 </button>
+                              )}
+
+                              {/* On Hold project */}
+                              {project.onHold && (
+                                <div className="flex-1 flex items-center justify-center gap-2 text-xs font-mono font-medium text-muted-foreground border border-border bg-muted/40 px-4 py-2.5 rounded-lg select-none">
+                                  <span>Development Paused</span>
+                                </div>
                               )}
 
                               {/* WIP project: button shows toast */}

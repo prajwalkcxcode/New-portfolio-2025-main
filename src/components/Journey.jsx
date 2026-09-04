@@ -5,8 +5,8 @@ import { fadeUp, staggerContainer } from '../motion'
 const timeline = [
   {
     year: '2025',
-    title: 'Preparing for Full-Stack Roles',
-    description: 'Deep diving into backend technologies (Node.js, Express, MongoDB) while continuing to refine frontend architectures with Next.js.',
+    title: 'Building Habit Tracker & Going Full-Stack',
+    description: 'Developing a minimal habit and consistency tracking app while expanding backend capabilities with Node.js, Express, and database design.',
     status: 'current'
   },
   {
@@ -165,8 +165,8 @@ export default function Journey() {
               
               <div className="w-full sm:w-[42%] sm:pl-6">
                 <span className="sm:hidden text-xs font-mono font-bold text-blue-400 uppercase tracking-widest block mb-1 animate-pulse">Currently</span>
-                <h4 className="font-semibold text-foreground text-sm tracking-wide bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Docker & DevOps</h4>
-                <p className="text-xs text-muted-foreground mt-1">Containers, orchestration, virtual machine operations, and cloud architecture fundamentals.</p>
+                <h4 className="font-semibold text-foreground text-sm tracking-wide bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Product Engineering & Full-Stack</h4>
+                <p className="text-xs text-muted-foreground mt-1">Building the Habit Tracker, architecting clean REST APIs, and containerized deployments with Docker.</p>
               </div>
             </motion.div>
 

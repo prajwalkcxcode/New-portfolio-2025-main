@@ -38,6 +38,7 @@ export default function Footer() {
 
         {/* Footer Navigation Links */}
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-medium text-muted-foreground">
+          <button onClick={() => scrollTo('#featured')} className="hover:text-foreground transition-colors text-foreground/80">Featured</button>
           <button onClick={() => scrollTo('#about')} className="hover:text-foreground transition-colors">About</button>
           <button onClick={() => scrollTo('#skills')} className="hover:text-foreground transition-colors">Skills</button>
           <button onClick={() => scrollTo('#projects')} className="hover:text-foreground transition-colors">Projects</button>
@@ -50,7 +51,7 @@ export default function Footer() {
         <div className="flex flex-col items-center md:items-end gap-1 text-sm text-muted-foreground">
           <div>&copy; {new Date().getFullYear()} Prajwal KC. All rights reserved.</div>
           <div className="flex items-center gap-3 text-[11px] font-mono opacity-70 mt-1 select-none">
-            <span>Last Updated: July 2026</span>
+            <span>Last Updated: {ENABLE_PERSONALIZATION ? FOOTER_CONTENT.lastUpdated : 'September 2026'}</span>
             <span>•</span>
             <span>Visitor Count: #1,842</span>
           </div>

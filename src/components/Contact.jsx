@@ -5,6 +5,7 @@ import { Github, Linkedin, Twitter, Mail } from 'lucide-react'
 import Magnetic from './ui/Magnetic'
 import ScrambledText from './ui/ScrambledText'
 import DeveloperCLI from './ui/DeveloperCLI'
+import { ENABLE_PERSONALIZATION, CONTACT_CONTENT } from '../personalityConfig'
 
 const links = [
   { label: 'GitHub', href: 'https://github.com/prajwalkcxcode', icon: <Github size={18} /> },
@@ -52,10 +53,12 @@ export default function Contact() {
           viewport={{ once: true, margin: '-80px' }}
         >
           <motion.h2 className="text-3xl font-bold text-foreground mb-4" variants={fadeUp}>
-            <ScrambledText text="Let's build something." />
+            <ScrambledText text={ENABLE_PERSONALIZATION ? CONTACT_CONTENT.heading : "Let's build something."} />
           </motion.h2>
           <motion.p className="text-muted-foreground leading-relaxed mb-8" variants={fadeUp}>
-            I'm currently open to new opportunities, freelance projects, or just a good conversation about software engineering.
+            {ENABLE_PERSONALIZATION
+              ? CONTACT_CONTENT.subtext
+              : "I'm currently open to new opportunities, freelance projects, or just a good conversation about software engineering."}
           </motion.p>
           
           <motion.div className="space-y-6" variants={fadeUp}>
