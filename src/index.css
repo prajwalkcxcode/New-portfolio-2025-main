@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,19 +6,20 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
-    --foreground: #09090b;
+    /* ── Light mode ── warm editorial off-white */
+    --background: #fafaf8;
+    --foreground: #0f0f0e;
 
-    --muted: #f4f4f5;
-    --muted-foreground: #71717a;
+    --muted: #f0ede8;
+    --muted-foreground: #6b6560;
 
-    --card: #ffffff;
-    --card-foreground: #09090b;
+    --card: #fafaf8;
+    --card-foreground: #0f0f0e;
 
-    --border: #e4e4e7;
-    
-    --accent: #f4f4f5;
-    --accent-foreground: #18181b;
+    --border: #e5e0d8;
+
+    --accent: #f0ede8;
+    --accent-foreground: #1a1916;
 
     --radius: 0.5rem;
 
@@ -28,21 +29,22 @@
   }
 
   [data-theme="dark"] {
-    --background: #09090b;
-    --foreground: #fafafa;
+    /* ── Dark mode ── deep charcoal, warmer than pure black */
+    --background: #0a0a0a;
+    --foreground: #f5f5f3;
 
-    --muted: #27272a;
-    --muted-foreground: #a1a1aa;
+    --muted: #1a1a1a;
+    --muted-foreground: #a1a09d;
 
-    --card: #09090b;
-    --card-foreground: #fafafa;
+    --card: #0a0a0a;
+    --card-foreground: #f5f5f3;
 
-    --border: #27272a;
-    
-    --accent: #27272a;
-    --accent-foreground: #fafafa;
+    --border: #252523;
 
-    /* Nepal identity accents — used only for tiny details */
+    --accent: #1a1a1a;
+    --accent-foreground: #f5f5f3;
+
+    /* Nepal identity accents */
     --nepal-crimson: #DC143C;
     --nepal-blue: #003893;
   }
@@ -51,8 +53,6 @@
 * {
   box-sizing: border-box;
 }
-
-
 
 body {
   background-color: var(--background);
@@ -66,15 +66,15 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Inter', system-ui, sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  letter-spacing: -0.03em;
 }
 
 a {
   color: inherit;
 }
 
-/* Subtle link underline animation */
+/* ── Link underline animation ── */
 .link-underline {
   position: relative;
 }
@@ -90,25 +90,20 @@ a {
   transition: width 0.25s ease-out;
 }
 
-.link-underline--active::after {
-  width: 100%;
-}
-
+.link-underline--active::after { width: 100%; }
 .link-underline:hover::after,
-.link-underline:focus-visible::after {
-  width: 100%;
-}
+.link-underline:focus-visible::after { width: 100%; }
 
-/* Focus styles */
+/* ── Focus styles ── */
 :focus-visible {
   outline: 2px solid var(--border);
   outline-offset: 2px;
 }
 
-/* Focus Mode Overrides */
+/* ── Focus Mode ── */
 [data-focus-mode="true"] {
-  --background: #030304;
-  --card: #08080a;
+  --background: #060608;
+  --card: #0a0a0c;
 }
 
 [data-focus-mode="true"] canvas,
@@ -117,35 +112,16 @@ a {
   opacity: 0.15 !important;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--muted-foreground);
-}
-
-/* Subtle fade-in animations */
+/* ── Fade-in animation ── */
 @keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in {
@@ -157,3 +133,14 @@ a {
 .animation-delay-200 { animation-delay: 0.2s; }
 .animation-delay-300 { animation-delay: 0.3s; }
 
+/* ── Theme transition ── */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+/* Prevent transition on elements that shouldn't flash */
+img, video, canvas, svg {
+  transition: none;
+}

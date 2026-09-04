@@ -1,64 +1,87 @@
 /**
  * ╔══════════════════════════════════════════════════════════╗
  * ║         PERSONALIZATION CONFIG — Prajwal KC              ║
- * ║  Toggle ENABLE_PERSONALIZATION to switch the update      ║
- * ║  true  → experimental personal version                   ║
- * ║  false → original generic version                        ║
+ * ║  Portfolio V2 — Updated September 2026                   ║
+ * ║  Toggle ENABLE_PERSONALIZATION = false to revert          ║
  * ╚══════════════════════════════════════════════════════════╝
  */
 
 export const ENABLE_PERSONALIZATION = true
 
 // ---------------------------------------------------------------------------
-// HERO — variant system (index 0 is the active variant)
+// HERO — V2 headline system
 // ---------------------------------------------------------------------------
 export const HERO_VARIANTS = [
   {
+    id: 'v2-product',
+    introLine: "Hi, I'm Prajwal.",
+    headline: 'Designing and building',
+    headlineAccent: 'digital products.',
+    subtext:
+      "I'm a BSc CSIT student who turns ideas into thoughtful, functional digital experiences — from design to working code.",
+    primaryCTA: { label: 'View my work', href: '#featured' },
+    secondaryCTA: { label: "Let's connect", href: '#contact' },
+  },
+  {
     id: 'nepal-personal',
-    locationBadge: '🇳🇵 Nepal',
-    greeting: 'नमस्ते, म प्रज्वल हुँ 👋',
+    introLine: 'Based in Nepal 🇳🇵',
     headline: 'Building products from Nepal,',
     headlineAccent: 'one project at a time.',
     subtext:
-      "I'm a BSc CSIT student currently building an AI Portfolio Builder while learning modern full-stack development through real-world projects.",
-  },
-  {
-    id: 'kathmandu',
-    locationBadge: '📍 Kathmandu, Nepal',
-    greeting: "Hi, I'm Prajwal KC 👋",
-    headline: 'Frontend developer turning',
-    headlineAccent: 'ideas into real products.',
-    subtext:
-      "BSc CSIT student from Nepal. Currently building an AI Portfolio Builder while going deep on full-stack development.",
+      "I'm a BSc CSIT student currently building a Habit Tracker while learning modern full-stack development through real-world projects.",
+    primaryCTA: { label: 'View my work', href: '#featured' },
+    secondaryCTA: { label: "Let's connect", href: '#contact' },
   },
 ]
 
 export const ACTIVE_HERO_VARIANT = HERO_VARIANTS[0]
 
 // ---------------------------------------------------------------------------
-// HERO — status badges (pill row above the title)
+// FEATURED PROJECT — Habit Tracker
 // ---------------------------------------------------------------------------
-export const HERO_BADGES = [
-  { emoji: '🇳🇵', label: 'Based in Nepal' },
-  { emoji: '🚀', label: 'Building AI Portfolio Builder' },
-  { emoji: '☕', label: 'Lofi + Code' },
-]
+export const FEATURED_PROJECT = {
+  label: 'Featured Project',
+  status: 'Active Development',
+  statusColor: 'amber', // amber = in progress
+  title: 'Habit Tracker',
+  tagline: 'A minimal habit and lifestyle tracking experience designed around consistency, reflection, and focus.',
+  description:
+    'Tired of overcomplicated habit apps that feel like dashboards instead of tools, I started building a minimal tracker focused on one thing: showing up every day. Clean interface, honest progress, no noise.',
+  tech: ['React', 'Tailwind CSS', 'Framer Motion'],
+  github: 'https://github.com/prajwalkcxcode',
+  liveUrl: null, // not deployed yet
+  features: [
+    'Daily habit check-in with streak tracking',
+    'Weekly reflection view',
+    'Minimal dark-first interface',
+    'Mobile-first responsive design',
+  ],
+}
 
 // ---------------------------------------------------------------------------
-// CURRENTLY BUILDING card (hero bottom)
+// PORTFOLIO BUILDER — now "On Hold"
+// ---------------------------------------------------------------------------
+export const PORTFOLIO_BUILDER_STATUS = {
+  status: 'On Hold',
+  description:
+    'An AI-powered platform that generates and customises a professional portfolio from a simple prompt. Explored the concept and built an early version — development paused while I focus on the Habit Tracker.',
+}
+
+// ---------------------------------------------------------------------------
+// CURRENTLY BUILDING (for status panels)
 // ---------------------------------------------------------------------------
 export const CURRENTLY_BUILDING = {
-  title: 'AI Portfolio Builder',
+  title: 'Habit Tracker',
   description:
-    'Helping developers create professional portfolios through AI-powered customization and reusable templates.',
+    'A minimal habit-tracking app designed around consistency and focus.',
   status: 'Active Development',
 }
 
 // ---------------------------------------------------------------------------
-// NOW STRIP — below hero
+// NOW ITEMS — current activities
 // ---------------------------------------------------------------------------
 export const NOW_ITEMS = [
-  { emoji: '🚀', text: 'Building AI Portfolio Builder' },
+  { emoji: '🚀', text: 'Building Habit Tracker' },
   { emoji: '📚', text: 'Learning Backend Development' },
   { emoji: '⚛', text: 'Working with React & Tailwind' },
   { emoji: '☕', text: 'Listening to Lofi Music' },
@@ -70,37 +93,34 @@ export const NOW_ITEMS = [
 // ---------------------------------------------------------------------------
 export const ABOUT_CONTENT = {
   sectionTitle: 'Now',
-  sectionSubtitle: 'What I\'m up to',
-  nepaliGreeting: 'नमस्ते, म प्रज्वल हुँ 👋',
-  introParagraph:
-    'Building modern web experiences from Nepal for a global audience.',
+  sectionSubtitle: "What I'm up to",
   paragraph1:
-    "I'm Prajwal KC — a BSc CSIT student from Nepal who's genuinely obsessed with building things on the internet. What started as curiosity about how websites work has turned into a focused pursuit of becoming a full-stack engineer.",
+    "I'm Prajwal KC — a BSc CSIT student from Nepal building things on the internet. Right now I'm working on a Habit Tracker: a minimal app for tracking daily habits without the noise.",
   paragraph2:
-    "Right now I'm learning backend development while shipping real projects. My current build is an AI Portfolio Builder — a platform that helps developers create professional portfolios without starting from scratch every time.",
+    "I care about things being useful and intentional. I don't want to build things that look impressive in a portfolio but don't actually work for real people.",
   paragraph3:
-    'I believe the best way to learn is to build. Every project teaches me something new, every bug makes me a better engineer.',
+    'Learning by building. Every project is a better question than the last one.',
 }
 
 // ---------------------------------------------------------------------------
-// CURRENT STATUS panel (about section)
+// CURRENT STATUS panel
 // ---------------------------------------------------------------------------
 export const CURRENT_STATUS = [
   { label: 'Location', value: 'Nepal 🇳🇵' },
   { label: 'Education', value: 'BSc CSIT' },
   { label: 'Learning', value: 'Backend Development' },
-  { label: 'Building', value: 'AI Portfolio Builder' },
+  { label: 'Building', value: 'Habit Tracker' },
   { label: 'Workflow', value: 'Lofi Music + Coding' },
   { label: 'Goal', value: 'Full-Stack Engineer' },
 ]
 
 // ---------------------------------------------------------------------------
-// MISSION CARD (replaces "Core Goal")
+// MISSION CARD
 // ---------------------------------------------------------------------------
 export const MISSION_CARD = {
   label: 'Current Mission',
-  headline: 'Building products that solve real problems.',
-  subtext: 'Starting with an AI-powered portfolio platform.',
+  headline: 'Build things that are actually useful.',
+  subtext: "Starting with a habit tracker that doesn't get in the way.",
 }
 
 // ---------------------------------------------------------------------------
@@ -111,24 +131,6 @@ export const EDUCATION_CARD = {
   headline: 'BSc CSIT',
   subtext:
     'Currently pursuing a degree while building projects and developing practical software engineering skills.',
-}
-
-// ---------------------------------------------------------------------------
-// PROFILE TAGS (shown on avatar card)
-// ---------------------------------------------------------------------------
-export const PROFILE_TAGS = [
-  { emoji: '📍', label: 'Nepal' },
-  { emoji: '💻', label: 'React Developer' },
-  { emoji: '🚀', label: 'Building AI Portfolio Builder' },
-]
-
-// ---------------------------------------------------------------------------
-// FOOTER
-// ---------------------------------------------------------------------------
-export const FOOTER_CONTENT = {
-  attribution: 'Designed & Built by Prajwal KC',
-  techStack: 'React • Tailwind • Vercel',
-  builtIn: '🇳🇵 Built in Nepal',
 }
 
 // ---------------------------------------------------------------------------
@@ -143,7 +145,7 @@ export const SKILLS_CONTENT = {
 }
 
 // ---------------------------------------------------------------------------
-// PROJECTS — rewritten descriptions
+// PROJECTS section
 // ---------------------------------------------------------------------------
 export const PROJECT_DESCRIPTIONS = {
   'Modern Ecommerce':
@@ -155,11 +157,30 @@ export const PROJECT_DESCRIPTIONS = {
   'Portfolio Template':
     'Most developer portfolios look the same. Built a clean, production-ready template with Framer Motion animations and a modular structure — so any developer can deploy their own in under an hour.',
   'AI Portfolio Builder':
-    'My current main project. Developers spend too long building portfolios from scratch. This platform lets you describe yourself and generates the whole thing. Currently in active development.',
+    'Explored an AI-powered platform that generates portfolios from a simple prompt. Built an early version and a working prototype — development currently paused while I focus on the Habit Tracker.',
 }
 
 export const PROJECT_SECTION_CONTENT = {
-  heading: 'Things I\'ve Built',
+  heading: 'Other Work',
   subtext:
-    "Projects I shipped while learning. Each one taught me something I couldn't get from a tutorial.",
+    "More projects I've built while learning. Each one solved a specific problem.",
+}
+
+// ---------------------------------------------------------------------------
+// CONTACT section
+// ---------------------------------------------------------------------------
+export const CONTACT_CONTENT = {
+  heading: 'Have an idea worth building?',
+  subtext:
+    "I'm open to interesting projects, collaborations, and good conversations. Let's make something useful.",
+}
+
+// ---------------------------------------------------------------------------
+// FOOTER
+// ---------------------------------------------------------------------------
+export const FOOTER_CONTENT = {
+  attribution: 'Designed & Built by Prajwal KC',
+  techStack: 'React • Tailwind • Vercel',
+  builtIn: '🇳🇵 Built in Nepal',
+  lastUpdated: 'September 2026',
 }

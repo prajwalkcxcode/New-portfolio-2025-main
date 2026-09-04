@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
+import FeaturedProject from './components/FeaturedProject'
 import About from './components/About'
 import Skills from './components/Skills'
 import Projects from './components/Projects'
@@ -92,6 +93,7 @@ export default function App() {
           <AnimLayout>
             <main>
               <Hero onOpenResume={() => setIsResumeOpen(true)} />
+              <FeaturedProject />
               <About />
               <Skills />
               <Projects />
