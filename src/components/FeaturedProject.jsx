@@ -151,32 +151,28 @@ export default function FeaturedProject() {
             </motion.div>
 
             {/* CTAs */}
-            <motion.div variants={fadeUp} className="flex items-center gap-4 pt-2">
+            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-3 pt-2">
+              {FEATURED_PROJECT.liveUrl && (
+                <a
+                  href={FEATURED_PROJECT.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm font-medium text-background bg-foreground px-5 py-2.5 rounded-lg hover:bg-foreground/90 transition-all shadow-sm"
+                >
+                  <ExternalLink size={15} />
+                  Live Demo
+                </a>
+              )}
               <a
                 href={FEATURED_PROJECT.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm font-medium text-foreground hover:text-muted-foreground transition-colors group"
+                className="flex items-center gap-2 text-sm font-medium text-foreground border border-border px-4 py-2.5 rounded-lg hover:bg-muted transition-colors group"
               >
                 <Github size={16} />
                 <span>View on GitHub</span>
                 <ArrowRight size={14} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
               </a>
-              {FEATURED_PROJECT.liveUrl ? (
-                <a
-                  href={FEATURED_PROJECT.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm font-medium text-foreground border border-border px-4 py-2 rounded-lg hover:bg-muted transition-colors"
-                >
-                  <ExternalLink size={14} />
-                  Live Demo
-                </a>
-              ) : (
-                <span className="text-[11px] font-mono text-muted-foreground/60 italic">
-                  Not deployed yet
-                </span>
-              )}
             </motion.div>
           </motion.div>
 

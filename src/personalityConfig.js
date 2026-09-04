@@ -48,8 +48,8 @@ export const FEATURED_PROJECT = {
   description:
     'Tired of overcomplicated habit apps that feel like dashboards instead of tools, I started building a minimal tracker focused on one thing: showing up every day. Clean interface, honest progress, no noise.',
   tech: ['React', 'Tailwind CSS', 'Framer Motion'],
-  github: 'https://github.com/prajwalkcxcode',
-  liveUrl: null, // not deployed yet
+  github: 'https://github.com/prajwalkcxcode/Habit-Platform',
+  liveUrl: 'https://habit-platform.vercel.app/dashboard',
   features: [
     'Daily habit check-in with streak tracking',
     'Weekly reflection view',
