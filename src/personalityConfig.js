@@ -42,19 +42,85 @@ export const ACTIVE_HERO_VARIANT = HERO_VARIANTS[0]
 export const FEATURED_PROJECT = {
   label: 'Featured Project',
   status: 'Active Development',
-  statusColor: 'amber', // amber = in progress
+  statusColor: 'amber',
   title: 'Habit Tracker',
   tagline: 'A minimal habit and lifestyle tracking experience designed around consistency, reflection, and focus.',
   description:
-    'Tired of overcomplicated habit apps that feel like dashboards instead of tools, I started building a minimal tracker focused on one thing: showing up every day. Clean interface, honest progress, no noise.',
-  tech: ['React', 'Tailwind CSS', 'Framer Motion'],
+    'Tired of overcomplicated habit apps that feel like dashboards instead of tools, I built a local-first platform with zero-latency offline tracking, live multiplayer rooms, and seamless focus music integration.',
+  tech: [
+    'Next.js 16 (App Router)',
+    'React 19',
+    'TypeScript 5',
+    'Tailwind CSS v4',
+    'Zustand 5',
+    'Dexie.js (IndexedDB)',
+    'Supabase & PostgreSQL',
+    'Spotify Web API',
+    'Recharts 3',
+  ],
   github: 'https://github.com/prajwalkcxcode/Habit-Platform',
   liveUrl: 'https://habit-platform.vercel.app/dashboard',
   features: [
-    'Daily habit check-in with streak tracking',
-    'Weekly reflection view',
-    'Minimal dark-first interface',
-    'Mobile-first responsive design',
+    'Local-first offline architecture via Dexie.js (IndexedDB) with Supabase cloud backup',
+    'Live multiplayer Challenge Rooms with Supabase Realtime & Row Level Security',
+    'Interactive Spotify OAuth 2.0 playback & focus audio integration',
+    'Tactile Web Audio completion chimes & mobile vibration haptics',
+    'Recharts habit trends, completion analytics, and streak tracking',
+  ],
+  architectureBreakdown: [
+    {
+      category: 'Core Framework & Runtime',
+      icon: '⚡',
+      items: [
+        'Next.js 16.3 (App Router with Turbopack) — Server-side rendering, streaming layouts, and optimized production builds.',
+        'React 19 — Concurrent features, transitions, and modern hook pipelines.',
+        'TypeScript 5 — Strict end-to-end type safety across stores, database models, and components.',
+      ],
+    },
+    {
+      category: 'Styling & Design System',
+      icon: '🎨',
+      items: [
+        'Tailwind CSS v4 with modern PostCSS pipeline & CSS custom properties token engine.',
+        'Radix UI Primitives — Headless, fully accessible dialogs, selects, dropdowns, switches, and tooltips.',
+        'Class Variance Authority (CVA) & clsx / tailwind-merge for variant styling compositions.',
+      ],
+    },
+    {
+      category: 'State Management & Sensory Feedback',
+      icon: '🧠',
+      items: [
+        'Zustand 5 modular stores: useHabitStore (CRUD/streaks), useRoomsStore (multiplayer), useMusicStore (Spotify), useProfileStore, and useV3Store.',
+        'Web Audio API & Vibration API for tactile audio completion chimes and mobile haptic feedback.',
+      ],
+    },
+    {
+      category: 'Storage & Backend (Local-First + Cloud Sync)',
+      icon: '💾',
+      items: [
+        'Dexie.js 4 (IndexedDB) — Zero-latency client-side relational database for seamless offline tracking.',
+        'Supabase (PostgreSQL) — Cloud sync for multi-device data backup and Google OAuth / password auth.',
+        'Supabase Realtime & RLS — Secure Row Level Security policies and live multiplayer Challenge Rooms.',
+      ],
+    },
+    {
+      category: 'Audio & Spotify Integration',
+      icon: '🎧',
+      items: [
+        'Spotify Web API & Embeds — OAuth 2.0 PKCE authentication flow (/api/auth/spotify).',
+        'Interactive audio player with custom habit and focus sound bindings.',
+      ],
+    },
+    {
+      category: 'Analytics, Utilities & Deployment',
+      icon: '📊',
+      items: [
+        'Recharts 3 — Interactive data visualization charts, completion rates, and streak computations.',
+        'date-fns 4 — Precision date arithmetic, intervals, and calendar computations.',
+        'React Hook Form & Zod — Schema validation and type-safe forms.',
+        'Vercel — Edge-network serverless deployment with automated GitHub CI/CD.',
+      ],
+    },
   ],
 }
 
